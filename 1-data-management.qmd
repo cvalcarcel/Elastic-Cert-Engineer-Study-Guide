@@ -1,0 +1,3346 @@
+# Data Management
+
+## Task: Define an index that satisfies a given set of requirements
+
+### Example 1: Creating an Index for a Blogging Platform
+
+***Requirements***
+
+1.  The platform hosts articles, each with text content, a publication
+    date, author details, and tags.
+
+2.  Articles need to be searchable by content, title, and tags.
+
+3.  The application requires fast search responses and efficient
+    storage.
+
+4.  The application should handle date-based queries efficiently.
+
+5.  Author details are nested objects that include the author\'s name
+    and email.
+
+***Steps***
+
+1.  **Choose Appropriate Settings:**
+
+> ◦ Use a custom analyzer for the articles\' content to improve text
+> search.
+>
+> ◦ Set the number of shards to balance between write performance and
+> search speed.
+>
+> ◦ Configure replicas for high availability and read performance.
+
+2.  **Define Mappings:**
+
+> ◦ **Content and Title:** Use the text data type with a custom
+> analyzer.
+>
+> ◦ **Publication Date:** Use the date data type.
+>
+> ◦ **Tags:** Use the keyword data type for exact matching.
+>
+> ◦ **Author:** Use a nested object to keep author details searchable
+> and well-structured.
+
+3.  **Open the Kibana Console** or use a REST client.
+
+4.  Create the index
+
+> PUT blog_articles
+>
+> {
+>
+> \"settings\": {
+>
+> \"number_of_shards\": 3,
+>
+> \"number_of_replicas\": 1,
+>
+> \"analysis\": {
+>
+> \"analyzer\": {
+>
+> \"custom_text_analyzer\": {
+>
+> \"type\": \"custom\",
+>
+> \"tokenizer\": \"standard\",
+>
+> \"filter\": \[
+>
+> \"lowercase\",
+>
+> \"asciifolding\"
+>
+> \]
+>
+> }
+>
+> }
+>
+> }
+>
+> },
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"title\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"custom_text_analyzer\"
+>
+> },
+>
+> \"content\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"custom_text_analyzer\"
+>
+> },
+>
+> \"publication_date\": {
+>
+> \"type\": \"date\"
+>
+> },
+>
+> \"author\": {
+>
+> \"type\": \"nested\",
+>
+> \"properties\": {
+>
+> \"name\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"custom_text_analyzer\"
+>
+> },
+>
+> \"email\": {
+>
+> \"type\": \"keyword\"
+>
+> }
+>
+> }
+>
+> },
+>
+> \"tags\": {
+>
+> \"type\": \"text\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> Or insert the settings and mappings separately.
+>
+> PUT blog_articles
+>
+> {
+>
+> \"settings\": {
+>
+> \"number_of_shards\": 3,
+>
+> \"number_of_replicas\": 1,
+>
+> \"analysis\": {
+>
+> \"analyzer\": {
+>
+> \"custom_text_analyzer\": {
+>
+> \"type\": \"custom\",
+>
+> \"tokenizer\": \"standard\",
+>
+> \"filter\": \[
+>
+> \"lowercase\",
+>
+> \"asciifolding\"
+>
+> \]
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> And:
+>
+> PUT blog_articles/\_mapping
+>
+> {
+>
+> \"properties\": {
+>
+> \"title\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"custom_text_analyzer\"
+>
+> },
+>
+> \"content\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"custom_text_analyzer\"
+>
+> },
+>
+> \"publication_date\": {
+>
+> \"type\": \"date\"
+>
+> },
+>
+> \"author\": {
+>
+> \"type\": \"nested\",
+>
+> \"properties\": {
+>
+> \"name\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"custom_text_analyzer\"
+>
+> },
+>
+> \"email\": {
+>
+> \"type\": \"keyword\"
+>
+> }
+>
+> }
+>
+> },
+>
+> \"tags\": {
+>
+> \"type\": \"text\"
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the index
+
+> GET /\_cat/indices
+
+2.  Verify the mappings
+
+> GET /blog_articles/\_mapping
+
+3.  Index and search for a document
+
+1\. Index
+
+> POST /blog_articles/\_doc
+>
+> {
+>
+> \"title\" : \"My First Blog Post\",
+>
+> \"content\" : \"What an interesting way to go\...\",
+>
+> \"publication_date\" : \"2024-05-15\",
+>
+> \"tags\" : \"superb\",
+>
+> \"author\" : {
+>
+> \"name\" : \"John Doe\",
+>
+> \"email\" : \"john@doe.com\"
+>
+> }
+>
+> }
+
+2\. Search
+
+> GET /blog_articles/\_search
+>
+> or
+>
+> GET /blog_articles/\_search?q=tags:superb or
+>
+> GET blog_articles/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"query_string\": {
+>
+> \"default_field\": \"tags\",
+>
+> \"query\": \"superb\"
+>
+> }
+>
+> }
+>
+> } or
+>
+> GET blog_articles/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"nested\": {
+>
+> \"path\": \"author\",
+>
+> \"query\": {
+>
+> \"match\": {
+>
+> \"author.name\": \"john\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+***Considerations***
+
+-   **Analyzers:** Custom analyzers are used for content and title to
+    optimize for search effectiveness. While we create a custom analyzer
+    it was not part of the requirements.
+
+-   **Shards and Replicas:** Adjust these settings based on expected
+    data volume and query load.
+
+-   **Nested Objects:** These are crucial for maintaining the structure
+    and searchability of complex data like author details.
+
+***Clean-up (optional)***
+
+• In the console execute the following
+
+> DELETE blog_articles
+
+***Clean-up (optional)***
+
+***Documentation***
+
+-   [[cat indices
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/cat-indices.html)
+
+-   [[Create Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-create-index.html)
+     [[Custom
+    Analyzer]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/analysis-custom-analyzer.html)
+     [[Get mapping
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/cat-indices.html)
+
+-   [[Search
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/search-search.html)
+
+### Example 2: Creating an Index for Log Data
+
+***Requirements***
+
+1.  Store log data with a timestamp field
+
+2.  Enable time-based data management
+
+3.  Use a custom routing value based on the log source
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Create the index
+
+> PUT /log_data
+>
+> {
+>
+> \"settings\": {
+>
+> \"number_of_shards\": 3
+>
+> },
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"@timestamp\": {
+>
+> \"type\": \"date\"
+>
+> },
+>
+> \"log_source\": {
+>
+> \"type\": \"keyword\"
+>
+> },
+>
+> \"message\": {
+>
+> \"type\": \"text\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the index creation GET /log_data or
+
+> GET /\_cat/indices
+
+2.  Verify the field mapping
+
+> GET /log_data/\_mapping
+
+3.  In order for the indexing and searching of example docs to work
+
+4.  Index and search for a sample document
+
+    1.  Index
+
+> PUT /log_data/\_doc/1
+>
+> {
+>
+> \"@timestamp\": \"2023-05-16T12:34:56Z\",
+>
+> \"log_source\": \"web_server\",
+>
+> \"message\": \"HTTP request received\"
+>
+> }
+
+2.  Search
+
+> GET /log_data/\_search
+
+The response should show the indexed document. ***Considerations***
+
+-   In settings, number_of_replicas doesn't appear as its default is set
+    to one 1 which is sufficient. The field number_of_shards should be
+    higher than 1 depending on the requirements for a log index. No, you
+    do not need to have a settings block for the index to be created.
+
+-   The \@timestamp field is mapped as a date type for time-based data
+    management.
+
+-   The log_source field is mapped as a keyword type to enable custom
+    routing based on its value.
+
+-   There is no routing-specific configuration listed in this example.
+    Routing configurations are often not explicitly defined in the index
+    creation step because Elasticsearch uses default routing based on
+    the document IDs. For specialized use cases, like logs, you might
+    want to define custom routing to optimize query performance or to
+    balance the load more effectively. ***Clean-up (optional)***
+
+<!-- -->
+
+-   In the console execute the following
+
+DELETE log_data ***Documentation***
+
+-   [[cat indices
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/cat-indices.html)
+
+-   [[Create Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-create-index.html)
+
+-   [[Get mapping
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/cat-indices.html)
+
+-   [[Mapping Routing
+    Fields]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/mapping-routing-field.html)
+
+-   [[Search
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/search-search.html)
+
+### Example 3: Creating an index for e-commerce product data with daily updates
+
+***Requirements***
+
+1.  Store product information including name, description, category,
+    price, and stock level.
+
+2.  Allow filtering and searching based on product name, category, and
+    price range.
+
+3.  Enable aggregations to calculate average price per category.
+
+***Steps***
+
+1.  **Define mappings:**
+
+> ◦ Use the text data type for name and description to allow full-text
+> search.
+>
+> ◦ Use the keyword data type for category to enable filtering by exact
+> terms.
+>
+> ◦ Use the integer data type for price to allow for range queries and
+> aggregations. ◦ Use the integer data type for stock_level for
+> inventory management.
+
+2.  **Open the Kibana Console** or use a REST client.
+
+3.  Create the index
+
+> PUT products
+>
+> {
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"name\": { \"type\": \"text\" },
+>
+> \"description\": { \"type\": \"text\" },
+>
+> \"category\": { \"type\": \"keyword\" },
+>
+> \"price\": { \"type\": \"integer\" },
+>
+> \"stock_level\": { \"type\": \"integer\" }
+>
+> }
+>
+> }
+>
+> }
+>
+> ◦ **Configure analyzers (optional):**
+>
+> ▪ You can define custom analyzers for name and description to handle
+> special characters or stemming based on your needs. Notice two things:
+
+1.  how the custom_analyzer refers to the filter and tokenizer (both of
+    which are optional)
+
+2.  the fields that will use custom_analyzer, name and description, have
+    an analyzer reference to custom_analyzer
+
+> PUT /products
+>
+> {
+>
+> \"settings\": {
+>
+> \"analysis\": {
+>
+> \"tokenizer\": {
+>
+> \"custom_tokenizer\": {
+>
+> \"type\": \"standard\"
+>
+> }
+>
+> },
+>
+> \"filter\": {
+>
+> \"custom_stemmer\": {
+>
+> \"type\": \"stemmer\",
+>
+> \"name\": \"english\"
+>
+> },
+>
+> \"custom_stop\": {
+>
+> \"type\": \"stop\",
+>
+> \"stopwords\": \"\_english\_\"
+>
+> }
+>
+> },
+>
+> \"analyzer\": {
+>
+> \"custom_analyzer\": {
+>
+> \"type\": \"custom\",
+>
+> \"tokenizer\": \"custom_tokenizer\",
+>
+> \"filter\": \[
+>
+> \"lowercase\",
+>
+> \"custom_stop\",
+>
+> \"custom_stemmer\"
+>
+> \]
+>
+> }
+>
+> }
+>
+> }
+>
+> },
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"name\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"custom_analyzer\"
+>
+> },
+>
+> \"description\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"custom_analyzer\"
+>
+> },
+>
+> \"category\": {
+>
+> \"type\": \"keyword\"
+>
+> },
+>
+> \"price\": {
+>
+> \"type\": \"integer\"
+>
+> },
+>
+> \"stock_level\": {
+>
+> \"type\": \"integer\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the index creation GET products or
+
+> GET /\_cat/indices
+
+2.  Verify the field mapping GET /products/\_mapping
+
+3.  Index and search some sample product data
+
+1\. Index some products
+
+> POST /products/\_bulk
+>
+> { \"index\": { \"\_index\": \"products\", \"\_id\": \"1\" } }
+>
+> { \"name\": \"Wireless Bluetooth Headphones\", \"description\":
+> \"High-quality wireless Bluetooth headphones with noise-cancellation
+> and long battery life.\", \"category\": \"electronics\", \"price\":
+> 99, \"stock_level\": 250 }
+>
+> { \"index\": { \"\_index\": \"products\", \"\_id\": \"2\" } }
+>
+> { \"name\": \"Stainless Steel Water Bottle\", \"description\":
+> \"Durable stainless steel water bottle, keeps drinks cold for 24 hours
+> and hot for 12 hours.\",
+>
+> \"category\": \"home\", \"price\": 25, \"stock_level\": 500 }
+>
+> { \"index\": { \"\_index\": \"products\", \"\_id\": \"3\" } }
+>
+> { \"name\": \"Smartphone\", \"description\": \"Latest model smartphone
+> with highresolution display and fast processor.\", \"category\":
+> \"electronics\", \"price\":
+>
+> 699, \"stock_level\": 150 }
+>
+> { \"index\": { \"\_index\": \"products\", \"\_id\": \"4\" } }
+>
+> { \"name\": \"LED Desk Lamp\", \"description\": \"Energy-efficient LED
+> desk lamp with adjustable brightness and flexible neck.\",
+> \"category\": \"home\", \"price\":
+>
+> 45, \"stock_level\": 300 }
+>
+> { \"index\": { \"\_index\": \"products\", \"\_id\": \"5\" } }
+>
+> { \"name\": \"4K Ultra HD TV\", \"description\": \"55-inch 4K Ultra HD
+> TV with HDR support and smart features.\", \"category\":
+> \"electronics\", \"price\": 499,
+>
+> \"stock_level\": 200 }
+>
+> { \"index\": { \"\_index\": \"products\", \"\_id\": \"6\" } }
+>
+> { \"name\": \"Vacuum Cleaner\", \"description\": \"High-suction vacuum
+> cleaner with multiple attachments for versatile cleaning.\",
+> \"category\": \"home\", \"price\": 120, \"stock_level\": 100 }
+
+2\. Search
+
+> GET /products/\_search?q=name:desk
+>
+> 4\. Use aggregations to calculate the average price per category.
+>
+> POST /products/\_search
+>
+> {
+>
+> \"size\": 0,
+>
+> \"aggs\": {
+>
+> \"average_price_per_category\": {
+>
+> \"terms\": {
+>
+> \"field\": \"category\"
+>
+> },
+>
+> \"aggs\": {
+>
+> \"average_price\": {
+>
+> \"avg\": {
+>
+> \"field\": \"price\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+***Considerations***
+
+-   Using the appropriate data types ensures efficient storage and
+    querying capabilities.
+
+-   Text fields allow full-text search, while keyword fields enable
+    filtering by exact terms.
+
+***Clean-up (optional)***
+
+-   In the console execute the following
+
+> DELETE products
+
+***Documentation***
+
+-   [[Aggregations]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/search-aggregations.html)
+
+-   [[cat indices
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/cat-indices.html)
+
+-   [[Create Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-create-index.html)
+
+-   [[Get mapping
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/cat-indices.html)
+
+-   [[Search
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/search-search.html)
+
+## Task: Define and use an index template for a given pattern that satisfies a given set of requirements
+
+### Example 1: Creating an index template for a user profile data
+
+***Requirements***
+
+-   Create an index template named \"user_profile_template\"
+
+-   The template should apply to indices starting with \"user_profile-\"
+
+-   The template should have two shards and one replica
+
+-   The template should have a mapping for the \"name\" field as a
+    **text** data type with an analyzer of \"standard\"
+
+-   The template should have a mapping for the \"age\" field as an
+    **integer** data type
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Create the index template
+
+> PUT /\_index_template/user_profile_template
+>
+> {
+>
+> \"index_patterns\": \[\"user_profile-\*\"\],
+>
+> \"template\": {
+>
+> \"settings\": {
+>
+> \"number_of_shards\": 2,
+>
+> \"number_of_replicas\": 1
+>
+> },
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"name\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"standard\"
+>
+> },
+>
+> \"age\": {
+>
+> \"type\": \"integer\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the index template was created GET
+    \_index_template/my_custom_index_template
+
+2.  Create an index named \"user_profile-2024\" using the REST API: PUT
+    /user_profile_2024
+
+3.  Verify that the index was created with the expected settings and
+    mappings:
+
+> GET /user_profile_2024/\_settings
+>
+> GET /user_profile_2024/\_mapping
+
+***Considerations***
+
+-   Two shards are chosen to allow for parallel processing and improved
+    search performance.
+
+-   One replica is chosen for simplicity and development purposes; in a
+    production environment, this would depend on the expected data
+    volume and search traffic.
+
+-   The \"standard\" analyzer is chosen for the \"name\" field to enable
+    standard text analysis. ***Clean-up (optional)***
+
+<!-- -->
+
+-   In the console execute the following
+
+> DELETE log_data
+
+DELETE /\_index_template/user_profile_template ***Documentation***
+
+-   [[Analyzers]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/analyzer.html)
+
+-   [[Create Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-create-index.html)
+
+-   [[Index
+    templates]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/index-templates.html)
+
+### Example 2: Creating a monthly product index template
+
+***Requirements***
+
+>  Index name pattern: **products-\***  Index settings:
+>
+> ◦ Number of shards: 3 ◦ Number of replicas: 2  Mapping:
+>
+> ◦ Field **name** should be of type **text**
+>
+> ◦ Field **description** should be of type **text**
+>
+> ◦ Field **price** should be of type **float**
+>
+> ◦ Field **category** should be of type **keyword**
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Create the index template
+
+> PUT \_template/monthly_products
+>
+> {
+>
+> \"index_patterns\": \[\"products-\*\"\],
+>
+> \"settings\": {
+>
+> \"number_of_shards\": 3,
+>
+> \"number_of_replicas\": 2
+>
+> },
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"name\": {
+>
+> \"type\": \"text\"
+>
+> },
+>
+> \"description\": {
+>
+> \"type\": \"text\"
+>
+> },
+>
+> \"price\": {
+>
+> \"type\": \"float\"
+>
+> },
+>
+> \"category\": {
+>
+> \"type\": \"keyword\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the index template was created GET
+    \_index_template/monthly_products
+
+2.  Create a new index matching the pattern (e.g., **products-202305**):
+
+> PUT products-202305
+
+3.  Verify that the index was created with the expected settings and
+    mappings:
+
+> GET /products-202305/\_settings
+>
+> GET /products-202305/\_mapping
+
+4.  Index a sample document and verify that the mapping is applied
+    correctly:
+
+    1.  Index
+
+> POST products-202305/\_doc
+>
+> {
+>
+> \"name\": \"Product A\",
+>
+> \"description\": \"This is a sample product\",
+>
+> \"price\": 19.99,
+>
+> \"category\": \"Electronics\"
+>
+> }
+
+2.  Search
+
+> GET products-202305/\_search
+>
+> The response should show the correct mapping for the fields specified
+> in the index template.
+
+***Considerations***
+
+-   The **index_patterns** field specifies the pattern for index names
+    to which this template should be applied.
+
+-   The **number_of_shards** and **number_of_replicas** settings are
+    chosen based on the expected data volume and high availability
+    requirements.
+
+-   The **text** type is used for **name** and **description** fields to
+    enable full-text search and analysis.
+
+-   The **float** type is used for the **price** field to support
+    decimal values.
+
+-   The **keyword** type is used for the **category** field to prevent
+    analysis and treat the values as exact matches.
+
+***Clean-up (optional)***
+
+-   In the console execute the following
+
+> DELETE products-202305
+
+DELETE \_template/monthly_products ***Documentation***
+
+-   [[Create Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-create-index.html)
+
+-   [[Index
+    templates]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/index-templates.html)
+
+-   [[Search
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/search-search.html)
+
+### Example 3: Creating an index template for log indices
+
+***Requirements***
+
+-   The template should apply to any index starting with logs-.
+
+-   The template must define settings for three primary shards and one
+    replica.
+
+-   The template should include mappings for fields timestamp,
+    log_level, and message. ***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Create the index template
+
+PUT /\_index_template/logs_template
+
+{
+
+\"index_patterns\": \[\"logs-\*\"\],
+
+\"template\": {
+
+\"settings\": {
+
+\"index\": {
+
+\"number_of_shards\": 3,
+
+\"number_of_replicas\": 1
+
+}
+
+},
+
+\"mappings\": {
+
+\"properties\": {
+
+\"timestamp\": {
+
+\"type\": \"date\"
+
+},
+
+\"log_level\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"message\": {
+
+\"type\": \"text\"
+
+}
+
+}
+
+}
+
+}
+
+}
+
+***Test***
+
+1.  Verify the index template was created GET
+    \_index_template/logs_template
+
+2.  Create a new index matching the pattern (e.g., **logs-202405**): PUT
+    logs-202405
+
+3.  Verify that the index was created with the expected settings and
+    mappings
+
+> GET /logs-202405/\_settings
+>
+> GET /logs-202405/\_mapping
+
+4.  Index a sample document and verify that the mapping is applied
+    correctly:
+
+    1.  Index
+
+> POST logs-202405/\_doc
+>
+> {
+>
+> \"@timestamp\": \"2024-05-16T12:34:56Z\",
+>
+> \"loglevel\": \"ERROR\",
+>
+> \"message\": \"Help!\"
+>
+> }
+
+2.  Search
+
+> GET logs-202405/\_search
+
+5.  The response should show the correct mapping for the fields
+    specified in the index template.
+
+***Considerations***
+
+-   **Index Patterns:** The template applies to any index starting with
+    logs-, ensuring consistency across similar indices.
+
+-   **Number of Shards:** Three shards provide a balance between
+    performance and resource utilization.  **Replicas:** A single
+    replica ensures high availability and fault tolerance.
+
+-   **Mappings:** Predefined mappings ensure that the fields are
+    properly indexed and can be efficiently queried.
+
+***Clean-up (optional) Documentation***
+
+-   [[Create Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-create-index.html)
+
+-   [[Logstash: Event Dependent
+    Configuration]{.underline}](https://www.elastic.co/guide/en/logstash/8.13/event-dependent-configuration.html)
+
+-   [[Index
+    templates]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/index-templates.html)
+
+-   [[Search
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/search-search.html)
+
+## Task: Define and use a dynamic template that satisfies a given set of requirements
+
+FYI: The difference between **index templates** and **dynamic
+templates** is:
+
+-   An **index template** is a way to define settings, mappings, and
+    other configurations that should be applied automatically to new
+    indices when they are created
+
+-   A **dynamic template** is part of the mapping definition within an
+    index template or index mapping that allows Elasticsearch to
+    dynamically infer the mapping of fields based on field names, data
+    patterns, or the data type detected
+
+There is one example per field mapping type. They all use an explicit
+dynamic template, but Exercise 1 also shows the use of a dynamic
+template embedded in the index definition.
+
+### Example 1: Create a Dynamic Template for Logging Using Field Name Patterns
+
+***Requirements***
+
+-   Apply a specific text analysis to all fields that end with \_log.
+
+-   Use a keyword type for all fields that start with status\_.
+
+-   Default to text with a standard analyzer for other string fields.
+
+-   Define a custom log_analyzer for \_log fields.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Define the dynamic template
+
+> • As part of the index definition
+>
+> PUT /logs_index
+>
+> {
+>
+> \"mappings\": {
+>
+> \"dynamic_templates\": \[
+>
+> {
+>
+> \"log_fields\": {
+>
+> \"match\": \"\*\_log\",
+>
+> \"mapping\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"log_analyzer\"
+>
+> }
+>
+> }
+>
+> },
+>
+> {
+>
+> \"status_fields\": {
+>
+> \"match\": \"status\_\*\",
+>
+> \"mapping\": {
+>
+> \"type\": \"keyword\"
+>
+> }
+>
+> }
+>
+> },
+>
+> {
+>
+> \"default_string\": {
+>
+> \"match_mapping_type\": \"string\",
+>
+> \"mapping\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"standard\"
+>
+> }
+>
+> }
+>
+> }
+>
+> \]
+>
+> },
+>
+> \"settings\": {
+>
+> \"analysis\": {
+>
+> \"analyzer\": {
+>
+> \"log_analyzer\": {
+>
+> \"type\": \"custom\",
+>
+> \"tokenizer\": \"standard\",
+>
+> \"filter\": \[\"lowercase\", \"stop\"\]
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+• or as a standalone definition to be added to indexes as needed using
+the index_pattern
+
+> PUT /\_index_template/logs_dyn_template
+>
+> {
+>
+> \"index_patterns\": \[\"logs\_\*\"\], // for any index starting with
+> logs\_
+>
+> \"template\" : {
+>
+> \"mappings\": {
+>
+> \"dynamic_templates\": \[
+>
+> {
+>
+> \"log_fields\": {
+>
+> \"match\": \"\*\_log\",
+>
+> \"mapping\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"log_analyzer\"
+>
+> }
+>
+> }
+>
+> },
+>
+> {
+>
+> \"status_fields\": {
+>
+> \"match\": \"status\_\*\",
+>
+> \"mapping\": {
+>
+> \"type\": \"keyword\"
+>
+> }
+>
+> }
+>
+> },
+>
+> {
+>
+> \"default_string\": {
+>
+> \"match_mapping_type\": \"string\",
+>
+> \"mapping\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"standard\"
+>
+> }
+>
+> }
+>
+> }
+>
+> \]
+>
+> },
+>
+> \"settings\": {
+>
+> \"analysis\": {
+>
+> \"analyzer\": {
+>
+> \"log_analyzer\": {
+>
+> \"type\": \"custom\",
+>
+> \"tokenizer\": \"standard\",
+>
+> \"filter\": \[\"lowercase\", \"stop\"\]
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the dynamic template was created
+
+    -   if you used the embedded version
+
+> GET /logs_index/\_mapping
+
+-   if you used the standalone version GET
+    /\_index_template/logs_dyn_template
+
+2.  Create a new index matching the pattern (e.g., logs-202405)
+    (optional if you used the embedded version) PUT logs_index
+
+3.  Verify that the created index has the expected settings and mappings
+
+    -   Ensure error_log is of type text with log_analyzer • Ensure
+        status_code is of type keyword
+
+    -   Ensure message is of type text with standard analyzer GET
+        /logs_index/\_mapping
+
+4.  Index a sample document and verify that the mapping is applied
+    correctly
+
+> POST /logs_index/\_doc/1
+>
+> {
+>
+> \"error_log\": \"This is an error log message.\",
+>
+> \"status_code\": \"200\",
+>
+> \"message\": \"Regular log message.\"
+>
+> }
+
+5.  Perform Searches:
+
+    -   Search within error_log and verify the custom analyzer is
+        applied
+
+> GET /logs_index/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"match\": {
+>
+> \"error_log\": \"error\"
+>
+> }
+>
+> }
+>
+> }
+
+-   Check if status_code is searchable as a keyword
+
+> GET /logs_index/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"term\": {
+>
+> \"status_code\": \"200\"
+>
+> }
+>
+> }
+>
+> }
+
+***Considerations***
+
+-   The custom analyzer log_analyzer is used to provide specific
+    tokenization and filtering for log fields.
+
+-   keyword type for status\_\* fields ensures they are treated as exact
+    values, useful for status codes.
+
+-   The default_string template ensures other string fields are analyzed
+    with the standard analyzer, providing a balanced default.
+    ***Clean-up (optional)*** • Delete the index DELETE log_index
+
+-   Delete the dynamic template
+
+DELETE /\_index_template/logs_dyn_template ***Documentation***
+
+-   [[Dynamic
+    Templates]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html)
+
+-   [[Custom
+    Analyzers]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html)
+
+-   [[Put Mapping
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-mapping.html)
+
+-   [[Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html)
+
+-   [[Search
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)
+
+### Example 2: Create Dynamic Template for Data Types
+
+***Requirements***
+
+-   All string fields should be treated as text with a standard
+    analyzer.
+
+-   All long fields should be treated as integer.
+
+-   All date fields should use a specific date format.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Define the Dynamic Template
+
+> PUT /\_index_template/data_type_template
+>
+> {
+>
+> \"index_patterns\": \[\"data_type\_\*\"\],
+>
+> \"template\" : {
+>
+> \"mappings\": {
+>
+> \"dynamic_templates\": \[
+>
+> {
+>
+> \"strings_as_text\": {
+>
+> \"match_mapping_type\": \"string\",
+>
+> \"mapping\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"standard\"
+>
+> }
+>
+> }
+>
+> },
+>
+> {
+>
+> \"longs_as_integer\": {
+>
+> \"match_mapping_type\": \"long\",
+>
+> \"mapping\": {
+>
+> \"type\": \"integer\"
+>
+> }
+>
+> }
+>
+> },
+>
+> {
+>
+> \"dates_with_format\": {
+>
+> \"match_mapping_type\": \"date\",
+>
+> \"mapping\": {
+>
+> \"type\": \"date\",
+>
+> \"format\": \"yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'\"
+>
+> }
+>
+> }
+>
+> }
+>
+> \]
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the dynamic template was created
+
+> GET /\_index_template/data_type_template
+
+2.  Create a new index matching the pattern
+
+> PUT data_type_202405
+
+3.  Check the Field Types
+
+    -   Verify that all string fields are mapped as text with the
+        standard analyzer.
+
+    -   Verify that all long fields are mapped as integer.
+
+    -   Verify that all date fields are mapped with the correct format.
+        GET /data_type_202405/\_mapping
+
+4.  Insert sample documents to ensure that the dynamic template is
+    applied correctly
+
+> POST /data_type_202405/\_bulk
+>
+> { \"index\": { \"\_index\": \"data_type_202405\", \"\_id\": \"1\" } }
+>
+> { \"name\": \"Wireless Bluetooth Headphones\", \"release_date\":
+> \"2024-05-
+>
+> 28T14:35:00.000Z\", \"price\": 99 }
+>
+> { \"index\": { \"\_index\": \"data_type_202405\", \"\_id\": \"2\" } }
+> { \"description\": \"Durable stainless steel water bottle\",
+> \"launch_date\":
+>
+> \"2024-05-28T15:00:00.000Z\", \"quantity\": 500 }
+
+5.  Perform Searches
+
+    -   Search launch_date
+
+> GET /data_type_202405/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"query_string\": {
+>
+> \"query\": \"launch_date:\\\"2024-05-28T15:00:00.000Z\\\"\"
+>
+> }
+>
+> }
+>
+> }
+
+-   Check if price is searchable as a value
+
+> GET /data_type_202405/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"query_string\": {
+>
+> \"query\": \"price: 99\"
+>
+> }
+>
+> }
+>
+> }
+
+***Considerations***
+
+-   **Dynamic Templates:**
+
+-   Using dynamic templates based on data types allows for flexible and
+    consistent field mappings without needing to know the exact field
+    names in advance.
+
+-   **Data Types:**
+
+-   Matching on data types (string, long, date) ensures that fields are
+    mapped appropriately based on their content.
+
+-   **Date Format:**
+
+-   Specifying the date format ensures that date fields are parsed
+    correctly, avoiding potential issues with date-time representation.
+
+***Clean-up (optional)***
+
+-   Delete the index DELETE data_type_202405
+
+-   Delete the dynamic template
+
+DELETE /\_index_template/data_type_template ***Documentation***
+
+-   [[Dynamic
+    Templates]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html)
+
+-   [[Mapping]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html)
+
+-   [[Analyzers]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer.html)
+
+### Example 3: Create a Dynamic Template for Logging Data for Data Patterns
+
+***Requirements***
+
+-   Automatically map fields that end with \"\_ip\" as IP type.
+
+-   Map fields that start with \"timestamp\_\" as date type.
+
+-   Map any field containing the word \"keyword\" as a keyword type.
+
+-   Use a custom analyzer for fields ending with \"\_text\".
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Create the dynamic template
+
+> PUT /\_index_template/logs_template
+>
+> {
+>
+> \"index_patterns\": \[\"logs\*\"\],
+>
+> \"template\" : {
+>
+> \"settings\": {
+>
+> \"analysis\": {
+>
+> \"analyzer\": {
+>
+> \"custom_analyzer\": {
+>
+> \"type\": \"standard\",
+>
+> \"stopwords\": \"\_english\_\"
+>
+> }
+>
+> }
+>
+> }
+>
+> },
+>
+> \"mappings\": {
+>
+> \"dynamic_templates\": \[
+>
+> {
+>
+> \"ip_fields\": {
+>
+> \"match\": \"\*\_ip\",
+>
+> \"mapping\": {
+>
+> \"type\": \"ip\"
+>
+> }
+>
+> }
+>
+> },
+>
+> {
+>
+> \"date_fields\": {
+>
+> \"match\": \"timestamp\_\*\",
+>
+> \"mapping\": {
+>
+> \"type\": \"date\"
+>
+> }
+>
+> }
+>
+> },
+>
+> {
+>
+> \"keyword_fields\": {
+>
+> \"match\": \"\*keyword\*\",
+>
+> \"mapping\": {
+>
+> \"type\": \"keyword\"
+>
+> }
+>
+> }
+>
+> },
+>
+> {
+>
+> \"text_fields\": {
+>
+> \"match\": \"\*\_text\",
+>
+> \"mapping\": {
+>
+> \"type\": \"text\",
+>
+> \"analyzer\": \"custom_analyzer\"
+>
+> }
+>
+> }
+>
+> }
+>
+> \]
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the dynamic template was created
+
+> GET /\_index_template/logs_template
+
+2.  Create a new index matching the pattern PUT logs_202405
+
+3.  Check the Field Types
+
+    1.  Verify that all \_ip fields are mapped as ip
+
+    2.  Verify that all timestamp\_\* fields are mapped as date
+
+    3.  Verify that all \*keyword\* fields are mapped as keyword
+
+> GET /logs_202405/\_mapping
+
+4.  Insert sample documents to ensure that the dynamic template is
+    applied correctly
+
+> POST /logs_202405/\_bulk
+>
+> { \"index\": { \"\_id\": \"1\" } }
+>
+> { \"source_ip\": \"192.168.1.1\", \"timestamp_event\":
+> \"2024-05-28T12:00:00Z\",
+>
+> \"user_keyword\": \"elastic\", \"description_text\": \"This is a log
+> entry.\" }
+>
+> { \"index\": { \"\_id\": \"2\" } }
+>
+> { \"destination_ip\": \"10.0.0.1\", \"timestamp_access\":
+> \"2024-05-28T12:05:00Z\",
+>
+> \"log_keyword\": \"search\", \"details_text\": \"Another log entry.\"
+> }
+
+5.  Perform Searches
+
+    1.  Search source_ip
+
+> GET /logs_202405/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"query_string\": {
+>
+> \"query\": \"source_ip: \\\"192.168.1.1\\\"\"
+>
+> }
+>
+> }
+>
+> }
+
+2.  Check if timestamp_event is searchable as a date
+
+> GET /logs_202405/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"query_string\": {
+>
+> \"query\": \"timestamp_event: \\\"2024-05-28T12:00:00Z\\\"\"
+>
+> }
+>
+> }
+>
+> }
+
+***Considerations***
+
+-   The use of patterns in the dynamic template ensures that newly added
+    fields matching the criteria are automatically mapped without the
+    need for manual intervention.
+
+-   Custom analyzer configuration is critical for ensuring text fields
+    are processed correctly, enhancing search capabilities. ***Clean-up
+    (optional)***
+
+-   Delete the index DELETE logs_202405
+
+-   Delete the dynamic template
+
+DELETE /\_index_template/logs_template ***Documentation***
+
+-   [[Dynamic
+    Templates]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic-templates.html)
+
+-   [[Mapping
+    Types]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html)
+
+-   [[Analyzers]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-analyzers.html)
+
+## Task: Define an Index Lifecycle Management policy for a timeseries index
+
+### Example 1: Creating an ILM policy for log data indices
+
+***Requirement***
+
+-   Indices are prefixed with \"logstash-\" and a datestamp (e.g.
+    logstash-2024.05.16)
+
+-   Indices should be rolled over daily (create a new index every day)
+
+-   Old indices should be deleted after 30 days ***Steps using the
+    Elastic/Kibana UI***
+
+1.  Open the hamburger menu and click on **Management → Life Cycle
+    Policies**
+
+2.  Press **+ Create New Policy**
+
+3.  Enter the following
+
+> ◦ Policy name: logstash-example-policy ◦ **Hot** phase
+>
+> ▪ Change **Keep Data in the Phase Forever** (the infinity icon) to
+> **Delete Data After This Phase** (the trashcan icon)
+>
+> ▪ Click **Advanced Settings**
+>
+> ▪ Unselect **Use Recommended Defaults**
+>
+> ▪ Set **Maximum Age** to **1** ◦ **Delete** phase
+>
+> ▪ Move data into phase when: 30 days old 4. Press **Save Policy**
+
+5.  **Open the Kibana Console** or use a REST client
+
+6.  Create an index template that will match on indices that match the
+    pattern "logstash\_\*"
+
+> PUT /\_index_template/ilm_logstash_index_template
+>
+> {
+>
+> \"index_patterns\": \[ \"logstash-\*\" \]
+>
+> }
+
+7.  Return to the **Management → Life Cycle Policies** page
+
+8.  Press the plus sign (+) to the right of logs_policy
+
+    1.  The **Add Policy "logs_policy" to index template** dialog opens.
+
+    2.  Click on the **Index Template** input field and type the first
+        few letters of the index template created above
+
+    3.  Select the template created above (ilm_logstash_index_template)
+
+    4.  Press **Add Policy**
+
+9.  **Open the Kibana Console** or use a REST client
+
+10. List ilm_logs_index_template. Notice the ILM policy is now part of
+    the index template
+
+> GET /\_index_template/ilm_logstash_index_template
+>
+> Output from the GET
+>
+> {
+>
+> \"index_templates\": \[
+>
+> {
+>
+> \"name\": \"ilm_logstash_index_template\",
+>
+> \"index_template\": {
+>
+> \"index_patterns\": \[
+>
+> \"logstash-\*\"
+>
+> \],
+>
+> \"template\": {
+>
+> \"settings\": {
+>
+> \"index\": {
+>
+> \"lifecycle\": {
+>
+> \"name\": \"logstash-example-policy\"
+>
+> }
+>
+> }
+>
+> }
+>
+> },
+>
+> \"composed_of\": \[\]
+>
+> }
+>
+> }
+>
+> \]
+>
+> }
+
+11. Create an index PUT logstash-2024.05.16
+
+12. Verify the policy is there GET logstash-2024.05.16
+
+> The output should look something like this:
+>
+> {
+>
+> \"logstash-2024.05.16\": {
+>
+> \"aliases\": {},
+>
+> \"mappings\": {},
+>
+> \"settings\": {
+>
+> \"index\": {
+>
+> **\"lifecycle\": {**
+>
+> **\"name\": \"logstash-example-policy\"**
+>
+> **},**
+>
+> \"routing\": {
+>
+> \"allocation\": {
+>
+> \"include\": {
+>
+> \"\_tier_preference\": \"data_content\"
+>
+> }
+>
+> }
+>
+> },
+>
+> \"number_of_shards\": \"1\",
+>
+> \"provided_name\": \"logstash-2024.05.16\",
+>
+> \"creation_date\": \"1717024100387\",
+>
+> \"priority\": \"100\",
+>
+> \"number_of_replicas\": \"1\",
+>
+> \"uuid\": \"mslAKuZGTpSDdFr4hSpAAA\",
+>
+> \"version\": {
+>
+> \"created\": \"8503000\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+**OR**
+
+***Steps Using the REST API***
+
+> 1\. **Open the Kibana Console** or use a REST client 2. Create the ILM
+> policy
+>
+> PUT \_ilm/policy/logstash-example-policy
+>
+> {
+>
+> \"policy\": {
+>
+> \"phases\": {
+>
+> \"hot\": {
+>
+> \"actions\": {
+>
+> \"rollover\": {
+>
+> \"max_age\": \"1d\"
+>
+> }
+>
+> }
+>
+> },
+>
+> \"delete\": {
+>
+> \"min_age\": \"30d\",
+>
+> \"actions\": {
+>
+> \"delete\": {}
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> 3\. Create an index template the includes the above policy. The two
+> fields within settings are required.
+>
+> PUT /\_index_template/ilm_logstash_index_template
+>
+> {
+>
+> \"index_patterns\": \[ \"logstash-\*\" \],
+>
+> \"template\": {
+>
+> \"settings\": {
+>
+> **\"index.lifecycle.name\": \"logstash-example-policy\",**
+>
+> **\"index.lifecycle.rollover_alias\": \"logstash\"**
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the ILM policy exists in Kibana under **Management -\> Index
+    Lifecycle Policies**
+
+2.  Verify the Index Lifecycle Management policy exists and references
+    the index template
+
+> GET /\_ilm/policy/logstash-example-policy
+
+3.  Verify the policy is referenced in the index template GET
+    /\_index_template/ilm_logstash_index_template
+
+4.  Create a new index that matches the pattern logstash-\*: PUT
+    /logstash-index
+
+5.  Verify the index has the policy in its definition
+
+GET /logstash-index ***Considerations***
+
+-   The index template configures 1 shard and the ILM policy/alias for
+    rollover.
+
+-   The rollover action creates a new index when the max_age is reached.
+
+-   The delete phase removes indices older than 30 days.
+
+***Clean-up (optional)***
+
+-   Delete the index DELETE logstash-index
+
+-   Delete the index template DELETE
+    /\_index_template/ilm_logstash_index_template
+
+-   Delete the policy
+
+DELETE /\_ilm/policy/logstash-example-policy ***Documentation***
+
+-   [[Create Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-create-index.html)
+
+-   [[Create or Update Index Template
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-put-template.html)
+
+-   [[ILM
+    Settings]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/ilm-settings.html)
+
+-   [[Index Lifecycle
+    Management]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/ilm-index-lifecycle.html)
+
+### Example 2: Creating an ILM policy for logs indices retention for 7, 30 and 90 days
+
+***Requirements***
+
+-   The policy should be named \"logs-policy\"
+
+-   It should have a hot phase with a duration of 7 days
+
+-   It should have a warm phase with a duration of 30 days
+
+-   It should have a cold phase with a duration of 90 days  It should
+    have a delete phase
+
+-   The policy should be assigned to indices matching the pattern
+    \"ilm_logs\_\*\"
+
+***Steps using the Elastic/Kibana UI***
+
+1.  Open the hamburger menu and click on **Management → Life Cycle
+    Policies**
+
+2.  Press **+ Create New Policy** 3. Enter the following
+
+> ◦ Policy name: logs-policy ◦ Hot phase
+>
+> ▪ Press the garbage can icon to the right to **delete data after this
+> phase**
+>
+> ◦ Warm phase
+>
+> ▪ Move data into phase when: 7 days old
+>
+> ▪ Leave **Delete data after this phase**
+>
+> ◦ Cold phase
+>
+> ▪ Move data into phase when: 30 days old
+>
+> ▪ Leave **Delete data after this phase**
+>
+> ◦ Delete phase
+>
+> ▪ Move data into phase when: 90 days old
+
+4.  Press **Save Policy**
+
+5.  **Open the Kibana Console** or use a REST client
+
+6.  Create an index template that will match on indices that match the
+    pattern "logs\_\*"
+
+> PUT /\_index_template/ilm_logs_index_template
+>
+> {
+>
+> \"index_patterns\": \[ \"ilm_logs\_\*\" \]
+>
+> }
+
+7.  Return to the **Management → Life Cycle Policies** page
+
+8.  Press the plus sign (+) to the right of logs_policy
+
+9.  The **Add Policy "logs-policy" to index template** dialog opens.
+
+10. Click on the **Index Template** input field and type the first few
+    letters of the index template created above
+
+11. Select the template created above (ilm_logs_index_template)
+
+12. Press **Add Policy**
+
+13. **Open the Kibana Console** or use a REST client
+
+14. List ilm_logs_index_template. Notice the ILM policy is now part of
+    the index template
+
+> GET /\_index_template/ilm_logs_index_template
+>
+> Output from the GET
+>
+> {
+>
+> \"index_templates\": \[
+>
+> {
+>
+> \"name\": \"ilm_logs_index_template\",
+>
+> \"index_template\": {
+>
+> \"index_patterns\": \[
+>
+> \"ilm_logs\_\*\"
+>
+> \],
+>
+> \"template\": {
+>
+> \"settings\": {
+>
+> \"index\": {
+>
+> **\"lifecycle\": {**
+>
+> **\"name\": \"logs-policy\"**
+>
+> **}**
+>
+> }
+>
+> }
+>
+> },
+>
+> \"composed_of\": \[\]
+>
+> }
+>
+> }
+>
+> \]
+>
+> }
+>
+> 15\. List logs-policy
+>
+> GET \_ilm/policy/logs-policy
+>
+> In the in_use_by node you will see:
+
+\"in_use_by\": {
+
+\"indices\": \[\],
+
+\"data_streams\": \[\],
+
+\"composable_templates\": \[
+
+\"ilm_logs_index_template\"
+
+\]
+
+}
+
+**OR**
+
+***Steps Using the REST API***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create the ILM policy
+
+> PUT \_ilm/policy/logs-policy
+>
+> {
+>
+> \"policy\": {
+>
+> \"phases\": {
+>
+> \"hot\": {
+>
+> \"min_age\": \"0ms\",
+>
+> \"actions\": {
+>
+> \"set_priority\": {
+>
+> \"priority\": 100
+>
+> }
+>
+> }
+>
+> },
+>
+> \"warm\": {
+>
+> \"min_age\": \"7d\",
+>
+> \"actions\": {
+>
+> \"set_priority\": {
+>
+> \"priority\": 50
+>
+> }
+>
+> }
+>
+> },
+>
+> \"cold\": {
+>
+> \"min_age\": \"30d\",
+>
+> \"actions\": {
+>
+> \"set_priority\": {
+>
+> \"priority\": 0
+>
+> }
+>
+> }
+>
+> },
+>
+> \"delete\": {
+>
+> \"min_age\": \"90d\",
+>
+> \"actions\": {
+>
+> \"delete\": {}
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> 3\. Assign the policy to the indices matching the pattern \"logs\_\*\"
+>
+> PUT \_index_template/ilm_logs_index_template
+>
+> {
+>
+> \"index_patterns\": \[ \"ilm_logs\_\*\" \],
+>
+> \"template\": {
+>
+> \"settings\": {
+>
+> \"index.lifecycle.name\": \"logs-policy\",
+>
+> \"index.lifecycle.rollover_alias\": \"logs\"
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the ILM policy exists in Kibana under **Management -\> Index
+    Lifecycle Policies**
+
+2.  Verify the Index Lifecycle Management policy exists and references
+    the index template GET /\_ilm/policy/logs-policy
+
+3.  Verify the policy is referenced in the index template
+
+> GET /\_index_template/ilm_logs_index_template
+
+4.  Create a new index that matches the pattern ilm_logs\_\*: PUT
+    /ilm_logs_index
+
+5.  Verify the index has the policy in its definition
+
+GET /ilm_logs_index ***Considerations***
+
+-   The ILM policy will manage the indices matching the pattern
+    ilm_logs\_\*
+
+-   The hot phase will keep the data for 7 days with high priority and
+    rollover
+
+-   The warm phase will keep the data for 30 days with medium priority
+
+-   The cold phase will keep the data for 90 days with low priority
+
+-   The ILM policy will automatically manage the indices based on their
+    age and size
+
+-   The policy can be adjusted based on the needs of the application and
+    the data
+
+***Clean-up (optional)***
+
+-   Delete the index DELETE ilm_logs_index
+
+-   Delete the index templates DELETE
+    \_index_template/ilm_logs_index_template
+
+-   Delete the policy
+
+DELETE \_ilm/policy/logs-policy ***Documentation***
+
+-   [[Create Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-create-index.html)
+
+-   [[Create or Update Index Template
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-put-template.html)
+
+-   [[ILM
+    Settings]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/ilm-settings.html)
+
+-   [[Index Lifecycle
+    Management]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/ilm-index-lifecycle.html)
+
+### Example 3: Creating an ILM policy for sensor data collected every hour, with daily rollover and retention for one month
+
+***Requirements***
+
+-   Create a new index every day for sensor data (e.g.,
+    sensor_data-{date}).
+
+-   Automatically roll over to a new index when the current one reaches
+    a specific size.
+
+-   Delete rolled over indices after one month. ***Steps using the
+    Elastic/Kibana UI***
+
+1.  Open the hamburger menu and click on **Management → Life Cycle
+    Policies**
+
+2.  Press **+ Create New Policy**
+
+3.  Enter the following
+
+    1.  Policy name: sensor-data-policy
+
+    2.  **Hot** phase
+
+        1.  Change **Keep Data in the Phase Forever** (the infinity
+            icon) to **Delete Data After This Phase** (the trashcan
+            icon)
+
+        2.  Click **Advanced Settings**
+
+        3.  Unselect **Use Recommended Defaults**
+
+        4.  Set **Maximum Age** to **1**
+
+        5.  Set **Maximum Index Size** to **10**
+
+    3.  **Delete** phase
+
+        1.  Move data into phase when: **30** days old
+
+4.  Press **Save Policy**
+
+5.  **Open the Kibana Console** or use a REST client
+
+6.  Create an index template that will match on indices that match the
+    pattern "logs\_\*"
+
+> PUT \_index_template/sensor_data_index_template
+>
+> {
+>
+> \"index_patterns\": \[ \"sensor_data-\*\" \]
+>
+> }
+
+7.  Return to the **Management → Life Cycle Policies** page
+
+8.  Press the plus sign (+) to the right of sensor-data-policy
+
+9.  The **Add Policy "sensor-data-policy" to index template** dialog
+    opens.
+
+    1.  Click on the **Index Template** input field and type the first
+        few letters of the index template created above
+
+    2.  Select the template created above (sensor_data_index_template)
+
+    3.  Press **Add Policy**
+
+<!-- -->
+
+2.  **Open the Kibana Console** or use a REST client
+
+3.  List ilm_logs_index_template. Notice the ILM policy is now part of
+    the index template
+
+> GET /\_index_template/ilm_logs_index_template
+>
+> Output from the GET
+>
+> {
+>
+> \"index_templates\": \[
+>
+> {
+>
+> \"name\": \"sensor_data_index_template\",
+>
+> \"index_template\": {
+>
+> \"index_patterns\": \[
+>
+> \"sensor_data-\*\"
+>
+> \],
+>
+> \"template\": {
+>
+> \"settings\": {
+>
+> \"index\": {
+>
+> **\"lifecycle\": {**
+>
+> **\"name\": \"sensor-data-policy\"**
+>
+> **}**
+>
+> }
+>
+> }
+>
+> },
+>
+> \"composed_of\": \[\]
+>
+> }
+>
+> }
+>
+> \]
+>
+> }
+>
+> 1\. List sensor-policy
+>
+> GET \_ilm/policy/logs-policy
+>
+> In the in_use_by node you will see:
+>
+> \"in_use_by\": {
+>
+> \"indices\": \[\],
+>
+> \"data_streams\": \[\],
+>
+> \"composable_templates\": \[
+>
+> \"sensor_data_index_template\"
+>
+> \]
+>
+> }
+
+**OR**
+
+***Steps Using the REST API***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Define the ILM policy
+
+> PUT \_ilm/policy/sensor-data-policy
+>
+> {
+>
+> \"policy\": {
+>
+> \"phases\": {
+>
+> \"hot\": {
+>
+> \"min_age\": \"1d\",
+>
+> \"actions\": {
+>
+> \"set_priority\": {
+>
+> \"priority\": 100
+>
+> },
+>
+> \"rollover\": {
+>
+> \"max_age\": \"1d\",
+>
+> \"max_docs\": 1000,
+>
+> \"max_size\": \"10gb\"
+>
+> }
+>
+> }
+>
+> },
+>
+> \"delete\": {
+>
+> \"min_age\": \"30d\",
+>
+> \"actions\": {
+>
+> \"delete\": {}
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> 3\. Assign the policy to the indices matching the pattern
+> \"sensor_data-\*\"
+>
+> PUT \_index_template/sensor_data_index_template
+>
+> {
+>
+> \"index_patterns\": \[ \"sensor_data-\*\" \],
+>
+> \"template\": {
+>
+> \"settings\": {
+>
+> \"index.lifecycle.name\": \"sensor-data-policy\",
+>
+> \"index.lifecycle.rollover_alias\": \"sensor\" }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the ILM policy exists in Kibana under **Management -\> Index
+    Lifecycle Policies**
+
+2.  Verify the Index Lifecycle Management policy exists and references
+    the index template GET /\_ilm/policy/sensor-data-policy
+
+3.  Verify the policy is referenced in the index template GET
+    /\_index_template/sensor_data_index_template
+
+4.  Create a new index that matches the pattern sensor_data-\*: PUT
+    /ilm_logs_index
+
+5.  Verify the index has the policy in its definition
+
+GET /ilm_logs_index ***Considerations***
+
+-   The hot phase size threshold determines the frequency of rollovers.
+
+-   The delete phase retention period defines how long rolled over data
+    is stored. ***Clean-up (optional)***
+
+1.  Delete the index
+
+> DELETE sensor_data-index
+
+2.  Delete the index templates DELETE
+    \_index_template/sensor_data_index_template
+
+3.  Delete the policy
+
+DELETE \_ilm/policy/sensor-data-policy ***Documentation***
+
+-   [[Create Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-create-index.html)
+
+-   [[Create or Update Index Template
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/indices-put-template.html)
+
+-   [[ILM
+    Settings]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/ilm-settings.html)
+
+-   [[Index Lifecycle
+    Management]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/ilm-index-lifecycle.html)
+
+## Task: Define an index template that creates a new data stream
+
+**Data streams** in Elasticsearch are used for managing time-series data
+such as logs, metrics, and events. They can handling large volumes of
+time-series data in an efficient and scalable manner.
+
+### Example 1: Creating an index template for continuously flowing application logs (version 1)
+
+***Requirements***
+
+-   Create a new data stream named \"app-logs\" to store application
+    logs.
+
+-   Automatically create new backing indices within the data stream as
+    needed.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Define the index template that will be used by the data stream to
+    create new backing indices
+
+> // create an index template with an (empty) data_stream node
+>
+> // the name/value pairs are the defaults so can be left out
+>
+> PUT \_index_template/app_logs_index_template
+>
+> {
+>
+> \"index_patterns\": \[ \"app_logs\*\"\],
+>
+> \"data_stream\": {}
+>
+> // optional: include settings if needed
+>
+> // optional: include mappings if fields need to be mapped
+>
+> }
+
+***Test***
+
+-   Verify the index template creation
+
+> GET \_index_template/app_logs_index_template
+
+-   Confirm there are no indices named app_logs\*
+
+> GET /\_cat/indices
+
+-   Mock sending streaming data by just pushing a few documents to the
+    stream which must be called something that will trigger the index
+    templates. When sending documents using \_bulk they must use
+    **create** instead of **index**. In addition, the documents must
+    have a \@timestamp field (which was not included in a mapping
+    section the index template as the fields are created dynamically as
+    they are indexed anyway).
+
+> POST app_logs/\_bulk
+>
+> { \"create\":{ } }
+>
+> { \"@timestamp\": \"2099-05-06T16:21:15.000Z\", \"message\":
+> \"192.0.2.42 - -
+>
+> \[06/May/2099:16:21:15 +0000\] \\\"GET /images/bg.jpg HTTP/1.0\\\" 200
+> 24736\" }
+>
+> { \"create\":{ } }
+>
+> { \"@timestamp\": \"2099-05-06T16:25:42.000Z\", \"message\":
+> \"192.0.2.255 - -
+>
+> \[06/May/2099:16:25:42 +0000\] \\\"GET /favicon.ico HTTP/1.0\\\" 200
+> 3638\" }
+>
+> The response will list the name of the automatically created index
+> which will look something like this:
+>
+> {
+>
+> \"errors\": false,
+>
+> \"took\": 8,
+>
+> \"items\": \[
+>
+> {
+>
+> \"create\": {
+>
+> **\"\_index\": \".ds-app_logs-2024.05.30-000001\",**
+>
+> \"\_id\": \"OOazyo8BAvAOn4WaAfdD\",
+>
+> \"\_version\": 1,
+>
+> \"result\": \"created\",
+>
+> \"\_shards\": {
+>
+> \"total\": 2,
+>
+> \"successful\": 1,
+>
+> \"failed\": 0
+>
+> },
+>
+> \"\_seq_no\": 2,
+>
+> \"\_primary_term\": 1,
+>
+> \"status\": 201
+>
+> }
+>
+> },
+>
+> {
+>
+> \"create\": {
+>
+> **\"\_index\": \".ds-app_logs-2024.05.30-000001\",**
+>
+> \"\_id\": \"Oeazyo8BAvAOn4WaAfdD\",
+>
+> \"\_version\": 1,
+>
+> \"result\": \"created\",
+>
+> \"\_shards\": {
+>
+> \"total\": 2,
+>
+> \"successful\": 1,
+>
+> \"failed\": 0
+>
+> },
+>
+> \"\_seq_no\": 3,
+>
+> \"\_primary_term\": 1,
+>
+> \"status\": 201
+>
+> }
+>
+> }
+>
+> \]
+>
+> } Run:
+>
+> GET /\_cat/indices
+>
+> You will see the new index listed. This is the backing index created
+> by the data stream.
+
+-   Check for the **app_logs** data stream under **Management → Index
+    Management → Data Streams**
+
+-   Verify that the documents were indexed
+
+> GET .ds-app_logs-2024.05.30-000001 // your index name will be
+> different
+
+***Considerations***
+
+-   Data streams provide a more efficient way to handle continuously
+    flowing data compared to daily indices. They are created implicitly
+    through the use of index templates and you must use the \_**bulk
+    API** (including the use of create) when streaming data.
+
+-   New backing indices are automatically **created** within the data
+    stream as needed.
+
+-   Lifecycle management policies can be applied to data streams for
+    automatic deletion of older backing indices (not shown but there is
+    an example at [[Set Up a Data
+    Stream]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/set-up-a-data-stream.html).
+
+***Clean-up (optional)***
+
+-   Delete the data stream (deleting the data stream will also delete
+    the backing index) DELETE /\_data_stream/app_logs
+
+-   Delete the index template
+
+DELETE \_index_template/app_logs_index_template ***Documentation***
+
+-   [[Index
+    Templates]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-template.html)
+
+-   [[Setting Up a Data
+    Streams]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/set-up-a-data-stream.html)
+
+### Example 2: Creating an index template for continuously flowing application logs (version 2)
+
+***Requirements***
+
+-   The template should apply to any index matching the pattern
+    **logs\***.
+
+-   The template must create a data stream.
+
+-   The template should define settings for two primary shards and one
+    replica.
+
+-   The template should include mappings for fields \@timestamp,
+    log_level, and message. ***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Create the index template
+
+> PUT \_index_template/log_application_index_template
+>
+> {
+>
+> \"index_patterns\": \[ \"app_logs\*\" \],
+>
+> \"data_stream\": { },
+>
+> \"template\": {
+>
+> \"settings\": {
+>
+> \"number_of_shards\": 2,
+>
+> \"number_of_replicas\": 1
+>
+> },
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"@timestamp\" : {
+>
+> \"type\": \"date\"
+>
+> },
+>
+> \"log_level\" : {
+>
+> \"type\": \"keyword\"
+>
+> },
+>
+> \"message\" : {
+>
+> \"type\": \"text\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+-   Verify the index template creation
+
+> GET \_index_template/log_application_index_template
+
+-   Confirm there are no indices named logs\*
+
+> GET /\_cat/indices
+
+-   Index documents into the data stream
+
+> POST /app_logs/\_doc
+>
+> {
+>
+> \"@timestamp\": \"2024-05-16T12:34:56\",
+>
+> \"log_level\": \"info\",
+>
+> \"message\": \"Test log message\"
+>
+> }
+>
+> This will return a result with the name of the backing index
+>
+> {
+>
+> **\"\_index\": \".ds-app_logs-2024.05.30-000001\"**, // yours will be
+> different
+>
+> \"\_id\": \"PObWyo8BAvAOn4WaC_de\",
+>
+> \"\_version\": 1,
+>
+> \"result\": \"created\",
+>
+> \"\_shards\": {
+>
+> \"total\": 2,
+>
+> \"successful\": 1,
+>
+> \"failed\": 0
+>
+> },
+>
+> \"\_seq_no\": 0,
+>
+> \"\_primary_term\": 1
+>
+> }
+>
+> Run
+>
+> GET /\_cat/indices
+>
+> The index will be listed.
+
+-   Confirm the configuration of thee backing index matches the index
+    template (your backing index name will be different)
+
+> GET .ds-app_logs-2024.05.30-000001
+
+-   Run a search for the document that was indexed
+
+> GET .ds-app_logs-2024.05.30-000001/\_search
+
+***Considerations***
+
+-   Data streams provide a more efficient way to handle continuously
+    flowing data compared to daily indices. They are created implicitly
+    through the use of index templates and you must use the \_**bulk
+    API** (including the use of create) when streaming data.
+
+-   New backing indices are automatically **created** within the data
+    stream as needed.
+
+-   Lifecycle management policies can be applied to data streams for
+    automatic deletion of older backing indices (not shown but there is
+    an example at [[Set Up a Data
+    Stream]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/set-up-a-data-stream.html).
+
+***Clean-up (optional)***
+
+-   Delete the data stream (deleting the data stream will also delete
+    the backing index) DELETE \_data_stream/app_logs
+
+-   Delete the index template
+
+DELETE \_index_template/log_application_index_template
+***Documentation***
+
+-   [[Index
+    Templates]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-put-template.html)
+
+-   [[Setting Up a Data
+    Streams]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/set-up-a-data-stream.html)
+
+### Example 3: Creating a metrics data stream for application performance monitoring
+
+***Requirements***
+
+-   Create an index template named \"metrics_template\"
+
+-   The template should create a new data stream named
+    \"metrics-{suffix}\"
+
+-   The template should have one shard and one replica
+
+-   The template should have a mapping for the \"metric\" field as a
+    keyword data type
+
+-   The template should have a mapping for the \"value\" field as a
+    float data type
+
+***Steps***
+
+> 1\. **Open the Kibana Console** or use a REST client 2. Create the
+> index template
+>
+> PUT \_index_template/metrics_template
+>
+> {
+>
+> \"index_patterns\": \[ \"metrics-\*\" \],
+>
+> \"data_stream\": { },
+>
+> \"template\": {
+>
+> // we could add a settings section
+>
+> // but the requirements were the defaults
+>
+> // so no need to add them
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"metric\" : {
+>
+> \"type\": \"keyword\"
+>
+> },
+>
+> \"value\" : {
+>
+> \"type\": \"float\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the index template creation GET
+    \_index_template/log_application_index_template
+
+2.  Confirm there are no indices named **metrics-\***
+
+> GET /\_cat/indices
+
+3.  Index documents into the data stream
+
+> POST /metrics-ds/\_doc
+>
+> {
+>
+> \"@timestamp\": \"2024-05-16T12:34:56\",
+>
+> \"metric\": \"cpu\",
+>
+> \"value\": \".5\"
+>
+> }
+>
+> Notice the use of the **\@timestamp** field. That is required for any
+> documents going into a data stream.
+
+4.  This will return a result with the name of the backing index
+
+> {
+>
+> **\"\_index\": \".ds-metrics-ds-2024.05.30-000001\"**, // yours will
+> be different
+>
+> \"\_id\": \"P-YFy48BAvAOn4WaUvef\",
+>
+> \"\_version\": 1,
+>
+> \"result\": \"created\",
+>
+> \"\_shards\": {
+>
+> \"total\": 2,
+>
+> \"successful\": 1,
+>
+> \"failed\": 0
+>
+> },
+>
+> \"\_seq_no\": 1,
+>
+> \"\_primary_term\": 1
+>
+> }
+
+5.  Run
+
+> GET /\_cat/indices
+
+6.  The index will be listed.
+
+7.  Confirm the configuration of thee backing index matches the index
+    template (your backing index name will be different)
+
+8.  GET .ds-app_logs-2024.05.30-000001
+
+9.  Run a search for the document that was indexed
+
+> GET .ds-app_logs-2024.05.30-000001/\_search
+
+***Considerations***
+
+-   The \"keyword\" data type is chosen for the \"metric\" field to
+    enable exact matching and filtering.  The \"float\" data type is
+    chosen for the \"value\" field to enable precise numerical
+    calculations.
+
+-   One shard and one replica are chosen for simplicity and development
+    purposes; in a production environment, this would depend on the
+    expected data volume and search traffic.
+
+***Clean-up (optional)***
+
+-   Delete the data stream (deleting the data stream will also delete
+    the backing index) DELETE \_data_stream/metrics-ds
+
+-   Delete the index template
+
+DELETE \_index_template/metrics_template ***Documentation***
+
+-   [[Index
+    templates]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-templates.html)
+
+-   [[Data
+    streams]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/data-streams.html)
+
+-   [[Mapping
+    Types]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html)

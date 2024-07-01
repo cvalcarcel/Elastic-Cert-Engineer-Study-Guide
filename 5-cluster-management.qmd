@@ -1,0 +1,2065 @@
+# Cluster Management
+
+## Task: Diagnose shard issues and repair a cluster\'s health
+
+### Example 1: Identifying and resolving unassigned shards to improve cluster health
+
+***Requirements***
+
+-   Identify the cause of unassigned shards.
+
+-   Reassign shards to nodes to improve cluster health.
+
+-   Ensure all indices are properly allocated and the cluster health
+    status is green.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Check the cluster health and identify unassigned shards
+
+> GET /\_cluster/health
+
+3.  List the unassigned shards
+
+> GET /\_cat/shards?v&h=index,shard,prirep,state,unassigned.reason,node
+
+4.  Identify the reason for unassigned shards and address common issues
+    (e.g., missing replicas, disk space, node failure):
+
+    -   Check for node failures
+
+> GET /\_cat/nodes?v
+
+-   Ensure sufficient disk space
+
+> GET /\_nodes/stats/fs
+
+5.  Reassign unassigned shards if necessary
+
+> POST /\_cluster/reroute
+>
+> {
+>
+> \"commands\": \[
+>
+> {
+>
+> \"allocate_stale_primary\": {
+>
+> \"index\": \"{index_name}\",
+>
+> \"shard\": 0,
+>
+> \"node\": \"{node_name}\",
+>
+> \"accept_data_loss\": true
+>
+> }
+>
+> }
+>
+> \]
+>
+> }
+
+6.  Force merge indices if necessary to reduce the number of segments
+    and improve performance
+
+> POST /{index_name}/\_forcemerge?max_num_segments=1
+
+7.  Verify the cluster health again GET /\_cluster/health
+
+***Test***
+
+1.  Check the cluster health status
+
+> GET /\_cluster/health
+
+2.  Ensure there are no unassigned shards
+
+> GET /\_cat/shards?v&h=index,shard,prirep,state,unassigned.reason,node
+
+***Considerations***
+
+-   The cluster reroute command should be used carefully, especially
+    when accepting data loss.
+
+-   Force merging should be done during low traffic periods as it is
+    resource-intensive.
+
+-   Regularly monitoring cluster health can prevent shard allocation
+    issues.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Cluster Health
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html)
+
+-   [[Cat Shards
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html)
+
+-   [[Cluster Reroute
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html)
+
+-   [[Nodes Stats
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-stats.html)
+
+-   [[Force Merge
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-forcemerge.html)
+
+**JOIN WITH**
+
+### Analyzing cluster health and repairing unassigned shards
+
+***Requirements***
+
+-   Diagnose the cause of unassigned shards in an Elasticsearch cluster.
+
+-   Take appropriate actions to resolve the issue and restore cluster
+    health.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Check Cluster Health:
+
+    -   Get an overview of the cluster\'s health status:
+
+> GET /\_cluster/health
+
+-   Look for the status (red, yellow, or green) and analyze the shard
+    allocation details, particularly unassigned shards.
+
+3.  Identify the Cause:
+
+    -   Based on the cluster health report and logs, investigate the
+        cause of unassigned shards.
+
+> Common reasons include:
+
+-   Node failures: Check for failing nodes or unavailable disks.
+
+-   Resource limitations: Insufficient disk space or memory on nodes.
+
+-   Index configuration issues: Inconsistent shard allocation settings
+    across nodes
+
+4.  Resolve the Issue
+
+    -   Depending on the cause, take corrective actions
+
+    -   Restart failed nodes or repair unavailable disks.
+
+    -   Allocate additional resources to nodes or optimize shard
+        allocation.
+
+    -   Review and adjust index settings for shard allocation
+
+5.  Verify Cluster Health
+
+    -   Monitor the cluster health again after taking corrective actions
+
+> GET /\_cluster/health
+
+-   The cluster health should ideally be green, indicating all shards
+    are allocated and functioning correctly.
+
+***Test***
+
+-   This task involves real-time cluster monitoring and troubleshooting.
+    There\'s no specific API call to test as the solution depends on the
+    identified root cause.
+
+***Considerations***
+
+-   Understanding the cluster health report and shard allocation details
+    is crucial for diagnosing issues.
+
+-   The chosen resolution method depends on the specific cause of
+    unassigned shards.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Cluster Health
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html)
+
+-   [[Shard
+    Allocation]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/allocation-awareness.html)
+
+### Example 2: Identifying and resolving a shard failure in a cluster
+
+***Requirements***
+
+-   Identify the cause of a shard failure
+
+-   Resolve the issue and restore the cluster\'s health
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Check the cluster\'s health
+
+> GET /\_cluster/health
+
+3.  Identify the index and shard with issues
+
+> GET /\_cat/shards
+
+4.  Check the shard\'s status
+
+GET /\_cat/shards/{index_name}-{shard_number}
+
+5.  Resolve the issue (e.g., restart a node, reassign the shard)
+
+> POST /\_cluster/reroute
+>
+> {
+>
+> \"commands\": \[
+>
+> {
+>
+> \"move\": {
+>
+> \"index\": \"{index_name}\",
+>
+> \"shard\": {shard_number},
+>
+> \"from_node\": \"{node_name}\",
+>
+> \"to_node\": \"{new_node_name}\"
+>
+> }
+>
+> }
+>
+> \]
+>
+> }
+>
+> 6\. Verify the cluster\'s health
+>
+> GET /\_cluster/health
+
+***Test***
+
+-   Verify that the shard is no longer in a failed state
+
+> GET /\_cat/shards/{index_name}-{shard_number}
+
+***Considerations***
+
+-   Regularly monitoring the cluster\'s health can help identify issues
+    before they become critical.
+
+-   Understanding the cause of the shard failure is crucial to resolving
+    the issue effectively.
+
+***Clean-up (optional)***
+
+Documentation
+
+-   [[Elasticsearch Cluster
+    Health]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html)
+    [[Elasticsearch
+    Shard]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-shards.html)
+
+**JOIN WITH**
+
+### Diagnosing and resolving shard issues in an Elasticsearch cluster
+
+***Requirements***
+
+-   Identify indices with shard allocation issues
+
+-   Diagnose the root cause of the shard allocation issues
+
+-   Resolve the shard allocation issues to restore the cluster\'s health
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Check the cluster health and identify indices with shard allocation
+    issues
+
+> GET /\_cluster/health?level=indices
+>
+> The response will show the health status of each index, including the
+> number of unassigned shards, if any.
+
+3.  For indices with unassigned shards, retrieve detailed shard
+    allocation information
+
+> GET /\_cluster/allocation/explain
+>
+> The response will provide information about the unassigned shards and
+> the reasons why they cannot be allocated.
+
+4.  Based on the shard allocation explanation, take appropriate actions
+    to resolve the issues. Common examples include:
+
+    -   Adding new nodes to the cluster (if there are not enough
+        nodes/resources)
+
+    -   Increasing the cluster\'s disk space (if there is not enough
+        disk space)
+
+    -   Adjusting shard allocation settings (e.g.,
+
+> cluster.routing.allocation.enable)
+
+-   Removing corrupted or problematic indices
+
+> For example, if the issue is related to disk space, you can increase
+> the disk space on the existing nodes or add new nodes with more disk
+> space.
+
+5.  After resolving the issue, reattempt the shard allocation POST
+    /\_cluster/reroute?retry_failed=true
+
+> This will trigger a new shard allocation attempt for the previously
+> unassigned shards.
+
+***Test***
+
+1.  Monitor the cluster health after the corrective actions
+
+> GET /\_cluster/health?level=indices
+>
+> The response should show all shards as assigned and the cluster health
+> status as \"green\".
+
+2.  Additionally, you can check the shard allocation explanation again
+    GET /\_cluster/allocation/explain
+
+> The response should not show any unassigned shards or shard allocation
+> issues.
+
+***Considerations***
+
+-   The specific actions taken to resolve shard allocation issues depend
+    on the root cause identified in the shard allocation explanation.
+
+-   Common causes of shard allocation issues include lack of resources
+    (nodes, disk space), cluster settings, and data corruption.
+
+-   Resolving shard allocation issues is crucial for maintaining a
+    healthy and stable Elasticsearch cluster.
+
+***Clean-up (optional)***
+
+Documentation
+
+-   [[Cluster Health
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html)
+
+-   [[Cluster Reroute
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html)
+
+-   [[Cluster Allocation Explanation
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-allocation-explain.html)
+
+-   [[Shard Allocation
+    Filtering]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-allocation-filtering.html)
+
+**JOIN WITH**
+
+### Diagnosing and resolving shard issues in an Elasticsearch cluster
+
+***Requirements***
+
+-   An Elasticsearch cluster with multiple nodes
+
+-   One or more indices with shards in an unhealthy state (e.g.,
+    relocating, initializing, unassigned)
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Check the cluster health GET /\_cluster/health
+
+> This will provide an overview of the cluster\'s health status,
+> including the number of shards in different states.
+
+3.  If the cluster health is not \"green\" (all shards are active and
+    assigned), check for shard issues GET /\_cat/shards?v
+
+> This will list all shards in the cluster, their state, and the node
+> they are assigned to.
+
+4.  Identify the shards that are in an unhealthy state (e.g.,
+    relocating, initializing, unassigned) and the corresponding indices.
+
+5.  For unassigned shards, try to allocate them manually POST
+    /\_cluster/reroute?retry_failed=true
+
+> This will attempt to assign the unassigned shards to available nodes.
+
+6.  If shards are stuck in the \"relocating\" or \"initializing\" state,
+    you may need to cancel the shard allocation and retry
+
+> POST /\_cluster/reroute?cancel_data_node=\<node_id\>
+>
+> Replace \<node_id\> with the ID of the node where the stuck shard is
+> currently located.
+
+7.  If the issue persists, you may need to restart the affected nodes or
+    perform a full cluster restart.
+
+***Test***
+
+1.  After each step, check the cluster health and shard status again to
+    verify if the issue has been resolved.
+
+2.  If all shards are active and assigned, the cluster health should be
+    \"green\".
+
+***Considerations***
+
+-   Unassigned shards can occur due to various reasons, such as node
+    failures, disk space issues, or cluster configuration problems.
+
+-   Shards stuck in the \"relocating\" or \"initializing\" state may
+    indicate a node or network issue.  Canceling shard allocation and
+    retrying can help resolve stuck shards in some cases.
+
+-   Restarting nodes or the entire cluster should be a last resort, as
+    it can cause temporary data unavailability.
+
+***Clean-up (optional)*** Documentation
+
+-   [[Elasticsearch Cluster
+    Health]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html)
+
+-   [[Elasticsearch Cat Shards
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html)
+
+-   [[Elasticsearch Cluster Reroute
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html)
+
+-   [[Elasticsearch Node
+    Restart]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/restart-node.html)
+
+## Task: Backup and restore a cluster and/or specific indices
+
+### Example 1: Create a snapshot of an entire cluster and restore the cluster
+
+***Requirements***
+
+-   Back up the entire Elasticsearch cluster (all the indices on the
+    cluster)
+
+-   Restore specific indices from the backup
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Create two sample indexes with some data
+
+> PUT /example_index1/\_doc/1
+>
+> {
+>
+> \"name\": \"Document 1.1\"
+>
+> }
+>
+> PUT /example_index1/\_doc/2
+>
+> {
+>
+> \"name\": \"Document 1.2\"
+>
+> }
+>
+> PUT /example_index2/\_doc/1
+>
+> {
+>
+> \"name\": \"Document 2.1\"
+>
+> }
+>
+> PUT /example_index2/\_doc/2
+>
+> {
+>
+> \"name\": \"Document 2.2\"
+>
+> }
+
+3.  Create a snapshot repository
+
+> PUT /\_snapshot/my_backup
+>
+> {
+>
+> \"type\": \"fs\",
+>
+> \"settings\": {
+>
+> \"location\": \"/path/to/backup/directory\"
+>
+> }
+>
+> }
+
+4.  Create a snapshot of the entire cluster
+
+> PUT /\_snapshot/my_backup/full_cluster_backup
+
+5.  Delete the two known indices
+
+> DELETE /example_index1
+>
+> DELETE /example_index2
+>
+> Check that the two indexes are gone.
+>
+> GET /example_index\*/\_search
+
+6.  Restore the cluster from the snapshot
+
+> POST /\_snapshot/my_backup/full_cluster_backup/\_restore
+
+***Test***
+
+> 1\. Verify the restored cluster exists and contains the expected data
+>
+> GET /example_index1/\_search
+>
+> GET /example_index2/\_search
+
+The response should include the documents from the original
+example_index1 and example_index2. ***Considerations***
+
+-   The snapshot repository is configured with the fs (file system)
+    type, which stores the backup data on the local file system. For
+    production use, you may want to use a more suitable repository type,
+    such as s3 or gcs.
+
+-   The snapshot name full_cluster_backup is used to create a backup of
+    the entire cluster.
+
+-   During the restore process, the rename_pattern and
+    rename_replacement options are used to rename the restored index to
+    restored_example_index.
+
+***Clean-up (optional)***
+
+Documentation
+
+-   [[Snapshot and
+    Restore]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html)
+
+-   [[Snapshot Repository
+    APIs]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-repositories.html)
+
+-   [[Snapshot Restore
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html#snapshot-restore)
+
+### Example 2: Create a snapshot of an entire cluster and restore a single index
+
+***Requirements***
+
+-   Back up the entire Elasticsearch cluster
+
+-   Restore specific indices from the backup
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create a sample index with some data
+
+> PUT /example_index1/\_doc/1
+>
+> {
+>
+> \"name\": \"Document 1.1\"
+>
+> }
+>
+> PUT /example_index1/\_doc/2
+>
+> {
+>
+> \"name\": \"Document 1.2\"
+>
+> }
+>
+> PUT /example_index2/\_doc/1
+>
+> {
+>
+> \"name\": \"Document 2.1\"
+>
+> }
+>
+> PUT /example_index2/\_doc/2
+>
+> {
+>
+> \"name\": \"Document 2.2\"
+>
+> }
+
+3.  Create a snapshot repository
+
+> PUT /\_snapshot/my_backup
+>
+> {
+>
+> \"type\": \"fs\",
+>
+> \"settings\": {
+>
+> \"location\": \"/path/to/backup/directory\"
+>
+> }
+>
+> }
+
+4.  Create a snapshot of the entire cluster
+
+> PUT /\_snapshot/my_backup/full_cluster_backup
+
+5.  Restore a specific index from the snapshot
+
+> POST /\_snapshot/my_backup/full_cluster_backup/\_restore
+>
+> {
+>
+> \"indices\": \"example_index2\",
+>
+> \"rename_pattern\": \"example_index2\",
+>
+> \"rename_replacement\": \"restored_example_index2\"
+>
+> }
+
+***Test***
+
+1.  Verify that the restored index exists and contains the expected data
+
+> GET /restored_example_index/\_search
+>
+> The response should include the documents from the original
+> example_index.
+
+2.  Optionally, you can delete the original index and verify that the
+    restored index remains
+
+> DELETE /example_index2
+>
+> GET /restored_example_index/\_search
+
+***Considerations***
+
+-   The snapshot repository is configured with the fs (file system)
+    type, which stores the backup data on the local file system. For
+    production use, you may want to use a more suitable repository type,
+    such as s3 or gcs.
+
+-   The snapshot name full_cluster_backup is used to create a backup of
+    the entire cluster.
+
+-   During the restore process, the rename_pattern and
+    rename_replacement options are used to rename the restored index to
+    restored_example_index.
+
+***Clean-up (optional)***
+
+Documentation
+
+-   [[Snapshot and
+    Restore]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html)
+
+-   [[Snapshot Repository
+    APIs]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-repositories.html)
+
+-   [[Snapshot Restore
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html#snapshot-restore)
+
+### Example 3: Creating a snapshot of a single index and restoring it
+
+***Requirements***
+
+-   Create a repository for storing snapshots.
+
+-   Take a snapshot of the specified index.
+
+-   Restore the snapshot to the cluster.
+
+-   Verify the integrity and availability of the restored data.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create a snapshot repository
+
+> PUT /\_snapshot/my_backup
+>
+> {
+>
+> \"type\": \"fs\",
+>
+> \"settings\": {
+>
+> \"location\": \"/mount/backups/my_backup\"
+>
+> }
+>
+> }
+
+3.  Take a snapshot of the specific index
+
+> PUT /\_snapshot/my_backup/snapshot_1
+>
+> {
+>
+> \"indices\": \"product_catalog\",
+>
+> \"ignore_unavailable\": true,
+>
+> \"include_global_state\": false
+>
+> }
+
+4.  Verify the snapshot status GET /\_snapshot/my_backup/snapshot_1
+
+5.  Delete the index to simulate data loss (optional for testing
+    restore) DELETE /product_catalog
+
+6.  Restore the snapshot
+
+> POST /\_snapshot/my_backup/snapshot_1/\_restore
+>
+> {
+>
+> \"indices\": \"product_catalog\",
+>
+> \"ignore_unavailable\": true,
+>
+> \"include_global_state\": false
+>
+> }
+
+***Test***
+
+1.  Verify the index has been restored GET /product_catalog/\_search
+
+2.  Verify the integrity of the snapshot
+
+> POST /\_snapshot/my_backup/\_verify
+
+3.  Check the cluster health to ensure the index is properly allocated
+
+> GET /\_cluster/health/product_catalog
+
+***Considerations***
+
+-   The repository type fs is used for simplicity; other types like s3
+    can be used depending on the environment.
+
+-   ignore_unavailable ensures the snapshot process continues even if
+    some indices are missing.
+
+-   include_global_state is set to false to avoid restoring cluster-wide
+    settings unintentionally.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Snapshot and
+    Restore]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots.html)
+
+-   [[Create Snapshot
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-take-snapshot.html)
+
+-   [[Restore Snapshot
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-restore-snapshot.html)
+
+## Task: Configure a snapshot to be searchable
+
+*There is only one example as there is only one way to make a snapshot
+searchable.*
+
+### Example 1: Creating a searchable snapshot for the product catalog index
+
+***Requirements***
+
+-   Create a repository for storing snapshots.
+
+-   Take a snapshot of the specified index.
+
+-   Mount the snapshot as a searchable index.
+
+-   Verify the index is searchable without restoring it to the cluster.
+    **Steps**
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create a snapshot repository
+
+> PUT /\_snapshot/my_backup
+>
+> {
+>
+> \"type\": \"fs\",
+>
+> \"settings\": {
+>
+> \"location\": \"/mount/backups/my_backup\"
+>
+> }
+>
+> }
+
+3.  Take a snapshot of the specific index
+
+> PUT /\_snapshot/my_backup/snapshot_1
+>
+> {
+>
+> \"indices\": \"product_catalog\",
+>
+> \"ignore_unavailable\": true,
+>
+> \"include_global_state\": false
+>
+> }
+
+4.  Verify the snapshot status GET /\_snapshot/my_backup/snapshot_1
+
+5.  Mount the snapshot as a searchable index
+
+> PUT /\_snapshot/my_backup/snapshot_1/\_mount
+>
+> {
+>
+> \"index\": \"product_catalog\",
+>
+> \"renamed_index\": \"product_catalog_searchable\"
+>
+> }
+
+***Test***
+
+1.  Verify the mounted index is searchable
+
+> GET /product_catalog_searchable/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"match_all\": {}
+>
+> }
+>
+> }
+
+2.  Check the cluster health to ensure the searchable snapshot is
+    properly allocated
+
+GET /\_cluster/health/product_catalog_searchable **Considerations:**
+
+-   The repository type fs is used for simplicity; other types like s3
+    can be used depending on the environment.
+
+-   ignore_unavailable ensures the snapshot process continues even if
+    some indices are missing.
+
+-   include_global_state is set to false to avoid restoring cluster-wide
+    settings unintentionally.
+
+-   Mounting the snapshot as a searchable index allows for searching the
+    data without the need to fully restore it, saving resources and
+    time. **Clean-up (optional) Documentation:**
+
+-   [[Snapshot and
+    Restore]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots.html)
+
+-   [[Create Snapshot
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-take-snapshot.html)
+
+-   [[Mount Searchable Snapshot
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots-api-mount-snapshot.html)
+
+-   [[Search
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)
+
+### Example 2: Creating a searchable snapshot for a specific index
+
+***Requirements***
+
+-   Create a snapshot of a specific index
+
+-   Configure the snapshot to be searchable
+
+-   Verify that the snapshot is searchable
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create a snapshot of the index
+
+> PUT /\_snapshot/my_repo/snapshot_1
+>
+> {
+>
+> \"indices\": \"{index_name}\",
+>
+> \"ignore_unavailable\": true,
+>
+> \"metadata\": {
+>
+> \"searchable\": true
+>
+> }
+>
+> }
+
+3.  Verify that the snapshot is searchable
+
+> GET /\_snapshot/my_repo/snapshot_1/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"match_all\": {}
+>
+> }
+>
+> }
+
+***Test***
+
+-   Verify that search results are returned from the snapshot
+
+> GET /\_snapshot/my_repo/snapshot_1/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"match_all\": {}
+>
+> }
+>
+> }
+
+***Considerations***
+
+-   Searchable snapshots allow for fast and efficient searching of
+    historical data.
+
+-   Searchable snapshots can be used for auditing, compliance, and data
+    analytics.
+
+***Clean-up (optional)*** Documentation
+
+-   \[Elasticsearch Searchable Snapshots\]((link unavailable))
+
+### Example 3: Enabling search functionality on a snapshot for backup analysis
+
+***Requirements***
+
+-   Create a snapshot of an Elasticsearch cluster with searchable
+    capabilities.
+
+-   Perform search queries on the snapshot data without restoring the
+    entire index.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Use the Snapshot API with the include_global_state parameter to
+    create a searchable snapshot
+
+> PUT /\_snapshot/{snapshot_name}
+>
+> {
+>
+> \"type\": \"fs\",
+>
+> \"repository\": \"{repository_name}\",
+>
+> \"indices\": \"\*\", \# Capturing all indices (or specify a list of
+> indices)
+>
+> \"settings\": {
+>
+> \"number_of_shards\": 1, \# Adjust based on desired concurrency
+>
+> \"include_global_state\": true \# Enable search on the snapshot
+>
+> }
+>
+> }
+
+3.  Utilize the Snapshot Mount API to mount the snapshot as a read-only
+    index
+
+> POST /\_snapshot/{repository_name}/{snapshot_name}/\_mount
+>
+> {
+>
+> \"index\": \"{mounted_index_name}\" \# Choose a name for the mounted
+> index
+>
+> }
+
+4.  Perform search queries on the mounted index to explore the snapshot
+    data
+
+5.  Use the Snapshot Unmount API to detach the mounted index after
+    analysis
+
+> POST /\_snapshot/{repository_name}/{snapshot_name}/\_unmount
+>
+> {
+>
+> \"index\": \"{mounted_index_name}\"
+
+} ***Test***
+
+1.  Verify the snapshot creation with searchable capabilities using the
+    Snapshot Status API (same as previous example).
+
+2.  Simulate a scenario where you need to analyze data from the
+    snapshot.
+
+3.  Mount the snapshot as a read-only index using the Mount API.
+
+4.  Execute search queries on the mounted index to explore the snapshot
+    content.
+
+5.  Unmount the snapshot using the Unmount API when finished.
+    ***Considerations***
+
+-   The include_global_state parameter in the Snapshot API enables
+    storing cluster state information alongside the data, allowing
+    searches on the snapshot.
+
+-   Mounting the snapshot creates a temporary read-only index accessible
+    for exploration purposes.
+
+-   Unmounting detaches the mounted index after use, optimizing resource
+    utilization.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Snapshot
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/create-snapshot-api.html)
+
+-   [[Snapshot Mount
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots-api-mount-snapshot.html)
+
+-   [[Snapshot Unmount
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots-api-mount-snapshot.html)
+
+### Example 4: Creating a searchable snapshot for a product catalog
+
+***Requirements***
+
+-   Create a snapshot of the product catalog index
+
+-   Configure the snapshot to be searchable
+
+-   Perform a search on the snapshot
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create a sample product catalog index with some data
+
+> PUT /product_catalog/\_doc/1
+>
+> {
+>
+> \"name\": \"Product A\",
+>
+> \"category\": \"Electronics\",
+>
+> \"price\": 99.99
+>
+> }
+>
+> PUT /product_catalog/\_doc/2
+>
+> {
+>
+> \"name\": \"Product B\",
+>
+> \"category\": \"Clothing\",
+>
+> \"price\": 49.99
+>
+> }
+
+3.  Create a snapshot repository
+
+> PUT /\_snapshot/product_snapshots
+>
+> {
+>
+> \"type\": \"fs\",
+>
+> \"settings\": {
+>
+> \"location\": \"/path/to/snapshot/directory\",
+>
+> \"readonly\": true
+>
+> }
+>
+> }
+
+4.  Create a searchable snapshot of the product catalog index
+
+> PUT /\_snapshot/product_snapshots/product_catalog_snapshot
+>
+> {
+>
+> \"indices\": \"product_catalog\",
+>
+> \"data_streams\": \[\],
+>
+> \"feature_states\": \[
+>
+> \"searchable_snapshot\"
+>
+> \]
+>
+> }
+
+5.  Search the snapshot
+
+> GET /\_snapshot/product_snapshots/product_catalog_snapshot/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"match\": {
+>
+> \"name\": \"Product A\"
+>
+> }
+>
+> }
+>
+> }
+
+***Test***
+
+-   The search query should return the document(s) matching the search
+    criteria from the snapshot.
+
+***Considerations***
+
+-   The readonly setting for the snapshot repository is set to true to
+    prevent accidental modifications to the snapshot data.
+
+-   The feature_states parameter in the snapshot creation request
+    includes the searchable_snapshot feature to enable searching on the
+    snapshot.
+
+-   Searchable snapshots are read-only and cannot be modified or
+    updated.
+
+***Clean-up (optional)***
+
+Documentation
+
+-   [[Searchable
+    Snapshots]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots.html)
+     [[Snapshot and
+    Restore]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html)
+
+-   [[Snapshot Repository
+    APIs]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-repositories.html)
+
+### Example 5: Creating a searchable snapshot for an Elasticsearch index
+
+***Requirements***
+
+-   An Elasticsearch index named \"logs\" containing log data
+
+-   A snapshot repository configured for storing backups
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Create a snapshot repository (if not already created)
+
+> PUT /\_snapshot/my_backup_repo
+>
+> {
+>
+> \"type\": \"fs\",
+>
+> \"settings\": {
+>
+> \"location\": \"/path/to/backup/directory\"
+>
+> }
+>
+> }
+
+3.  Take a snapshot of the \"logs\" index with the \"searchable\" option
+    enabled
+
+> PUT /\_snapshot/my_backup_repo/searchable_snapshot
+>
+> {
+>
+> \"indices\": \"logs\",
+>
+> \"metadata\": {
+>
+> \"searchable\": true
+>
+> }
+>
+> }
+
+4.  Monitor the snapshot progress
+
+> GET /\_snapshot/my_backup_repo/searchable_snapshot/\_status
+
+5.  Once the snapshot is completed, you can search the snapshot directly
+
+> GET /\_snapshot/my_backup_repo/searchable_snapshot/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"match\": {
+>
+> \"message\": \"error\"
+>
+> }
+>
+> }
+
+} ***Test***
+
+1.  After creating the searchable snapshot, execute the search query
+    against the snapshot and verify that the results are returned
+    correctly.
+
+2.  You can also restore the snapshot to a new index and search the
+    restored index.
+
+***Considerations***
+
+-   The \"searchable\" option in the snapshot metadata enables searching
+    the snapshot directly without restoring it first.
+
+-   Searchable snapshots are read-only and cannot be updated or
+    modified.
+
+-   Searchable snapshots can be useful for data exploration, analysis,
+    or backup verification without restoring the entire index.
+
+-   Searching snapshots directly can be slower than searching a regular
+    index, as the data is stored in compressed form.
+
+***Clean-up (optional)*** Documentation
+
+-   [[Elasticsearch Searchable
+    Snapshots]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots.html)
+
+-   [[Snapshot and
+    Restore]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html)
+
+-   [[Snapshot Repository
+    APIs]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html#snapshot-restore-apis)
+
+## Task: Configure a cluster for cross-cluster search
+
+This is similar to the example at:
+
+Searching Data
+
+> Write and execute a query that searches across multiple clusters
+
+***\[SEE IF THIS CAN DONE FROM THE UI\]***
+
+### Example 1: Setting up cross-cluster search between a local cluster and a remote cluster for an e-commerce catalog
+
+***Requirements***
+
+-   Configure the remote cluster to be searchable from the local
+    cluster.
+
+-   Ensure secure communication between clusters.
+
+-   Verify the cross-cluster search functionality.
+
+**Steps:**
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Configure the remote cluster on the local cluster
+
+> PUT /\_cluster/settings
+>
+> {
+>
+> \"persistent\": {
+>
+> \"cluster\": {
+>
+> \"remote\": {
+>
+> \"remote_cluster\": {
+>
+> \"seeds\": \[
+>
+> \"remote_node_1:9300\",
+>
+> \"remote_node_2:9300\"
+>
+> \]
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> Replace remote_node_1 and remote_node_2 with the actual addresses of
+> the nodes in the remote cluster.
+>
+> 3\. Set up security settings (**optional** but recommended for secure
+> communication) On the remote cluster:
+>
+> PUT /\_cluster/settings
+>
+> {
+>
+> \"persistent\": {
+>
+> \"xpack.security.enabled\": true,
+>
+> \"xpack.security.transport.ssl.enabled\": true,
+>
+> \"xpack.security.transport.ssl.verification_mode\": \"certificate\",
+>
+> \"xpack.security.transport.ssl.keystore.path\":
+> \"/path/to/keystore.jks\",
+>
+> \"xpack.security.transport.ssl.truststore.path\":
+> \"/path/to/truststore.jks\"
+>
+> }
+>
+> }
+>
+> On the local cluster:
+>
+> PUT /\_cluster/settings
+>
+> {
+>
+> \"persistent\": {
+>
+> \"xpack.security.enabled\": true,
+>
+> \"xpack.security.transport.ssl.enabled\": true,
+>
+> \"xpack.security.transport.ssl.verification_mode\": \"certificate\",
+>
+> \"xpack.security.transport.ssl.keystore.path\":
+> \"/path/to/keystore.jks\",
+>
+> \"xpack.security.transport.ssl.truststore.path\":
+> \"/path/to/truststore.jks\"
+>
+> }
+>
+> }
+
+4.  Verify the remote cluster configuration
+
+> GET /\_remote/info
+
+5.  Perform a cross-cluster search query
+
+> GET /remote_cluster:product_catalog/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"match_all\": {}
+>
+> }
+>
+> }
+
+***Test***
+
+1.  Verify the remote cluster info
+
+> GET /\_remote/info
+
+2.  Search the remote cluster from the local cluster
+
+> GET /remote_cluster:product_catalog/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"match_all\": {}
+>
+> }
+>
+> }
+
+***Considerations***
+
+-   Ensure that the nodes listed in the seeds setting are accessible
+    from the local cluster.
+
+-   Security settings such as SSL/TLS should be configured to ensure
+    secure communication between clusters.
+
+-   Regularly monitor the connection status between the clusters to
+    ensure reliability.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Cross-Cluster
+    Search]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cross-cluster-search.html)
+
+-   [[Cluster Remote Info
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-remote-info.html)
+
+-   [[Search
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)
+
+-   [[Security
+    Settings]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html)
+
+## Task: Implement cross-cluster replication
+
+***\[THERE SHOULD PROBABLY BE ONLY TWO EXAMPLES: FROM THE UI AND THE
+CONSOLE\]***
+
+The following is from
+[[https://triotechsystems.com/a-step-by-step-guide-to-setting-up-ccr-elasticsearchreplication/]{.underline}](https://triotechsystems.com/a-step-by-step-guide-to-setting-up-ccr-elasticsearch-replication/)
+
+***From the UI: Using Stack Management in Kibana***
+
+1.  Open Kibana and navigate to Stack Management from the side
+    navigation panel.
+
+2.  Select "Remote Clusters" to access the remote cluster configuration
+    settings.
+
+3.  Specify the endpoint URL or the IP address/host name of the remote
+    cluster (Cluster A), followed by the transport port (typically
+    9300). For example, you can enter
+
+> "cluster.es.eastus2.staging.azure.foundit.no:9400" or
+> "192.168.1.1:9300" as the remote cluster's connection details.
+
+***Using Kibana to set up the follower index***
+
+1.  Open Kibana and navigate to Cross-Cluster Replication in the side
+    navigation.
+
+2.  Select the "Follower Indices" tab.
+
+3.  Choose the cluster (Cluster A) that contains the leader index you
+    want to replicate.
+
+4.  Enter the name of the leader index. In this tutorial, it's
+    "kibana_sample_data_ecommerce."
+
+5.  Provide a name for your follower index, such as
+    "follower-kibana-sample-data."
+
+Elasticsearch will initialize the follower index using the remote
+recovery process. This process transfers existing Lucene segment files
+from the leader index to the follower index. Initially, the index status
+will be "Paused." Once the remote recovery process completes, the index
+status changes to "Active."
+
+Whenever you index documents into your leader index, Elasticsearch will
+automatically replicate those documents into the follower index.
+
+***(Optional) Setting up auto-follow for time series indices
+replication*** To set up an auto-follow pattern using Kibana:
+
+Access Kibana and navigate to Cross Cluster Replication in the side
+navigation.
+
+Select the "Auto-follow patterns" tab.
+
+Provide a name for your auto-follow pattern, for instance, "beats."
+
+Choose the remote cluster (Cluster A) that contains the index you want
+to replicate.
+
+Define one or more index patterns that identify the indices you want to
+replicate from the remote cluster. For example, you can enter
+"metricbeat-" and "packetbeat-" to automatically create followers for
+Metricbeat and Packetbeat indices.
+
+To make it easier to identify replicated indices, add "follower-" as a
+prefix to the names of the follower indices.
+
+With this setup, whenever new indices that match the specified patterns
+are created on the remote cluster, Elasticsearch automatically initiates
+their replication to local follower indices.
+
+***Or from the Kibana Console:***
+
+### Example 1: Setting up cross-cluster replication for the product catalog index between a leader cluster and a follower cluster
+
+***Requirements***
+
+-   Configure remote cluster settings on both leader and follower
+    clusters.
+
+-   Set up the leader index on the leader cluster.
+
+-   Configure the follower index on the follower cluster to replicate
+    from the leader index.
+
+-   Ensure secure communication between clusters.
+
+-   Verify replication and data consistency.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Configure the remote cluster settings on the follower cluster
+
+> PUT /\_cluster/settings
+>
+> {
+>
+> \"persistent\": {
+>
+> \"cluster\": {
+>
+> \"remote\": {
+>
+> \"leader_cluster\": {
+>
+> \"seeds\": \[
+>
+> \"leader_node_1:9300\",
+>
+> \"leader_node_2:9300\"
+>
+> \]
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> Replace leader_node_1 and leader_node_2 with the actual addresses of
+> the nodes in the leader cluster.
+>
+> 3\. Create the leader index on the leader cluster
+>
+> PUT /product_catalog
+>
+> {
+>
+> \"settings\": {
+>
+> \"number_of_shards\": 1,
+>
+> \"number_of_replicas\": 1
+>
+> },
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"product_id\": {
+>
+> \"type\": \"keyword\"
+>
+> },
+>
+> \"name\": {
+>
+> \"type\": \"text\"
+>
+> },
+>
+> \"description\": {
+>
+> \"type\": \"text\"
+>
+> },
+>
+> \"price\": {
+>
+> \"type\": \"double\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+
+4.  Index sample documents in the leader index
+
+> POST /product_catalog/\_bulk
+>
+> { \"index\": { \"\_id\": \"1\" } }
+>
+> { \"product_id\": \"p001\", \"name\": \"Product 1\", \"description\":
+> \"Description of
+>
+> product 1\", \"price\": 20.0 } { \"index\": { \"\_id\": \"2\" } }
+>
+> { \"product_id\": \"p002\", \"name\": \"Product 2\", \"description\":
+> \"Description of product 2\", \"price\": 30.0 }
+
+5.  Configure the follower index on the follower cluster
+
+> PUT /product_catalog_follower/\_ccr/follow
+>
+> {
+>
+> \"remote_cluster\": \"leader_cluster\",
+>
+> \"leader_index\": \"product_catalog\"
+>
+> }
+
+***Test***
+
+1.  Verify the follower index is following the leader index
+
+> GET /product_catalog_follower/\_stats
+
+2.  Check the data in the follower index to ensure it matches the leader
+    index
+
+> GET /product_catalog_follower/\_search
+>
+> {
+>
+> \"query\": {
+>
+> \"match_all\": {}
+>
+> }
+>
+> }
+
+***Considerations***
+
+-   Ensure the nodes listed in the seeds setting are accessible from the
+    follower cluster.
+
+-   Security settings such as SSL/TLS should be configured to ensure
+    secure communication between clusters.
+
+-   Regularly monitor the replication status and performance to ensure
+    data consistency and reliability.
+
+***Clean-up (optional)* Documentation**
+
+-   [[Cross-Cluster
+    Replication]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/xpack-ccr.html)
+
+-   [[Create Follower Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html)
+
+-   [[Cluster Remote Info
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-remote-info.html)
+
+-   [[Search
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html)
+
+-   [[Security
+    Settings]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html)
+
+### Example 2: Configuring cross-cluster replication between two Elasticsearch clusters
+
+***Requirements***
+
+-   Set up two Elasticsearch clusters (leader and follower)
+
+-   Configure cross-cluster replication to replicate indices from the
+    leader to the follower cluster  Verify that data is replicated
+    between the clusters
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client for both clusters.
+
+2.  On the leader cluster, create a sample index with some data
+
+> PUT /source_index/\_doc/1
+>
+> {
+>
+> \"name\": \"Document 1\"
+>
+> }
+>
+> PUT /source_index/\_doc/2
+>
+> {
+>
+> \"name\": \"Document 2\"
+>
+> }
+
+3.  On the follower cluster, configure the cross-cluster replication
+
+> PUT /\_cluster/settings
+>
+> {
+>
+> \"persistent\": {
+>
+> \"cluster.remote.connections\": {
+>
+> \"leader_cluster\": {
+>
+> \"cluster\": \[\"leader_cluster_node_1:9300\",
+>
+> \"leader_cluster_node_2:9300\"\],
+>
+> \"skip_unavailable\": true
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> 4\. On the follower cluster, create a follower index
+>
+> PUT /follower_index/\_ccr/follow?wait_for_active_shards=1
+>
+> {
+>
+> \"remote_cluster\": \"leader_cluster\",
+>
+> \"leader_index\": \"source_index\"
+>
+> }
+
+***Test***
+
+1.  On the follower cluster, check the status of the follower index
+
+> GET /follower_index/\_ccr/stats
+>
+> The response should show the follower index as active and replicating
+> data from the leader index.
+
+2.  On the follower cluster, search the follower index GET
+    /follower_index/\_search
+
+> The search response should include the documents from the leader
+> index.
+
+3.  On the leader cluster, add a new document
+
+> PUT /source_index/\_doc/3
+>
+> {
+>
+> \"name\": \"Document 3\"
+>
+> }
+
+4.  On the follower cluster, search the follower index again GET
+    /follower_index/\_search
+
+> The search response should now include the new document replicated
+> from the leader index.
+
+***Considerations***
+
+-   The cluster.remote.connections setting configures the follower
+    cluster to connect to the leader cluster for cross-cluster
+    replication.
+
+-   The skip_unavailable option is set to true to skip unavailable nodes
+    during the replication process.
+
+-   The wait_for_active_shards=1 parameter in the follower index
+    creation ensures that the follower index is active before
+    proceeding.
+
+-   Cross-cluster replication replicates data in a unidirectional manner
+    from the leader to the follower cluster.
+
+***Clean-up (optional)*** Documentation
+
+-   [[Cross-Cluster
+    Replication]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cross-cluster-replication.html)
+
+-   [[Cluster
+    Settings]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-update-settings.html)
+
+-   [[Follower Index
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html)
+
+### Example 3: Setting up cross-cluster replication between two Elasticsearch clusters
+
+***Requirements***
+
+-   Two Elasticsearch clusters: \"cluster_one\" and \"cluster_two\"
+
+-   An index named \"products\" in \"cluster_one\" with documents
+    containing fields like \"name\", \"price\", \"category\", etc.
+
+-   Replicate the \"products\" index from \"cluster_one\" to
+    \"cluster_two\" for high availability and disaster recovery
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  On both clusters, enable the remote_cluster_client node role by
+    setting node.roles in the elasticsearch.yml configuration file and
+    restarting the nodes
+
+> node.roles: \[ remote_cluster_client \]
+
+3.  On \"cluster_one\", add an entry for the remote \"cluster_two\"
+
+> PUT /\_cluster/settings
+>
+> {
+>
+> \"persistent\": {
+>
+> \"cluster.remote.cluster_two\": {
+>
+> \"seeds\": \[
+>
+> \"10.0.2.1:9300\",
+>
+> \"10.0.2.2:9300\"
+>
+> \]
+>
+> }
+>
+> }
+>
+> }
+>
+> Replace the IP addresses with the actual addresses of the nodes in
+> \"cluster_two\".
+>
+> 4\. On \"cluster_two\", add an entry for the remote \"cluster_one\"
+>
+> PUT /\_cluster/settings
+>
+> {
+>
+> \"persistent\": {
+>
+> \"cluster.remote.cluster_one\": {
+>
+> \"seeds\": \[
+>
+> \"10.0.1.1:9300\",
+>
+> \"10.0.1.2:9300\"
+>
+> \]
+>
+> }
+>
+> }
+>
+> }
+>
+> Replace the IP addresses with the actual addresses of the nodes in
+> \"cluster_one\".
+
+5.  Configure security privileges (if enabled) to allow cross-cluster
+    replication between the two clusters
+
+6.  On \"cluster_one\", create a follower index in \"cluster_two\" that
+    will replicate the \"products\" index
+
+> PUT /\_ccr/follow?wait_for_active_shards=1
+>
+> {
+>
+> \"remote_cluster\": \"cluster_two\",
+>
+> \"leader_index\": \"products\",
+>
+> \"follower_index\": \"replicated_products\"
+>
+> }
+
+***Test***
+
+1.  Index some documents into the \"products\" index on \"cluster_one\"
+
+2.  Search the \"replicated_products\" index on \"cluster_two\" and
+    verify that the documents have been replicated
+
+> GET /replicated_products/\_search
+
+***Considerations***
+
+-   Cross-cluster replication requires the remote_cluster_client node
+    role and cluster.remote settings on both clusters.
+
+-   Security privileges must be configured correctly to allow
+    cross-cluster replication.
+
+-   The follower index on the remote cluster will automatically
+    replicate changes from the leader index.
+
+-   Cross-cluster replication can be used for disaster recovery, high
+    availability, and geo-replication scenarios.
+
+***Clean-up (optional)*** Documentation
+
+-   [[Elasticsearch Cross-Cluster
+    Replication]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-getting-started.html)
+
+> [[Configuring Remote
+> Clusters]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-getting-started.html#ccr-remote-clusters)
+>
+> [[Cross-Cluster Replication
+> Security]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-getting-started.html#ccr-security)
+>
+> [[Follow Index
+> API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html)
+
+### Example 4: (Copilot) Creating a follower index for my_remote_cluster
+
+***Requirements***
+
+-   Elasticsearch 6.7.0 or later
+
+-   Two clusters: my_local_cluster (the follower cluster) and
+    my_remote_cluster (the leader cluster)
+
+-   The my_remote_cluster has an index named my_index
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Register the remote cluster in the local cluster using the
+    \_cluster/settings API
+
+> PUT /\_cluster/settings
+>
+> {
+>
+> \"persistent\": {
+>
+> \"cluster\": {
+>
+> \"remote\": {
+>
+> \"my_remote_cluster\": {
+>
+> \"seeds\": \[\"\<ip_address\>:\<port\>\"\]
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> 3\. Create a follower index in the local cluster using the
+> \_ccr/follow API
+>
+> PUT /\<follower_index\>/\_ccr/follow
+>
+> {
+>
+> \"remote_cluster\" : \"my_remote_cluster\",
+>
+> \"leader_index\" : \"my_index\"
+>
+> }
+
+***Test***
+
+-   Check the follower index's replication status using the \_ccr/stats
+    API
+
+> GET /\<follower_index\>/\_ccr/stats
+
+***Considerations***
+
+-   Cross-cluster replication requires sufficient resources (CPU,
+    memory, and storage) on both the leader and follower clusters.
+
+-   Network connectivity and latency between the clusters can impact
+    replication performance.
+
+***Clean-up (optional)*** Documentation
+
+-   Cross-cluster replication
+
+-   Follower index APIs
+
+-   Remote cluster settings

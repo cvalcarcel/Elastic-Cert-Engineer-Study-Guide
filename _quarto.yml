@@ -1,0 +1,28 @@
+project:
+  type: book
+
+book:
+  title: "The Definitive Guide to the Elastic Certified Engineer Exam v8.1"
+  author: "Carlos Valcarcel"
+  date: "6/27/2024"
+  chapters:
+    - index.qmd
+    - intro.qmd
+    - 1-data-management.qmd
+    - 2-searching-data.qmd
+    - 3-developing-search-applications.qmd
+    - 4-data-processing.qmd
+    - 5-cluster-management.qmd
+    - 6-appendix.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+
+

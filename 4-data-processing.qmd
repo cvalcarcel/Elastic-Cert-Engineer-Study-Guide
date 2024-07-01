@@ -1,0 +1,2658 @@
+# Data Processing
+
+## Task: Define a mapping that satisfies a given set of requirements
+
+### Example 1: Defining Index Mappings for a Product Catalog {.unnumbered}
+
+***Requirements***
+
+-   Define fields for product ID, name, description, price, and
+    availability status.
+
+-   Ensure the price field is a numeric type.
+
+-   Use a text type for the description with a keyword sub-field for
+    exact matches.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client.
+
+2.  Create the index with mappings
+
+PUT /product_catalog
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"product_id\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"name\": {
+
+\"type\": \"text\"
+
+},
+
+\"description\": {
+
+\"type\": \"text\",
+
+\"fields\": {
+
+\"keyword\": {
+
+\"type\": \"keyword\",
+
+\"ignore_above\": 256
+
+}
+
+}
+
+},
+
+\"price\": {
+
+\"type\": \"double\"
+
+},
+
+\"availability_status\": {
+
+\"type\": \"boolean\"
+
+}
+
+}
+
+}
+
+}
+
+3\. Create sample documents using the \_bulk endpoint
+
+POST /product_catalog/\_bulk
+
+{ \"index\": { \"\_id\": \"1\" } }
+
+{ \"product_id\": \"p001\", \"name\": \"Product 1\", \"description\":
+\"Description of
+
+product 1\", \"price\": 19.99, \"availability_status\": true }
+
+{ \"index\": { \"\_id\": \"2\" } }
+
+{ \"product_id\": \"p002\", \"name\": \"Product 2\", \"description\":
+\"Description of
+
+product 2\", \"price\": 29.99, \"availability_status\": false }
+
+***Test***
+
+1.  Retrieve the mappings to verify
+
+GET /product_catalog/\_mapping
+
+2.  Search for documents to confirm they are indexed correctly
+
+GET /product_catalog/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {}
+
+}
+
+}
+
+**Considerations**
+
+-   The price field is set to double to handle decimal values.
+
+-   The description field includes a keyword sub-field for exact match
+    searches.
+
+**Clean-up (optional) Documentation**
+
+-   [[Elasticsearch Index
+    Mappings]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html)
+
+-   [[Bulk
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html)
+
+### Example 2: Creating a mapping for a social media platform {.unnumbered}
+
+***Requirements***
+
+-   The mapping should have a field called \"username\" of type
+    \"keyword\"
+
+-   The mapping should have a field called \"email\" of type \"keyword\"
+
+-   The mapping should have a field called \"posts\" of type \"array\"
+    containing \"object\" values
+
+-   The \"posts\" array should have a property called \"content\" of
+    type \"text\"
+
+-   The \"posts\" array should have a property called \"likes\" of type
+    \"integer\"
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create an index with the desired mapping
+
+PUT /users
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"username\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"email\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"posts\": {
+
+\"type\": \"array\",
+
+\"index\": \"not_analyzed\",
+
+\"item_type\": \"object\",
+
+\"properties\": {
+
+\"content\": {
+
+\"type\": \"text\"
+
+},
+
+\"likes\": {
+
+\"type\": \"integer\"
+
+}
+
+}
+
+}
+
+}
+
+}
+
+}
+
+3\. Index a document
+
+POST /users/\_doc
+
+{
+
+\"username\": \"john_doe\",
+
+\"email\": \"john.doe@example.com\",
+
+\"posts\": \[
+
+{
+
+\"content\": \"Hello World!\",
+
+\"likes\": 10
+
+},
+
+{
+
+\"content\": \"This is my second post\",
+
+\"likes\": 5
+
+}
+
+\]
+
+}
+
+***Test***
+
+-   Use the \_search API to verify that the mapping is correct and the
+    data is indexed:
+
+GET /users/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"username\": \"john_doe\"
+
+}
+
+}
+
+}
+
+***Considerations***
+
+-   The \"username\" and \"email\" fields are of type \"keyword\" to
+    enable exact matching.
+
+-   The \"posts\" field is of type \"array\" with \"object\" values to
+    enable storing multiple posts per user.
+
+-   The \"content\" field is of type \"text\" to enable full-text
+    search.
+
+-   The \"likes\" field is of type \"integer\" to enable aggregations
+    and sorting.
+
+***Clean-up (optional)*** Documentation
+
+-   [[Elasticsearch Index
+    Mappings]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html)
+
+### Example 3: Creating a mapping for storing and searching restaurant data {.unnumbered}
+
+***Requirements***
+
+-   Define a mapping for an index named restaurants.
+
+-   The mapping should include fields for:
+
+-   name (text field for restaurant name)
+
+-   description (text field for restaurant description)
+
+-   location (geolocation field for restaurant location)
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Define the mapping using a REST API call
+
+PUT /restaurants/\_mapping
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"name\": {
+
+\"type\": \"text\"
+
+},
+
+\"description\": {
+
+\"type\": \"text\"
+
+},
+
+\"location\": {
+
+\"type\": \"geo_point\"
+
+}
+
+}
+
+}
+
+}
+
+***Test***
+
+1.  Verify that the mapping is created successfully by using the
+    following API call
+
+GET /restaurants/\_mapping
+
+2.  Try indexing a sample document with the defined fields:
+
+PUT /restaurants/\_doc/1
+
+{
+
+\"name\": \"Pizza Palace\",
+
+\"description\": \"Delicious pizzas and Italian cuisine\",
+
+\"location\": {
+
+\"lat\": 40.7128,
+
+\"lon\": -74.0059
+
+}
+
+}
+
+3.  Use search queries to test text search on name and description
+    fields, and utilize geoqueries to search based on the location
+    field.
+
+***Considerations***
+
+-   text is a generic field type suitable for textual data like names
+    and descriptions.
+
+-   geo_point is a specialized field type for storing and searching
+    geospatial data like latitude and longitude coordinates.
+
+***Clean-up (optional)* Documentation**
+
+-   [[Data
+    Types]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html)
+
+-   [[Geolocation in
+    Elasticsearch]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-queries.html)
+
+## Task: Define and use a custom analyzer that satisfies a given set of requirements
+
+### Example 1: Creating a mapping for a social media platform {.unnumbered}
+
+***Requirements***
+
+-   The mapping should have a field called \"username\" of type
+    \"keyword\"
+
+-   The mapping should have a field called \"email\" of type \"keyword\"
+
+-   The mapping should have a field called \"posts\" of type \"array\"
+    containing \"object\" values
+
+-   The \"posts\" array should have a property called \"content\" of
+    type \"text\"
+
+-   The \"posts\" array should have a property called \"likes\" of type
+    \"integer\"
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create an index with the desired mapping
+
+PUT /users
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"username\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"email\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"posts\": {
+
+\"type\": \"array\",
+
+\"index\": \"not_analyzed\",
+
+\"item_type\": \"object\",
+
+\"properties\": {
+
+\"content\": {
+
+\"type\": \"text\"
+
+},
+
+\"likes\": {
+
+\"type\": \"integer\"
+
+}
+
+}
+
+}
+
+}
+
+}
+
+}
+
+3\. Index a document
+
+POST /users/\_doc
+
+{
+
+\"username\": \"john_doe\",
+
+\"email\": \"john.doe@example.com\",
+
+\"posts\": \[
+
+{
+
+\"content\": \"Hello World!\",
+
+\"likes\": 10
+
+},
+
+{
+
+\"content\": \"This is my second post\",
+
+\"likes\": 5
+
+}
+
+\]
+
+}
+
+***Test***
+
+-   Use the \_search API to verify that the mapping is correct and the
+    data is indexed
+
+GET /users/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"username\": \"john_doe\"
+
+}
+
+}
+
+}
+
+***Considerations***
+
+-   The \"username\" and \"email\" fields are of type \"keyword\" to
+    enable exact matching.
+
+-   The \"posts\" field is of type \"array\" with \"object\" values to
+    enable storing multiple posts per user.
+
+-   The \"content\" field is of type \"text\" to enable full-text
+    search.
+
+-   The \"likes\" field is of type \"integer\" to enable aggregations
+    and sorting.
+
+***Clean-up (optional)***
+
+Documentation
+
+-   [[Elastic Mapping
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/8.13/cat-indices.html)
+
+### Example 2: Creating a custom analyzer for product descriptions {.unnumbered}
+
+***Requirements***
+
+-   An Elasticsearch index named \"products\" with a \"description\"
+    field containing product descriptions
+
+-   The custom analyzer should:
+
+-   Lowercase all text
+
+-   Remove stop words (common words like \"the\", \"and\", \"a\", etc.)
+
+-   Split text into individual words (tokenize)
+
+-   Stem words (reduce words to their root form, e.g., \"running\" -\
+    \"run\")
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create the \"products\" index with a custom analyzer for the
+    \"description\" field:
+
+PUT /products
+
+{
+
+\"settings\": {
+
+\"analysis\": {
+
+\"analyzer\": {
+
+\"product_description_analyzer\": {
+
+\"tokenizer\": \"standard\",
+
+\"filter\": \[
+
+\"lowercase\",
+
+\"stop\",
+
+\"stemmer\"
+
+\]
+
+}
+
+}
+
+}
+
+},
+
+\"mappings\": {
+
+\"properties\": {
+
+\"description\": {
+
+\"type\": \"text\",
+
+\"analyzer\": \"product_description_analyzer\"
+
+}
+
+}
+
+}
+
+}
+
+3\. Index some sample documents using the /\_bulk endpoint
+
+POST /products/\_bulk
+
+{\"index\":{\"\_id\":1}}
+
+{\"description\":\"The quick brown fox jumps over the lazy dog.\"}
+
+{\"index\":{\"\_id\":2}}
+
+{\"description\":\"A high-quality product for running enthusiasts.\"}
+
+***Test***
+
+1.  Search for documents containing the term \"run\"
+
+GET /products/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"description\": \"run\"
+
+}
+
+}
+
+}
+
+This should return the document with ID 2, as the custom analyzer has
+stemmed \"running\" to \"run\".
+
+2.  Search for documents containing the term \"the\"
+
+GET /products/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"description\": \"the\"
+
+}
+
+}
+
+}
+
+This should not return any documents, as the custom analyzer has
+removed stop words like \"the\".
+
+***Considerations***
+
+-   The custom analyzer is defined in the index settings using the
+    \"analysis\" section.
+
+-   The \"tokenizer\" parameter specifies how the text should be split
+    into tokens (individual words).
+
+-   The \"filter\" parameter specifies the filters to be applied to the
+    tokens, such as lowercasing, stop word removal, and stemming.
+
+-   The custom analyzer is applied to the \"description\" field by
+    specifying it in the field mapping.
+
+***Clean-up (optional)*** Documentation
+
+-   [[Elasticsearch
+    Analyzers]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html)
+
+-   [[Elasticsearch Custom
+    Analyzers]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html)
+
+-   [[Elasticsearch
+    Tokenizers]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenizers.html)
+
+-   [[Elasticsearch Token
+    Filters]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenfilters.html)
+
+### Example 3: Creating a custom analyzer for product descriptions in an ecommerce catalog {.unnumbered}
+
+***Requirements***
+
+-   Use a custom tokenizer that splits text on non-letter characters.
+
+-   Include a lowercase filter to normalize text.
+
+-   Add a stopword filter to remove common English stopwords.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Define the custom analyzer in the index settings
+
+PUT /product_catalog
+
+{
+
+\"settings\": {
+
+\"analysis\": {
+
+\"tokenizer\": {
+
+\"custom_tokenizer\": {
+
+\"type\": \"pattern\",
+
+\"pattern\": \"\\\\W+\"
+
+}
+
+},
+
+\"filter\": {
+
+\"custom_stop\": {
+
+\"type\": \"stop\",
+
+\"stopwords\": \"\_english\_\"
+
+}
+
+},
+
+\"analyzer\": {
+
+\"custom_analyzer\": {
+
+\"type\": \"custom\",
+
+\"tokenizer\": \"custom_tokenizer\",
+
+\"filter\": \[
+
+\"lowercase\",
+
+\"custom_stop\"
+
+\]
+
+}
+
+}
+
+}
+
+},
+
+\"mappings\": {
+
+\"properties\": {
+
+\"description\": {
+
+\"type\": \"text\",
+
+\"analyzer\": \"custom_analyzer\"
+
+}
+
+}
+
+}
+
+}
+
+3\. Create sample documents using the \_bulk endpoint
+
+POST /product_catalog/\_bulk
+
+{ \"index\": { \"\_id\": \"1\" } }
+
+{ \"description\": \"This is a great product! It works perfectly.\" }
+
+{ \"index\": { \"\_id\": \"2\" } }
+
+{ \"description\": \"An amazing gadget, with excellent features.\" }
+
+***Test***
+
+1.  Analyze a sample text to verify the custom analyzer
+
+GET /product_catalog/\_analyze
+
+{
+
+\"analyzer\": \"custom_analyzer\",
+
+\"text\": \"This is a great product! It works perfectly.\"
+
+}
+
+2.  Search for documents to confirm they are indexed correctly
+
+GET /product_catalog/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"description\": \"great product\"
+
+}
+
+}
+
+}
+
+***Considerations***
+
+-   The custom tokenizer splits text on non-letter characters, ensuring
+    that punctuation does not affect tokenization.
+
+-   The lowercase filter normalizes text to lower case, providing
+    case-insensitive searches.
+
+-   The stopword filter removes common English stopwords, improving
+    search relevance by ignoring less important words.
+
+***Clean-up (optional)* Documentation**
+
+-   [[Custom Analyzers in
+    Elasticsearch]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html)
+
+-   [[Bulk
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html)
+
+## Task: Define and use multi-fields with different data types and/or analyzers
+
+### Example 1: Creating multi-fields for product names in an e-commerce catalog {.unnumbered}
+
+***Requirements***
+
+-   Define a field with a text type for full-text search.
+
+-   Include a keyword sub-field for exact matches.
+
+-   Add a custom analyzer to the text field to normalize the text.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Define the multi-fields in the index mappings
+
+PUT /product_catalog
+
+{
+
+\"settings\": {
+
+\"analysis\": {
+
+\"analyzer\": {
+
+\"custom_analyzer\": {
+
+\"type\": \"custom\",
+
+\"tokenizer\": \"standard\",
+
+\"filter\": \[
+
+\"lowercase\",
+
+\"asciifolding\"
+
+\]
+
+}
+
+}
+
+}
+
+},
+
+\"mappings\": {
+
+\"properties\": {
+
+\"product_name\": {
+
+\"type\": \"text\",
+
+\"analyzer\": \"custom_analyzer\",
+
+\"fields\": {
+
+\"keyword\": {
+
+\"type\": \"keyword\",
+
+\"ignore_above\": 256
+
+}
+
+}
+
+}
+
+}
+
+}
+
+}
+
+3\. Create sample documents using the \_bulk endpoint
+
+POST /product_catalog/\_bulk
+
+{ \"index\": { \"\_id\": \"1\" } }
+
+{ \"product_name\": \"Deluxe Toaster\" }
+
+{ \"index\": { \"\_id\": \"2\" } }
+
+{ \"product_name\": \"Premium Coffee Maker\" }
+
+***Test***
+
+1.  Retrieve the mappings to verify
+
+GET /product_catalog/\_mapping
+
+2.  Search for documents using the text field
+
+GET /product_catalog/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"product_name\": \"deluxe\"
+
+}
+
+}
+
+}
+
+3.  Search for documents using the keyword sub-field
+
+GET /product_catalog/\_search
+
+{
+
+\"query\": {
+
+\"term\": {
+
+\"product_name.keyword\": \"Deluxe Toaster\"
+
+}
+
+}
+
+}
+
+***Considerations***
+
+-   The custom analyzer includes the lowercase filter for
+    case-insensitive searches and the asciifolding filter to normalize
+    text by removing accents and other diacritics.
+
+-   The keyword sub-field allows for exact matches, which is useful for
+    aggregations and sorting.
+
+***Clean-up (optional)* Documentation**
+
+-   [[Multi-fields in
+    Elasticsearch]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html)
+
+-   [[Custom Analyzers in
+    Elasticsearch]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-custom-analyzer.html)
+
+-   [[Bulk
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html)
+
+### Example 2: Creating a multi-field for a title with different analyzers {.unnumbered}
+
+***Requirements***
+
+-   The title field should have a sub-field for exact matching (keyword)
+
+-   The title field should have a sub-field for full-text search (text)
+    with standard analyzer
+
+-   The title field should have a sub-field for full-text search (text)
+    with english analyzer
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create an index with the desired mapping
+
+PUT /myindex
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"title\": {
+
+\"type\": \"text\",
+
+\"fields\": {
+
+\"exact\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"std\": {
+
+\"type\": \"text\",
+
+\"analyzer\": \"standard\"
+
+},
+
+\"english\": {
+
+\"type\": \"text\",
+
+\"analyzer\": \"english\"
+
+}
+
+}
+
+}
+
+}
+
+}
+
+}
+
+3\. Add documents using the appropriate endpoint
+
+POST /myindex/\_doc
+
+{
+
+\"title\": \"The Quick Brown Fox\"
+
+}
+
+POST /myindex/\_doc
+
+{
+
+\"title\": \"The Quick Brown Fox Jumps\"
+
+}
+
+***Test***
+
+ Use the \_search API to verify that the multi-field is working
+correctly
+
+GET /myindex/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"title.exact\": \"The Quick Brown Fox\"
+
+}
+
+}
+
+}
+
+GET /myindex/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"title.std\": \"Quick Brown\"
+
+}
+
+}
+
+}
+
+GET /myindex/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"title.english\": \"Quick Brown\"
+
+}
+
+}
+
+}
+
+***Considerations***
+
+-   The \"title.exact\" sub-field is used for exact matching.
+
+-   The \"title.std\" sub-field is used for full-text search with
+    standard analyzer.
+
+-   The \"title.english\" sub-field is used for full-text search with
+    english analyzer.
+
+***Clean-up (optional)*** Documentation
+
+-   [[Elasticsearch
+    Multi-Field]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html)
+
+### Example 3: Creating multi-fields for analyzing text data {.unnumbered}
+
+***Requirements***
+
+-   Store the original text data for display purposes
+
+-   Analyze the text data for full-text search
+
+-   Analyze the text data for filtering and aggregations
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Define the multi-fields in the index mapping
+
+PUT /text_data
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"content\": {
+
+\"type\": \"text\",
+
+\"fields\": {
+
+\"raw\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"analyzed\": {
+
+\"type\": \"text\",
+
+\"analyzer\": \"english\"
+
+},
+
+\"ngram\": {
+
+\"type\": \"text\",
+
+\"analyzer\": \"ngram_analyzer\"
+
+}
+
+}
+
+}
+
+}
+
+},
+
+\"settings\": {
+
+\"analysis\": {
+
+\"analyzer\": {
+
+\"ngram_analyzer\": {
+
+\"tokenizer\": \"ngram_tokenizer\"
+
+}
+
+},
+
+\"tokenizer\": {
+
+\"ngram_tokenizer\": {
+
+\"type\": \"ngram\",
+
+\"min_gram\": 2,
+
+\"max_gram\": 3
+
+}
+
+}
+
+}
+
+}
+
+}
+
+3\. Index some documents using the text_data index
+
+POST /text_data/\_bulk
+
+{ \"index\": {} }
+
+{ \"content\": \"This is a sample text for analyzing.\" }
+
+{ \"index\": {} }
+
+{ \"content\": \"Another example of text data.\" }
+
+***Test***
+
+1\. Test the multi-fields by querying and aggregating the data
+
+GET /text_data/\_search
+
+{
+
+\"query\": {
+
+\"match\": {
+
+\"content.analyzed\": \"sample\"
+
+}
+
+},
+
+\"aggs\": {
+
+\"filter_agg\": {
+
+\"filter\": {
+
+\"term\": {
+
+\"content.ngram\": \"ex\"
+
+}
+
+}
+
+}
+
+}
+
+}
+
+The output should show the search results matching the analyzed text
+and the aggregation results based on the ngram analysis.
+
+***Considerations***
+
+-   The \"content\" field has multiple sub-fields: \"raw\" (keyword),
+    \"analyzed\" (text with English analyzer), and \"ngram\" (text with
+    ngram analyzer).
+
+-   The \"raw\" sub-field is used for storing the original text data
+    without analysis.
+
+-   The \"analyzed\" sub-field is used for full-text search using the
+    English analyzer.
+
+-   The \"ngram\" sub-field is used for filtering and aggregations based
+    on ngram analysis.
+
+***Clean-up (optional)***
+
+Documentation
+
+-   [[Multi-fields]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/multi-fields.html)
+
+-   [[Analyzers]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis.html)
+
+-   [[Ngram
+    Tokenizer]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-ngram-tokenizer.html)
+
+## Task: Use the Reindex API and Update By Query API to reindex and/or update documents
+
+### Example 1: Moving and updating product data to a new index with a new field {.unnumbered}
+
+***Requirements***
+
+-   Reindex data from an existing index named products_old to a new
+    index named products_new.
+
+-   During the reindexing process, add a new field named stock_level
+    with a default value of 10 for each product.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Choose one:
+
+1\. Use the Reindex API with a script to update documents during the
+copy process
+
+POST /\_reindex
+
+{
+
+\"source\": {
+
+\"index\": \"products_old\"
+
+},
+
+\"dest\": {
+
+\"index\": \"products_new\"
+
+},
+
+\"script\": {
+
+\"source\": \"ctx.\_source.stock_level = 10; ctx.\_source\"
+
+}
+
+}
+
+2.  Alternatively, use the Update By Query API to update documents
+    in-place within the products_old index
+
+POST /products_old/\_update_by_query
+
+{
+
+\"query\": {
+
+\"match_all\": {} \# Update all documents (can be replaced with a
+
+specific query)
+
+},
+
+\"script\": {
+
+\"source\": \"ctx.\_source.stock_level = 10\"
+
+}
+
+}
+
+3.  Wait for the reindexing or update operation to complete by
+    monitoring the task status through the API or Kibana. ***Test***
+
+<!-- --
+
+1.  Verify that the data is successfully migrated to the products_new
+    index (if using Reindex API)
+
+GET /products_new/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {}
+
+}
+
+}
+
+2.  Use the GET API to retrieve documents from products_new or
+    products_old
+
+(depending on the chosen approach) and confirm the presence of the new
+stock_level field with a value of 10
+
+GET /products_old/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {}
+
+}
+
+}
+
+***Considerations***
+
+-   The Reindex API with a script allows copying data and applying
+    transformations during the process.
+
+-   The Update By Query API updates documents directly within the
+    existing index.
+
+-   Both approaches utilize a script to set the default stock_level
+    value for each product.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Reindex
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html)
+
+-   [[Update By Query
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update-by-query.html)
+
+### Example 2: Reindexing and updating product data {.unnumbered}
+
+***Requirements***
+
+ Reindex product data from an old index to a new index with an
+updated mapping  Update the \"in_stock\" field for products with a
+low inventory count
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create the old index with some sample data
+
+PUT /products_old
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"name\": {
+
+\"type\": \"text\"
+
+},
+
+\"price\": {
+
+\"type\": \"float\"
+
+},
+
+\"inventory_count\": {
+
+\"type\": \"integer\"
+
+}
+
+}
+
+}
+
+}
+
+POST /products_old/\_bulk
+
+{ \"index\": {} }
+
+{ \"name\": \"Product A\", \"price\": 19.99, \"inventory_count\": 10 }
+
+{ \"index\": {} }
+
+{ \"name\": \"Product B\", \"price\": 29.99, \"inventory_count\": 5 }
+
+{ \"index\": {} }
+
+{ \"name\": \"Product C\", \"price\": 39.99, \"inventory_count\": 20 }
+
+3\. Create the new index with an updated mapping
+
+PUT /products_new
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"name\": {
+
+\"type\": \"text\"
+
+},
+
+\"price\": {
+
+\"type\": \"float\"
+
+},
+
+\"inventory_count\": {
+
+\"type\": \"integer\"
+
+},
+
+\"in_stock\": {
+
+\"type\": \"boolean\"
+
+}
+
+}
+
+}
+
+}
+
+4\. Reindex the data from the old index to the new index
+
+POST /\_reindex
+
+{
+
+\"source\": {
+
+\"index\": \"products_old\"
+
+},
+
+\"dest\": {
+
+\"index\": \"products_new\"
+
+},
+
+\"script\": {
+
+\"source\": \"\"\"
+
+if (ctx.\_source.inventory_count \< 10) { ctx.\_source.in_stock =
+false;
+
+} else {
+
+ctx.\_source.in_stock = true;
+
+}
+
+\"\"\"
+
+}
+
+}
+
+5\. Update the \"in_stock\" field for products with low inventory
+
+POST /products_new/\_update_by_query
+
+{
+
+\"script\": {
+
+\"source\": \"ctx.\_source.in_stock = false\"
+
+},
+
+\"query\": {
+
+\"range\": {
+
+\"inventory_count\": {
+
+\"lt\": 5
+
+}
+
+}
+
+}
+
+}
+
+***Test***
+
+1\. Search the new index to verify the reindexed data and updated
+\"in_stock\" field
+
+GET /products_new/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {}
+
+}
+
+}
+
+The response should show the reindexed products with the \"in_stock\"
+field set correctly based on the inventory count.
+
+***Considerations***
+
+-   The Reindex API is used to copy data from the old index to the new
+    index while applying a script to set the \"in_stock\" field based on
+    the inventory count.
+
+-   The Update By Query API is used to update the \"in_stock\" field for
+    products with an inventory count lower than 5.
+
+***Clean-up (optional)*** Documentation
+
+-   [[Reindex
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html)
+
+-   [[Update By Query
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update-by-query.html)
+
+-   [[Scripting]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html)
+
+### Example 3: Reindexing documents from an old product catalog to a new one with updated mappings and updating prices in the new catalog {.unnumbered}
+
+***Requirements***
+
+-   Reindex documents from the old index to a new index with different
+    mappings.
+
+-   Update specific fields in the documents using the Update By Query
+    API.
+
+-   Ensure the new index has updated mappings that meet the current
+    requirements.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create the new index with updated mappings
+
+PUT /new_product_catalog
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"product_id\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"name\": {
+
+\"type\": \"text\"
+
+},
+
+\"description\": {
+
+\"type\": \"text\"
+
+},
+
+\"price\": {
+
+\"type\": \"double\"
+
+},
+
+\"availability_status\": {
+
+\"type\": \"boolean\"
+
+}
+
+}
+
+}
+
+}
+
+3.  Reindex documents from the old index to the new index
+
+POST /\_reindex
+
+{
+
+\"source\": {
+
+\"index\": \"old_product_catalog\"
+
+},
+
+\"dest\": {
+
+\"index\": \"new_product_catalog\"
+
+}
+
+}
+
+4.  Update prices in the new index using the Update By Query API
+
+POST /new_product_catalog/\_update_by_query
+
+{
+
+\"script\": {
+
+\"source\": \"ctx.\_source.price \*= 1.1\",
+
+\"lang\": \"painless\"
+
+},
+
+\"query\": {
+
+\"range\": {
+
+\"price\": {
+
+\"gt\": 0
+
+}
+
+}
+
+}
+
+}
+
+***Test***
+
+1.  Verify the documents have been reindexed
+
+GET /new_product_catalog/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {}
+
+}
+
+}
+
+2.  Check that the prices have been updated correctly
+
+GET /new_product_catalog/\_search
+
+{
+
+\"query\": {
+
+\"range\": {
+
+\"price\": {
+
+\"gt\": 0
+
+}
+
+}
+
+}
+
+}
+
+***Considerations***
+
+-   The new index mappings ensure the fields are typed correctly for the
+    current requirements.
+
+-   The Update By Query API with a Painless script is used to increase
+    all prices by 10%.
+
+-   Ensure that the reindexing process does not affect the availability
+    of the old index during the operation.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Reindex
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html)
+
+-   [[Update By Query
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update-by-query.html)
+
+-   [[Mappings]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html)
+
+## Task: Define and use an ingest pipeline that satisfies a given set of requirements, including the use of Painless to modify documents
+
+### Example 1: Creating an ingest pipeline for enriching and modifying product data in an e-commerce catalog {.unnumbered}
+
+***Requirements***
+
+-   Use an ingest pipeline to process incoming documents.
+
+-   Apply a Painless script to modify specific fields.
+
+-   Enrich the data by adding a timestamp and converting the price to a
+    different currency.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Define the ingest pipeline with a Painless script and additional
+    processors
+
+PUT /\_ingest/pipeline/product_pipeline
+
+{
+
+\"processors\": \[
+
+{
+
+\"script\": {
+
+\"lang\": \"painless\",
+
+\"source\": \"\"\" if (ctx.price != null) {
+
+ctx.price_usd = ctx.price \* 1.1; // Convert to USD assuming 1.1
+
+is the conversion rate
+
+}
+
+\"\"\"
+
+}
+
+},
+
+{
+
+\"set\": {
+
+\"field\": \"timestamp\",
+
+\"value\": \"{{\_ingest.timestamp}}\"
+
+}
+
+}
+
+\]
+
+}
+
+3\. Create the index with appropriate mappings
+
+PUT /product_catalog
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"product_id\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"name\": {
+
+\"type\": \"text\"
+
+},
+
+\"description\": {
+
+\"type\": \"text\"
+
+},
+
+\"price\": {
+
+\"type\": \"double\"
+
+},
+
+\"price_usd\": {
+
+\"type\": \"double\"
+
+},
+
+\"timestamp\": {
+
+\"type\": \"date\"
+
+}
+
+}
+
+}
+
+}
+
+4\. Index documents using the ingest pipeline
+
+POST /product_catalog/\_bulk?pipeline=product_pipeline
+
+{ \"index\": { \"\_id\": \"1\" } }
+
+{ \"product_id\": \"p001\", \"name\": \"Product 1\", \"description\":
+\"Description of
+
+product 1\", \"price\": 20.0 } { \"index\": { \"\_id\": \"2\" } }
+
+{ \"product_id\": \"p002\", \"name\": \"Product 2\", \"description\":
+\"Description of product 2\", \"price\": 30.0 }
+
+***Test***
+
+1.  Verify the ingest pipeline configuration
+
+GET /\_ingest/pipeline/product_pipeline
+
+2.  Search the indexed documents to ensure the modifications have been
+    applied
+
+GET /product_catalog/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {}
+
+}
+
+}
+
+***Considerations***
+
+-   The Painless script modifies the price field to convert it to USD
+    and stores it in a new field price_usd.
+
+-   The set processor adds a timestamp to each document to track when it
+    was ingested.
+
+-   Ensure the pipeline processes all incoming documents to maintain
+    data consistency.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Ingest Node
+    Pipelines]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ingest.html)
+
+-   [[Painless Scripting
+    Language]{.underline}](https://www.elastic.co/guide/en/elasticsearch/painless/current/index.html)
+
+-   [[Bulk
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html)
+
+### Example 2: Creating an ingest pipeline to extract and transform data for a logging index {.unnumbered}
+
+***Requirements***
+
+-   Extract the log level (DEBUG, INFO, WARNING, ERROR) from the log
+    message
+
+-   Extract the log timestamp in ISO format
+
+-   Add a new field \"log_level_tag\" with a value based on the log
+    level (e.g. \"DEBUG\" -\
+
+\"DEBUG_LOG\")
+
+-   Add a new field \"log_timestamp_in_seconds\" with the timestamp in
+    seconds
+
+***Steps***
+
+1\. **Open the Kibana Console** or use a REST client 2. Create an
+ingest pipeline
+
+PUT /\_ingest/pipeline/logging-pipeline
+
+{
+
+\"description\": \"Extract and transform log data\",
+
+\"processors\": \[
+
+{
+
+\"grok\": {
+
+\"field\": \"message\",
+
+\"patterns\": \[\"%{LOGLEVEL(log_level)}
+%{TIMESTAMP_ISO:log_timestamp} %
+
+{GREEDYDATA:message}\"\]
+
+}
+
+},
+
+{
+
+\"script\": {
+
+\"source\": \"\"\"
+
+ctx.log_level_tag = ctx.log_level.toUpperCase() + \'\_LOG\';
+
+ctx.log_timestamp_in_seconds =
+ctx.log_timestamp.date.getEpochSecond();
+
+\"\"\",
+
+\"lang\": \"painless\"
+
+}
+
+}
+
+\]
+
+}
+
+3\. Create an index with the ingest pipeline
+
+PUT /logging-index
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"message\": {
+
+\"type\": \"text\"
+
+},
+
+\"log_level\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"log_timestamp\": {
+
+\"type\": \"date\"
+
+},
+
+\"log_level_tag\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"log_timestamp_in_seconds\": {
+
+\"type\": \"long\"
+
+}
+
+}
+
+},
+
+\"settings\": {
+
+\"index\": {
+
+\"pipeline\": \"logging-pipeline\"
+
+}
+
+}
+
+}
+
+4\. Add documents to the index
+
+POST /logging-index/\_doc
+
+{
+
+\"message\": \"DEBUG 2022-05-25T14:30:00.000Z This is a debug
+message\"
+
+}
+
+POST /logging-index/\_doc
+
+{
+
+\"message\": \"INFO 2022-05-25T14:30:00.000Z This is an info message\"
+
+}
+
+***Test***
+
+-   Verify that the documents have been processed correctly
+
+GET /logging-index/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {}
+
+}
+
+}
+
+***Considerations***
+
+-   The ingest pipeline uses the Grok processor to extract the log level
+    and timestamp from the log message.
+
+-   The Painless script processor is used to transform the log level and
+    timestamp into new fields.
+
+***Clean-up (optional)***
+
+Documentation
+
+-   [[Ingest Node
+    Pipelines]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ingest.html)
+
+-   [[Painless Scripting
+    Language]{.underline}](https://www.elastic.co/guide/en/elasticsearch/painless/current/index.html)
+
+### Example 3: Creating an ingest pipeline for product data {.unnumbered}
+
+***Requirements***
+
+-   An Elasticsearch index named \"products\" with fields like \"name\",
+    \"price\", \"category\", \"description\", etc.
+
+-   Preprocess incoming product data using an ingest pipeline:
+
+-   Lowercase the \"name\" and \"category\" fields
+
+-   Remove HTML tags from the \"description\" field
+
+-   Calculate a \"discounted_price\" field based on the \"price\" field
+    and a discount percentage stored in a pipeline variable
+
+***Steps***
+
+1\. **Open the Kibana Console** or use a REST client 2. Define the
+ingest pipeline
+
+PUT /\_ingest/pipeline/product_pipeline
+
+{
+
+\"description\": \"Ingest pipeline for product data\",
+
+\"processors\": \[
+
+{
+
+\"lowercase\": {
+
+\"field\": \[\"name\", \"category\"\]
+
+}
+
+},
+
+{
+
+\"remove\": {
+
+\"field\": \"description\",
+
+\"target\": \"\<\[\^\\]+\\"
+
+}
+
+},
+
+{
+
+\"script\": {
+
+\"lang\": \"painless\",
+
+\"source\": \"\"\"
+
+double discount_percentage = 0.2;
+
+double discounted_price = ctx.price \* (1 - discount_percentage);
+
+ctx.discounted_price = discounted_price;
+
+\"\"\"
+
+}
+
+}
+
+\]
+
+}
+
+3\. Index a sample document using the ingest pipeline
+
+PUT /products/\_doc/1?pipeline=product_pipeline
+
+{
+
+\"name\": \"Product A\",
+
+\"price\": 99.99,
+
+\"category\": \"Electronics\",
+
+\"description\": \"A \<b\high-quality\</b\product for running
+enthusiasts.\"
+
+}
+
+***Test***
+
+1\. Search the \"products\" index and verify that the document has
+been processed by the ingest pipeline
+
+GET /products/\_search
+
+The response should show:
+
+-   \"name\" and \"category\" fields in lowercase
+
+-   \"description\" field without HTML tags
+
+-   \"discounted_price\" field calculated based on the \"price\" field
+    and the discount percentage ***Considerations***
+
+-   The ingest pipeline is defined with a list of processors that
+    perform specific operations on incoming documents.
+
+-   The \"lowercase\" processor lowercases the \"name\" and \"category\"
+    fields.
+
+-   The \"remove\" processor removes HTML tags from the \"description\"
+    field using a regular expression.
+
+-   The \"script\" processor uses Painless scripting language to
+    calculate the \"discounted_price\" field based on the \"price\"
+    field and a discount percentage variable.
+
+***Clean-up (optional)*** Documentation
+
+-   [[Elasticsearch Ingest
+    Node]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ingest.html)
+
+-   [[Ingest
+    Pipelines]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ingest-pipelines.html)
+
+-   [[Painless Scripting
+    Language]{.underline}](https://www.elastic.co/guide/en/elasticsearch/painless/current/index.html)
+
+-   [[Ingest
+    Processors]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/ingest-processors.html)
+
+## Task: Define runtime fields to retrieve custom values using Painless scripting
+
+### Example 1: Creating a runtime field for discounted prices in a product catalog {.unnumbered}
+
+***Requirements***
+
+-   Use a runtime field to calculate a discount on product prices.
+
+-   Apply a Painless script to dynamically compute the discounted price.
+
+-   Ensure the runtime field is available for queries and aggregations.
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Define the index with appropriate mappings
+
+PUT /product_catalog
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"product_id\": {
+
+\"type\": \"keyword\"
+
+},
+
+\"name\": {
+
+\"type\": \"text\"
+
+},
+
+\"description\": {
+
+\"type\": \"text\"
+
+},
+
+\"price\": {
+
+\"type\": \"double\"
+
+}
+
+},
+
+\"runtime\": {
+
+\"discounted_price\": {
+
+\"type\": \"double\",
+
+\"script\": {
+
+\"source\": \"\"\"
+
+if (doc\[\'price\'\].size() != 0) { return doc\[\'price\'\].value \*
+0.9;
+
+} else { return null;
+
+}
+
+\"\"\"
+
+}
+
+}
+
+}
+
+}
+
+}
+
+3\. Index sample documents using the \_bulk endpoint
+
+POST /product_catalog/\_bulk
+
+{ \"index\": { \"\_id\": \"1\" } }
+
+{ \"product_id\": \"p001\", \"name\": \"Product 1\", \"description\":
+\"Description of
+
+product 1\", \"price\": 20.0 } { \"index\": { \"\_id\": \"2\" } }
+
+{ \"product_id\": \"p002\", \"name\": \"Product 2\", \"description\":
+\"Description of product 2\", \"price\": 30.0 }
+
+***Test***
+
+1.  Search the indexed documents and retrieve the runtime field
+
+GET /product_catalog/\_search
+
+{
+
+\"\_source\": \[\"name\", \"price\"\],
+
+\"fields\": \[\"discounted_price\"\],
+
+\"query\": {
+
+\"match_all\": {}
+
+}
+
+}
+
+2.  Verify the discounted price in the search results
+
+GET /product_catalog/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {}
+
+},
+
+\"script_fields\": {
+
+\"discounted_price\": {
+
+\"script\": {
+
+\"source\": \"doc\[\'price\'\].value \* 0.9\"
+
+}
+
+}
+
+}
+
+}
+
+***Considerations***
+
+-   The Painless script calculates a 10% discount on the price.
+
+-   Runtime fields are defined in the index mappings and can be used for
+    querying and aggregations without being stored in the index.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Runtime
+    Fields]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/runtime.html)
+
+-   [[Painless Scripting
+    Language]{.underline}](https://www.elastic.co/guide/en/elasticsearch/painless/current/index.html)
+
+-   [[Bulk
+    API]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html)
+
+### Example 2: Creating a runtime field to extract the domain from a URL {.unnumbered}
+
+***Requirements***
+
+-   Extract the domain from a URL field
+
+-   Use Painless scripting to define the runtime field
+
+***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Create an index with a URL field
+
+PUT /myindex
+
+{
+
+\"mappings\": {
+
+\"properties\": {
+
+\"url\": {
+
+\"type\": \"text\"
+
+}
+
+}
+
+}
+
+}
+
+3.  Define a runtime field to extract the domain
+
+PUT /myindex/\_mapping
+
+{
+
+\"properties\": {
+
+\"domain\": {
+
+\"type\": \"keyword\",
+
+\"script\": {
+
+\"source\": \"def url = doc\[\'url\'\].value; return url.split(\'//\')
+
+\[1\].split(\'/\')\[0\];\",
+
+\"lang\": \"painless\"
+
+}
+
+}
+
+}
+
+}
+
+4\. Add documents to the index
+
+POST /myindex/\_doc
+
+{
+
+\"url\": \"https://www.example.com/path/to/page\"
+
+}
+
+POST /myindex/\_doc
+
+{
+
+\"url\": \"http://sub.example.com/other/page\"
+
+}
+
+***Test***
+
+-   Verify that the runtime field is working correctly
+
+GET /myindex/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {}
+
+},
+
+\"fields\": \[\"domain\"\]
+
+}
+
+***Considerations***
+
+-   The runtime field uses Painless scripting to extract the domain from
+    the URL field.
+
+-   The script splits the URL into components and returns the domain.
+
+***Clean-up (optional)***
+
+Documentation
+
+-   [[Elastic Runtime
+    Fields]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/runtime.html)
+
+-   [[Elastic Painless
+    Scripting]{.underline}](https://www.elastic.co/guide/en/elasticsearch/painless/current/index.html)
+
+### Example 3: Calculating the age difference in years based on date fields {.unnumbered}
+
+***Requirements***
+
+ Define a search query that utilizes a runtime field to calculate the
+age difference in years between two date fields (date_of_birth and
+current_date) within the search results. ***Steps***
+
+1.  **Open the Kibana Console** or use a REST client
+
+2.  Construct a search query with a runtime field
+
+GET /people/\_search
+
+{
+
+\"query\": {
+
+\"match_all\": {} \# Match all documents (can be replaced with a
+specific
+
+query) },
+
+\"runtime\": {
+
+\"age\": {
+
+\"script\": {
+
+\"source\": \"Math.floor((doc\[\'current_date\'\].millis -
+doc\[\'date_of_birth\'\].millis) / (365.25 \* 24 \* 60 \* 60 \*
+1000))\",
+
+\"lang\": \"painless\"
+
+}
+
+}
+
+}
+
+} ***Test***
+
+1.  Ensure the documents in your index have date_of_birth and
+    current_date fields in a compatible date format (e.g., milliseconds
+    since epoch).
+
+2.  Run the search query and examine the response. The results should
+    include an additional field named age representing the calculated
+    age difference in years for each document.
+
+***Considerations***
+
+-   The runtime field definition utilizes Painless scripting to perform
+    the age calculation.
+
+-   The script calculates the difference in milliseconds between
+    current_date and date_of_birth, then divides by the conversion
+    factor for milliseconds in a year (considering leap years).
+
+-   The Math.floor function ensures the age is a whole number of years.
+
+***Clean-up (optional)***
+
+**Documentation**
+
+-   [[Elastic Runtime
+    Fields]{.underline}](https://www.elastic.co/guide/en/elasticsearch/reference/current/runtime.html)
+
+-   [[Elastic Painless
+    Scripting]{.underline}](https://www.elastic.co/guide/en/elasticsearch/painless/current/index.html)

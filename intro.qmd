@@ -1,0 +1,259 @@
+# Introduction {.unnumbered}
+
+This study guide will go over the [[specific study areas]{.underline}](https://www.elastic.co/training/elastic-certified-engineer-exam) as listed by [[Elastic]{.underline}](https://www.elastic.co/) on their
+website for the Elastic Certified Engineer Exam v8.1 (true as of XXX NN, 2024):
+
+**Data Management**
+
+* Define an index that satisfies a given set of requirements
+* Define and use an index template for a given pattern that satisfies a given set of requirements
+* Define and use a dynamic template that satisfies a given set of requirements
+* Define an Index Lifecycle Management policy for a time-series index
+* Define an index template that creates a new data stream 
+
+**Searching Data**
+
+* Write and execute a search query for terms and/or phrases in one or more fields of an index
+* Write and execute a search query that is a Boolean combination of multiple queries and filters
+* Write an asynchronous search
+* Write and execute metric and bucket aggregations
+* Write and execute aggregations that contain sub-aggregations
+* Write and execute a query that searches across multiple clusters
+* Write and execute a search that utilizes a runtime field
+
+**Developing Search Applications**
+
+* Highlight the search terms in the response of a query
+* Sort the results of a query by a given set of requirements
+* Implement pagination of the results of a search query
+* Define and use index aliases
+* Define and use a search template 
+
+**Data Processing**
+
+* Define a mapping that satisfies a given set of requirements
+* Define and use a custom analyzer that satisfies a given set of requirements
+* Define and use multi-fields with different data types and/or analyzers
+* Use the Reindex API and Update By Query API to reindex and/or update documents
+* Define and use an ingest pipeline that satisfies a given set of requirements, including the use of Painless to modify documents
+* Define runtime fields to retrieve custom values using Painless scripting 
+    
+**Cluster Management**
+
+* Diagnose shard issues and repair a cluster\'s health
+* Backup and restore a cluster and/or specific indices
+* Configure a snapshot to be searchable
+* Configure a cluster for cross-cluster search
+* Implement cross-cluster replication
+
+## Assumptions
+
+This study guide makes a number of assumptions about the reader; not the least of which is your understanding of search and search technologies. This guide is:
+
+* not an introductory text on search and search technologies
+* not an Elastic or Kibana tutorial
+* not a JSON tutorial
+
+The examples present the answers as REST API calls in JSON for the **Elastic Kibana Console**. In the **Things You Must Do** section we will show you how to translate the REST API calls into curl calls. This is done specifically so you understand how to execute the calls both ways, but will not be used in the examples.
+
+## Things You Must Do
+
+Regardless of where you are running Elastic (locally or from the Elastic cloud) you are going to need two bits of information to access your deployment:
+
+* username
+* password
+
+How and where you get those two will depend on whether you have a local instance of Elasticsearch/Kibana or if you are using an Elastic Cloud deployment.
+
+The installation of a local instance of Elasticsearch/Kibana can be found in the **Appendix** along with basic instructions on how you get the username/password when you create an Elastic cloud deployment. These same instructions can be found in the [[Elastic documentation]{.underline}](https://www.elastic.co/guide/index.html).
+
+If you decide to run these examples from the command line using **curl** you must:
+
+* have **curl** installed
+* have your Elasticsearch username (**elastic**) and password handy. The password will vary based on whether you are running your own local copy of the Elastic Stack or using the Elastic Cloud.
+* If you are running **curl** against your **local** container instance your command line should look like this:
+
+> curl \--cacert http_ca.crt -u elastic:\[container instance password here\] -X \[desired HTTP command\] \"https://\[elastic endpoint here\]/\[API path as appropriate\]\"
+
+The **http_ca.crt** file was something you should have extracted from the container while you were deploying it. If you haven't then execute this first in the location where you are doing your certification work (assuming you have called your Elasticsearch container **es01**):
+
+> docker cp es01:/usr/share/elasticsearch/config/certs/http_ca.crt .
+
+Keep that file secret. Keep that file safe.
+
+As a test you should be able to run:
+
+> curl \--cacert http_ca.crt -u elastic:\[container instance password here\] https://localhost:9200/
+
+You should get some reasonable output.
+
+* If you are running curl against the **Elastic Cloud** your command line should look like this:
+
+> curl -u elastic:\[elastic cloud deployment password here\] -X \[desired HTTP command\] \"https://\[elastic endpoint here\]/\[API path as appropriate\]\"
+
+The only thing different with the above and the local command is you don't need the certificate file if you are running curl against the Elastic Cloud.
+
+Originally, the examples had both the REST API calls and the curl calls. Since the curl calls are slightly different between the local instance the the Elastic Cloud instance I have left them out. If you want to run curl using the Elastic REST API then remember that the REST API looks like this in the Elastic cloud console:
+```
+GET / 
+```
+or 
+```
+PUT /example_index
+{
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text"
+      },
+      "description": {
+        "type": "text"
+      }
+    }
+  }
+}
+```
+
+The associated **curl** command for would like like this:
+
+* Local
+>
+> The first call:
+>
+> curl \--cacert http_ca.crt -u elastic:\[container instance password
+> here\] -X GET [https://localhost:9200/]{.underline}
+>
+> or for the second call (note the use of single quotes around the
+> JSON):
+>
+> curl \--cacert http_ca.crt -u elastic:\[container instance password
+> here\] -X PUT " [[https://localhost:9200]{.underline} [/]{.underline}
+> [example_inde]{.underline}
+> [x]{.underline}](https://localhost:9200/example_index)" -H
+> \'Content-Type: application/json\' -d\'
+>
+> {
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"title\": {
+>
+> \"type\": \"text\"
+>
+> },
+>
+> \"description\": {
+>
+> \"type\": \"text\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> \'
+>
+>  Elastic Cloud
+>
+> The first call:
+>
+> curl -u elastic:\[elastic cloud deployment password here\] -X GET
+> \"https://\[elastic endpoint here\]/\"
+>
+> or for the second call (note the use of single quotes around the
+> JSON):
+>
+> curl -u elastic:\[elastic cloud deployment password here\] -X PUT
+> "\[elastic
+>
+> endpoint here\]" -H \'Content-Type: application/json\' -d\'
+>
+> {
+>
+> \"mappings\": {
+>
+> \"properties\": {
+>
+> \"title\": {
+>
+> \"type\": \"text\"
+>
+> },
+>
+> \"description\": {
+>
+> \"type\": \"text\"
+>
+> }
+>
+> }
+>
+> }
+>
+> }
+>
+> \'
+
+## How to Pass the Test
+
+Do the examples and mored. Be over-prepared.
+
+Go through the
+[[documentation]{.underline}](https://www.elastic.co/guide/index.html)
+so you know where to look when a task shows up in the certification exam
+and you are not sure what the syntax or format of a given JSON might be.
+This is an open book test, but the only book you can use is the Elastic
+documentation.
+
+Learn the basics. The Elastic console has code completion so you don't
+have to remember everything\...just what might be the appropriate JSON
+elements for the solution you are implementing.
+
+Learn the query syntax of Query DSL. This is a search engine after all
+and knowledge of querying is fundamental to the certification exam.
+
+While there is no magic bullet the exam should not be that hard if you
+already have knowledge of:  search and search technologies (preferably
+hands-on)
+
+>  JSON
+
+Things that will trip you up:
+
+* syntax
+
+* depth of various JSON nodes
+
+## Summary
+
+This book will not teach you Elastic search or Kibana or any of the
+other Elastic products available in the first half of 2024. It assumes
+you have an understanding of various search topics, JSON, REST APIs, and
+areas like regular expressions, and web technologies. The examples are
+valid with the current documentation and were all confirmed as working
+in the same time period.
+
+If you run into any problems with the examples, please send an email to
+[support@brushedsteelconsulting.com]{.underline}. When in doubt, asking
+one of the many public LLMs available should help as well:
+
+* [[ChatGPT]{.underline}](https://chatgpt.com/) 
+    [[Claude.ai]{.underline}](https://claude.ai/)
+
+* [[Gemini]{.underline}](https://gemini.google.com/) 
+    [Meta.ai]{.underline}
+
+* [[Perplexity.ai]{.underline}](https://www.perplexity.ai/)
+
+All of the examples were originally generated by the various LLMs above
+sites with many changes made by an actual human as the examples and the
+generated content left much to be desired.
+
+*Disclaimer: this book was written with the assistance of various tools
+include a host of LLMs, but always under the guidance of the author.
+Make of that what you will.*
