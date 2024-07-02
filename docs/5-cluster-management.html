@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.50">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Cluster Management – The Definitive Guide to the Elastic Certified Engineer Exam v8.1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./6-appendix.html" rel="next">
+<link href="./4-data-processing.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-cluster-management.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">The Definitive Guide to the Elastic Certified Engineer Exam v8.1</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0.1-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0.2-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1-data-management.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Management</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2-searching-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Searching Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3-developing-search-applications.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Developing Search Applications</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-data-processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5-cluster-management.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#task-diagnose-shard-issues-and-repair-a-clusters-health" id="toc-task-diagnose-shard-issues-and-repair-a-clusters-health" class="nav-link active" data-scroll-target="#task-diagnose-shard-issues-and-repair-a-clusters-health"><span class="header-section-number">5.1</span> Task: Diagnose shard issues and repair a cluster's health</a>
+  <ul class="collapse">
+  <li><a href="#example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health" id="toc-example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health" class="nav-link" data-scroll-target="#example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health">Example 1: Identifying and resolving unassigned shards to improve cluster health</a></li>
+  </ul></li>
+  <li><a href="#join-with" id="toc-join-with" class="nav-link" data-scroll-target="#join-with">JOIN WITH</a>
+  <ul class="collapse">
+  <li><a href="#example-analyzing-cluster-health-and-repairing-unassigned-shards" id="toc-example-analyzing-cluster-health-and-repairing-unassigned-shards" class="nav-link" data-scroll-target="#example-analyzing-cluster-health-and-repairing-unassigned-shards">Example: Analyzing cluster health and repairing unassigned shards</a></li>
+  <li><a href="#example-2-identifying-and-resolving-a-shard-failure-in-a-cluster" id="toc-example-2-identifying-and-resolving-a-shard-failure-in-a-cluster" class="nav-link" data-scroll-target="#example-2-identifying-and-resolving-a-shard-failure-in-a-cluster">Example 2: Identifying and resolving a shard failure in a cluster</a></li>
+  </ul></li>
+  <li><a href="#join-with-1" id="toc-join-with-1" class="nav-link" data-scroll-target="#join-with-1">JOIN WITH</a>
+  <ul class="collapse">
+  <li><a href="#example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster" id="toc-example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster" class="nav-link" data-scroll-target="#example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster">Example: Diagnosing and resolving shard issues in an Elasticsearch cluster</a></li>
+  </ul></li>
+  <li><a href="#join-with-2" id="toc-join-with-2" class="nav-link" data-scroll-target="#join-with-2">JOIN WITH</a>
+  <ul class="collapse">
+  <li><a href="#example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster-1" id="toc-example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster-1" class="nav-link" data-scroll-target="#example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster-1">Example: Diagnosing and resolving shard issues in an Elasticsearch cluster</a></li>
+  </ul></li>
+  <li><a href="#task-backup-and-restore-a-cluster-andor-specific-indices" id="toc-task-backup-and-restore-a-cluster-andor-specific-indices" class="nav-link" data-scroll-target="#task-backup-and-restore-a-cluster-andor-specific-indices"><span class="header-section-number">5.2</span> Task: Backup and restore a cluster and/or specific indices</a>
+  <ul class="collapse">
+  <li><a href="#example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster" id="toc-example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster" class="nav-link" data-scroll-target="#example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster">Example 1: Create a snapshot of an entire cluster and restore the cluster</a></li>
+  <li><a href="#example-2-create-a-snapshot-of-an-entire-cluster-and-restore-a-single-index" id="toc-example-2-create-a-snapshot-of-an-entire-cluster-and-restore-a-single-index" class="nav-link" data-scroll-target="#example-2-create-a-snapshot-of-an-entire-cluster-and-restore-a-single-index">Example 2: Create a snapshot of an entire cluster and restore a single index</a></li>
+  <li><a href="#example-3-creating-a-snapshot-of-a-single-index-and-restoring-it" id="toc-example-3-creating-a-snapshot-of-a-single-index-and-restoring-it" class="nav-link" data-scroll-target="#example-3-creating-a-snapshot-of-a-single-index-and-restoring-it">Example 3: Creating a snapshot of a single index and restoring it</a></li>
+  </ul></li>
+  <li><a href="#task-configure-a-snapshot-to-be-searchable" id="toc-task-configure-a-snapshot-to-be-searchable" class="nav-link" data-scroll-target="#task-configure-a-snapshot-to-be-searchable"><span class="header-section-number">5.3</span> Task: Configure a snapshot to be searchable</a>
+  <ul class="collapse">
+  <li><a href="#example-1-creating-a-searchable-snapshot-for-the-product-catalog-index" id="toc-example-1-creating-a-searchable-snapshot-for-the-product-catalog-index" class="nav-link" data-scroll-target="#example-1-creating-a-searchable-snapshot-for-the-product-catalog-index">Example 1: Creating a searchable snapshot for the product catalog index</a></li>
+  <li><a href="#example-2-creating-a-searchable-snapshot-for-a-specific-index" id="toc-example-2-creating-a-searchable-snapshot-for-a-specific-index" class="nav-link" data-scroll-target="#example-2-creating-a-searchable-snapshot-for-a-specific-index">Example 2: Creating a searchable snapshot for a specific index</a></li>
+  <li><a href="#example-3-enabling-search-functionality-on-a-snapshot-for-backup-analysis" id="toc-example-3-enabling-search-functionality-on-a-snapshot-for-backup-analysis" class="nav-link" data-scroll-target="#example-3-enabling-search-functionality-on-a-snapshot-for-backup-analysis">Example 3: Enabling search functionality on a snapshot for backup analysis</a></li>
+  <li><a href="#example-4-creating-a-searchable-snapshot-for-a-product-catalog" id="toc-example-4-creating-a-searchable-snapshot-for-a-product-catalog" class="nav-link" data-scroll-target="#example-4-creating-a-searchable-snapshot-for-a-product-catalog">Example 4: Creating a searchable snapshot for a product catalog</a></li>
+  <li><a href="#example-5-creating-a-searchable-snapshot-for-an-elasticsearch-index" id="toc-example-5-creating-a-searchable-snapshot-for-an-elasticsearch-index" class="nav-link" data-scroll-target="#example-5-creating-a-searchable-snapshot-for-an-elasticsearch-index">Example 5: Creating a searchable snapshot for an Elasticsearch index</a></li>
+  </ul></li>
+  <li><a href="#task-configure-a-cluster-for-cross-cluster-search" id="toc-task-configure-a-cluster-for-cross-cluster-search" class="nav-link" data-scroll-target="#task-configure-a-cluster-for-cross-cluster-search"><span class="header-section-number">5.4</span> Task: Configure a cluster for cross-cluster search</a>
+  <ul class="collapse">
+  <li><a href="#example-1-setting-up-cross-cluster-search-between-a-local-cluster-and-a-remote-cluster-for-an-e-commerce-catalog" id="toc-example-1-setting-up-cross-cluster-search-between-a-local-cluster-and-a-remote-cluster-for-an-e-commerce-catalog" class="nav-link" data-scroll-target="#example-1-setting-up-cross-cluster-search-between-a-local-cluster-and-a-remote-cluster-for-an-e-commerce-catalog">Example 1: Setting up cross-cluster search between a local cluster and a remote cluster for an e-commerce catalog</a></li>
+  </ul></li>
+  <li><a href="#task-implement-cross-cluster-replication" id="toc-task-implement-cross-cluster-replication" class="nav-link" data-scroll-target="#task-implement-cross-cluster-replication"><span class="header-section-number">5.5</span> Task: Implement cross-cluster replication</a>
+  <ul class="collapse">
+  <li><a href="#example-2-configuring-cross-cluster-replication-between-two-elasticsearch-clusters" id="toc-example-2-configuring-cross-cluster-replication-between-two-elasticsearch-clusters" class="nav-link" data-scroll-target="#example-2-configuring-cross-cluster-replication-between-two-elasticsearch-clusters">Example 2: Configuring cross-cluster replication between two Elasticsearch clusters</a></li>
+  <li><a href="#example-3-setting-up-cross-cluster-replication-between-two-elasticsearch-clusters" id="toc-example-3-setting-up-cross-cluster-replication-between-two-elasticsearch-clusters" class="nav-link" data-scroll-target="#example-3-setting-up-cross-cluster-replication-between-two-elasticsearch-clusters">Example 3: Setting up cross-cluster replication between two Elasticsearch clusters</a></li>
+  <li><a href="#example-4-copilot-creating-a-follower-index-for-my_remote_cluster" id="toc-example-4-copilot-creating-a-follower-index-for-my_remote_cluster" class="nav-link" data-scroll-target="#example-4-copilot-creating-a-follower-index-for-my_remote_cluster">Example 4: (Copilot) Creating a follower index for my_remote_cluster</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="task-diagnose-shard-issues-and-repair-a-clusters-health" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="task-diagnose-shard-issues-and-repair-a-clusters-health"><span class="header-section-number">5.1</span> Task: Diagnose shard issues and repair a cluster's health</h2>
+<section id="example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health">Example 1: Identifying and resolving unassigned shards to improve cluster health</h3>
+<section id="requirements" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements">Requirements</h4>
+<ul>
+<li>Identify the cause of unassigned shards.</li>
+<li>Reassign shards to nodes to improve cluster health.</li>
+<li>Ensure all indices are properly allocated and the cluster health status is green.</li>
+</ul>
+</section>
+<section id="steps" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client</p></li>
+<li><p>Check the cluster health and identify unassigned shards</p></li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>List the unassigned shards</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/shards?v&amp;h=index,shard,prirep,state,unassigned.reason,node</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li><p>Identify the reason for unassigned shards and address common issues (e.g., missing replicas, disk space, node failure):</p>
+<ul>
+<li>Check for node failures</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/nodes?v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Ensure sufficient disk space</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_nodes/stats/fs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Reassign unassigned shards if necessary</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_cluster/reroute</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"commands"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"allocate_stale_primary"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"{index_name}"</span><span class="fu">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"shard"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"node"</span><span class="fu">:</span> <span class="st">"{node_name}"</span><span class="fu">,</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"accept_data_loss"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Force merge indices if necessary to reduce the number of segments and improve performance</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/</span><span class="fu">{</span><span class="er">index_name</span><span class="fu">}</span><span class="er">/_forcemerge?max_num_segments=1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Verify the cluster health again</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test">Test</h4>
+<ol type="1">
+<li><p>Check the cluster health status</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Ensure there are no unassigned shards</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/shards?v&amp;h=index,shard,prirep,state,unassigned.reason,node</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="considerations" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations">Considerations</h4>
+<ul>
+<li>The cluster reroute command should be used carefully, especially when accepting data loss.</li>
+<li>Force merging should be done during low traffic periods as it is resource-intensive.</li>
+<li>Regularly monitoring cluster health can prevent shard allocation issues.</li>
+</ul>
+</section>
+<section id="clean-up-optional" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional">Clean-up (optional)</h4>
+</section>
+<section id="documentation" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html">Cluster Health API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html">Cat Shards API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html">Cluster Reroute API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-nodes-stats.html">Nodes Stats API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-forcemerge.html">Force Merge API</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="join-with" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="join-with">JOIN WITH</h2>
+<section id="example-analyzing-cluster-health-and-repairing-unassigned-shards" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-analyzing-cluster-health-and-repairing-unassigned-shards">Example: Analyzing cluster health and repairing unassigned shards</h3>
+<section id="requirements-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-1">Requirements</h4>
+<ul>
+<li>Diagnose the cause of unassigned shards in an Elasticsearch cluster.</li>
+<li>Take appropriate actions to resolve the issue and restore cluster health.</li>
+</ul>
+</section>
+<section id="steps-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-1">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client</p></li>
+<li><p>Check Cluster Health:</p>
+<ul>
+<li>Get an overview of the cluster’s health status:</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Look for the status (red, yellow, or green) and analyze the shard allocation details, particularly unassigned shards.</li>
+</ul></li>
+<li><p>Identify the Cause:</p>
+<ul>
+<li>Based on the cluster health report and logs, investigate the cause of unassigned shards.</li>
+</ul>
+<p>Common reasons include:</p>
+<ul>
+<li>Node failures: Check for failing nodes or unavailable disks.</li>
+<li>Resource limitations: Insufficient disk space or memory on nodes.</li>
+<li>Index configuration issues: Inconsistent shard allocation settings across nodes.</li>
+</ul></li>
+<li><p>Resolve the Issue:</p>
+<ul>
+<li>Depending on the cause, take corrective actions:
+<ul>
+<li>Restart failed nodes or repair unavailable disks.</li>
+<li>Allocate additional resources to nodes or optimize shard allocation.</li>
+<li>Review and adjust index settings for shard allocation.</li>
+</ul></li>
+</ul></li>
+<li><p>Verify Cluster Health:</p>
+<ul>
+<li>Monitor the cluster health again after taking corrective actions:</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>The cluster health should ideally be green, indicating all shards are allocated and functioning correctly.</li>
+</ul></li>
+</ol>
+</section>
+<section id="test-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-1">Test</h4>
+<ul>
+<li>This task involves real-time cluster monitoring and troubleshooting. There is no specific API call to test as the solution depends on the identified root cause.</li>
+</ul>
+</section>
+<section id="considerations-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-1">Considerations</h4>
+<ul>
+<li>Understanding the cluster health report and shard allocation details is crucial for diagnosing issues.</li>
+<li>The chosen resolution method depends on the specific cause of unassigned shards.</li>
+</ul>
+</section>
+<section id="clean-up-optional-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-1">Clean-up (optional)</h4>
+</section>
+<section id="documentation-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-1">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html">Cluster Health API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/allocation-awareness.html">Shard Allocation</a></li>
+</ul>
+</section>
+</section>
+<section id="example-2-identifying-and-resolving-a-shard-failure-in-a-cluster" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-2-identifying-and-resolving-a-shard-failure-in-a-cluster">Example 2: Identifying and resolving a shard failure in a cluster</h3>
+<section id="requirements-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-2">Requirements</h4>
+<ul>
+<li>Identify the cause of a shard failure</li>
+<li>Resolve the issue and restore the cluster’s health</li>
+</ul>
+</section>
+<section id="steps-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-2">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client</p></li>
+<li><p>Check the cluster’s health</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Identify the index and shard with issues</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/shards</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Check the shard’s status</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/shards/</span><span class="fu">{</span><span class="er">index_name</span><span class="fu">}</span><span class="er">-</span><span class="fu">{</span><span class="er">shard_number</span><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Resolve the issue (e.g., restart a node, reassign the shard)</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_cluster/reroute</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"commands"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"move"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"{index_name}"</span><span class="fu">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"shard"</span><span class="fu">:</span> <span class="fu">{</span><span class="er">shard_number</span><span class="fu">},</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"from_node"</span><span class="fu">:</span> <span class="st">"{node_name}"</span><span class="fu">,</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"to_node"</span><span class="fu">:</span> <span class="st">"{new_node_name}"</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Verify the cluster’s health</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-2">Test</h4>
+<ul>
+<li><p>Verify that the shard is no longer in a failed state</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/shards/</span><span class="fu">{</span><span class="er">index_name</span><span class="fu">}</span><span class="er">-</span><span class="fu">{</span><span class="er">shard_number</span><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="considerations-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-2">Considerations</h4>
+<ul>
+<li>Regularly monitoring the cluster’s health can help identify issues before they become critical.</li>
+<li>Understanding the cause of the shard failure is crucial to resolving the issue effectively.</li>
+</ul>
+</section>
+<section id="clean-up-optional-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-2">Clean-up (optional)</h4>
+</section>
+<section id="documentation-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-2">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html">Elasticsearch Cluster Health</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-shards.html">Elasticsearch Shard</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="join-with-1" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="join-with-1">JOIN WITH</h2>
+<section id="example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster">Example: Diagnosing and resolving shard issues in an Elasticsearch cluster</h3>
+<section id="requirements-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-3">Requirements</h4>
+<ul>
+<li>Identify indices with shard allocation issues</li>
+<li>Diagnose the root cause of the shard allocation issues</li>
+<li>Resolve the shard allocation issues to restore the cluster’s health</li>
+</ul>
+</section>
+<section id="steps-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-3">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client</p></li>
+<li><p>Check the cluster health and identify indices with shard allocation issues</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health?level=indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The response will show the health status of each index, including the number of unassigned shards, if any.</p></li>
+<li><p>For indices with unassigned shards, retrieve detailed shard allocation information</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/allocation/explain</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The response will provide information about the unassigned shards and the reasons why they cannot be allocated.</p></li>
+<li><p>Based on the shard allocation explanation, take appropriate actions to resolve the issues. Common examples include:</p>
+<ul>
+<li>Adding new nodes to the cluster (if there are not enough nodes/resources)</li>
+<li>Increasing the cluster’s disk space (if there is not enough disk space)</li>
+<li>Adjusting shard allocation settings (e.g., <code>cluster.routing.allocation.enable</code>)</li>
+<li>Removing corrupted or problematic indices</li>
+</ul>
+<p>For example, if the issue is related to disk space, you can increase the disk space on the existing nodes or add new nodes with more disk space.</p></li>
+<li><p>After resolving the issue, reattempt the shard allocation</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_cluster/reroute?retry_failed=true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will trigger a new shard allocation attempt for the previously unassigned shards.</p></li>
+</ol>
+</section>
+<section id="test-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-3">Test</h4>
+<ol type="1">
+<li><p>Monitor the cluster health after the corrective actions</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health?level=indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The response should show all shards as assigned and the cluster health status as “green”.</p></li>
+<li><p>Additionally, you can check the shard allocation explanation again</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/allocation/explain</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The response should not show any unassigned shards or shard allocation issues.</p></li>
+</ol>
+</section>
+<section id="considerations-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-3">Considerations</h4>
+<ul>
+<li>The specific actions taken to resolve shard allocation issues depend on the root cause identified in the shard allocation explanation.</li>
+<li>Common causes of shard allocation issues include lack of resources (nodes, disk space), cluster settings, and data corruption.</li>
+<li>Resolving shard allocation issues is crucial for maintaining a healthy and stable Elasticsearch cluster.</li>
+</ul>
+</section>
+<section id="clean-up-optional-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-3">Clean-up (optional)</h4>
+</section>
+<section id="documentation-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-3">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html">Cluster Health API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html">Cluster Reroute API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-allocation-explain.html">Cluster Allocation Explanation API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-allocation-filtering.html">Shard Allocation Filtering</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="join-with-2" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="join-with-2">JOIN WITH</h2>
+<section id="example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster-1">Example: Diagnosing and resolving shard issues in an Elasticsearch cluster</h3>
+<section id="requirements-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-4">Requirements</h4>
+<ul>
+<li>An Elasticsearch cluster with multiple nodes</li>
+<li>One or more indices with shards in an unhealthy state (e.g., relocating, initializing, unassigned)</li>
+</ul>
+</section>
+<section id="steps-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-4">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client</p></li>
+<li><p>Check the cluster health</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will provide an overview of the cluster’s health status, including the number of shards in different states.</p></li>
+<li><p>If the cluster health is not “green” (all shards are active and assigned), check for shard issues</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/shards?v</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will list all shards in the cluster, their state, and the node they are assigned to.</p></li>
+<li><p>Identify the shards that are in an unhealthy state (e.g., relocating, initializing, unassigned) and the corresponding indices.</p></li>
+<li><p>For unassigned shards, try to allocate them manually</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_cluster/reroute?retry_failed=true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will attempt to assign the unassigned shards to available nodes.</p></li>
+<li><p>If shards are stuck in the “relocating” or “initializing” state, you may need to cancel the shard allocation and retry</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_cluster/reroute?cancel_data_node=&lt;node_id&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Replace <code>&lt;node_id&gt;</code> with the ID of the node where the stuck shard is currently located.</p></li>
+<li><p>If the issue persists, you may need to restart the affected nodes or perform a full cluster restart.</p></li>
+</ol>
+</section>
+<section id="test-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-4">Test</h4>
+<ol type="1">
+<li><p>After each step, check the cluster health and shard status again to verify if the issue has been resolved.</p></li>
+<li><p>If all shards are active and assigned, the cluster health should be “green”.</p></li>
+</ol>
+</section>
+<section id="considerations-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-4">Considerations</h4>
+<ul>
+<li>Unassigned shards can occur due to various reasons, such as node failures, disk space issues, or cluster configuration problems.</li>
+<li>Shards stuck in the “relocating” or “initializing” state may indicate a node or network issue.</li>
+<li>Canceling shard allocation and retrying can help resolve stuck shards in some cases.</li>
+<li>Restarting nodes or the entire cluster should be a last resort, as it can cause temporary data unavailability.</li>
+</ul>
+</section>
+<section id="clean-up-optional-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-4">Clean-up (optional)</h4>
+</section>
+<section id="documentation-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-4">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html">Elasticsearch Cluster Health</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-shards.html">Elasticsearch Cat Shards API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-reroute.html">Elasticsearch Cluster Reroute API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/restart-node.html">Elasticsearch Node Restart</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="task-backup-and-restore-a-cluster-andor-specific-indices" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="task-backup-and-restore-a-cluster-andor-specific-indices"><span class="header-section-number">5.2</span> Task: Backup and restore a cluster and/or specific indices</h2>
+<section id="example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster">Example 1: Create a snapshot of an entire cluster and restore the cluster</h3>
+<section id="requirements-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-5">Requirements</h4>
+<ul>
+<li>Back up the entire Elasticsearch cluster (all the indices on the cluster)</li>
+<li>Restore specific indices from the backup</li>
+</ul>
+</section>
+<section id="steps-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-5">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Create two sample indexes with some data</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/example_index1/_doc/1</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 1.1"</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/example_index1/_doc/2</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 1.2"</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/example_index2/_doc/1</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 2.1"</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/example_index2/_doc/2</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 2.2"</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Create a snapshot repository</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"fs"</span><span class="fu">,</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"location"</span><span class="fu">:</span> <span class="st">"/path/to/backup/directory"</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Create a snapshot of the entire cluster</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup/full_cluster_backup</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Delete the two known indices</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">/example_index1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">/example_index2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Check that the two indexes are gone.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/example_index*/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Restore the cluster from the snapshot</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_snapshot/my_backup/full_cluster_backup/_restore</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-5">Test</h4>
+<ol type="1">
+<li><p>Verify the restored cluster exists and contains the expected data</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/example_index1/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/example_index2/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The response should include the documents from the original example_index1 and example_index2.</p></li>
+</ol>
+</section>
+<section id="considerations-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-5">Considerations</h4>
+<ul>
+<li>The snapshot repository is configured with the fs (file system) type, which stores the backup data on the local file system. For production use, you may want to use a more suitable repository type, such as s3 or gcs.</li>
+<li>The snapshot name full_cluster_backup is used to create a backup of the entire cluster.</li>
+<li>During the restore process, the rename_pattern and rename_replacement options are used to rename the restored index to restored_example_index.</li>
+</ul>
+</section>
+<section id="clean-up-optional-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-5">Clean-up (optional)</h4>
+</section>
+<section id="documentation-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-5">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html">Snapshot and Restore</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-repositories.html">Snapshot Repository APIs</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html#snapshot-restore">Snapshot Restore API</a></li>
+</ul>
+</section>
+</section>
+<section id="example-2-create-a-snapshot-of-an-entire-cluster-and-restore-a-single-index" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-2-create-a-snapshot-of-an-entire-cluster-and-restore-a-single-index">Example 2: Create a snapshot of an entire cluster and restore a single index</h3>
+<section id="requirements-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-6">Requirements</h4>
+<ul>
+<li>Back up the entire Elasticsearch cluster</li>
+<li>Restore specific indices from the backup</li>
+</ul>
+</section>
+<section id="steps-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-6">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Create a sample index with some data</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/example_index1/_doc/1</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 1.1"</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/example_index1/_doc/2</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 1.2"</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/example_index2/_doc/1</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 2.1"</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/example_index2/_doc/2</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 2.2"</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Create a snapshot repository</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"fs"</span><span class="fu">,</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"location"</span><span class="fu">:</span> <span class="st">"/path/to/backup/directory"</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Create a snapshot of the entire cluster</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup/full_cluster_backup</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Restore a specific index from the snapshot</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_snapshot/my_backup/full_cluster_backup/_restore</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"indices"</span><span class="fu">:</span> <span class="st">"example_index2"</span><span class="fu">,</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"rename_pattern"</span><span class="fu">:</span> <span class="st">"example_index2"</span><span class="fu">,</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"rename_replacement"</span><span class="fu">:</span> <span class="st">"restored_example_index2"</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-6">Test</h4>
+<ol type="1">
+<li><p>Verify that the restored index exists and contains the expected data</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/restored_example_index/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The response should include the documents from the original example_index.</p></li>
+<li><p>Optionally, you can delete the original index and verify that the restored index remains</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">/example_index2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/restored_example_index/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="considerations-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-6">Considerations</h4>
+<ul>
+<li>The snapshot repository is configured with the fs (file system) type, which stores the backup data on the local file system. For production use, you may want to use a more suitable repository type, such as s3 or gcs.</li>
+<li>The snapshot name full_cluster_backup is used to create a backup of the entire cluster.</li>
+<li>During the restore process, the rename_pattern and rename_replacement options are used to rename the restored index to restored_example_index.</li>
+</ul>
+</section>
+<section id="clean-up-optional-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-6">Clean-up (optional)</h4>
+</section>
+<section id="documentation-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-6">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html">Snapshot and Restore</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-repositories.html">Snapshot Repository APIs</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html#snapshot-restore">Snapshot Restore API</a></li>
+</ul>
+</section>
+</section>
+<section id="example-3-creating-a-snapshot-of-a-single-index-and-restoring-it" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-3-creating-a-snapshot-of-a-single-index-and-restoring-it">Example 3: Creating a snapshot of a single index and restoring it</h3>
+<section id="requirements-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-7">Requirements</h4>
+<ul>
+<li>Create a repository for storing snapshots.</li>
+<li>Take a snapshot of the specified index.</li>
+<li>Restore the snapshot to the cluster.</li>
+<li>Verify the integrity and availability of the restored data.</li>
+</ul>
+</section>
+<section id="steps-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-7">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client</p></li>
+<li><p>Create a snapshot repository</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"fs"</span><span class="fu">,</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"location"</span><span class="fu">:</span> <span class="st">"/mount/backups/my_backup"</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Take a snapshot of the specific index</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup/snapshot_1</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"indices"</span><span class="fu">:</span> <span class="st">"product_catalog"</span><span class="fu">,</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"ignore_unavailable"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"include_global_state"</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Verify the snapshot status</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_snapshot/my_backup/snapshot_1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Delete the index to simulate data loss (optional for testing restore)</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">/product_catalog</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Restore the snapshot</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_snapshot/my_backup/snapshot_1/_restore</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"indices"</span><span class="fu">:</span> <span class="st">"product_catalog"</span><span class="fu">,</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"ignore_unavailable"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"include_global_state"</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-7">Test</h4>
+<ol type="1">
+<li><p>Verify the index has been restored</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/product_catalog/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Verify the integrity of the snapshot</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_snapshot/my_backup/_verify</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Check the cluster health to ensure the index is properly allocated</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health/product_catalog</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="considerations-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-7">Considerations</h4>
+<ul>
+<li>The repository type fs is used for simplicity; other types like s3 can be used depending on the environment.</li>
+<li><code>ignore_unavailable</code> ensures the snapshot process continues even if some indices are missing.</li>
+<li><code>include_global_state</code> is set to false to avoid restoring cluster-wide settings unintentionally.</li>
+</ul>
+</section>
+<section id="clean-up-optional-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-7">Clean-up (optional)</h4>
+</section>
+<section id="documentation-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-7">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots.html">Snapshot and Restore</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-take-snapshot.html">Create Snapshot API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-restore-snapshot.html">Restore Snapshot API</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="task-configure-a-snapshot-to-be-searchable" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="task-configure-a-snapshot-to-be-searchable"><span class="header-section-number">5.3</span> Task: Configure a snapshot to be searchable</h2>
+<section id="example-1-creating-a-searchable-snapshot-for-the-product-catalog-index" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-creating-a-searchable-snapshot-for-the-product-catalog-index">Example 1: Creating a searchable snapshot for the product catalog index</h3>
+<section id="requirements-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-8">Requirements</h4>
+<ul>
+<li>Create a repository for storing snapshots.</li>
+<li>Take a snapshot of the specified index.</li>
+<li>Mount the snapshot as a searchable index.</li>
+<li>Verify the index is searchable without restoring it to the cluster.</li>
+</ul>
+</section>
+<section id="steps-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-8">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Create a snapshot repository</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"fs"</span><span class="fu">,</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"location"</span><span class="fu">:</span> <span class="st">"/mount/backups/my_backup"</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Take a snapshot of the specific index</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup/snapshot_1</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"indices"</span><span class="fu">:</span> <span class="st">"product_catalog"</span><span class="fu">,</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"ignore_unavailable"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"include_global_state"</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Verify the snapshot status</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_snapshot/my_backup/snapshot_1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Mount the snapshot as a searchable index</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup/snapshot_1/_mount</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"product_catalog"</span><span class="fu">,</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"renamed_index"</span><span class="fu">:</span> <span class="st">"product_catalog_searchable"</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-8">Test</h4>
+<ol type="1">
+<li><p>Verify the mounted index is searchable</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/product_catalog_searchable/_search</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Check the cluster health to ensure the searchable snapshot is properly allocated</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/health/product_catalog_searchable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="considerations-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-8">Considerations</h4>
+<ul>
+<li>The repository type fs is used for simplicity; other types like s3 can be used depending on the environment.</li>
+<li><code>ignore_unavailable</code> ensures the snapshot process continues even if some indices are missing.</li>
+<li><code>include_global_state</code> is set to false to avoid restoring cluster-wide settings unintentionally.</li>
+<li>Mounting the snapshot as a searchable index allows for searching the data without the need to fully restore it, saving resources and time.</li>
+</ul>
+</section>
+<section id="clean-up-optional-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-8">Clean-up (optional)</h4>
+</section>
+<section id="documentation-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-8">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots.html">Snapshot and Restore</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-take-snapshot.html">Create Snapshot API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots-api-mount-snapshot.html">Mount Searchable Snapshot API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html">Search API</a></li>
+</ul>
+</section>
+</section>
+<section id="example-2-creating-a-searchable-snapshot-for-a-specific-index" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-2-creating-a-searchable-snapshot-for-a-specific-index">Example 2: Creating a searchable snapshot for a specific index</h3>
+<section id="requirements-9" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-9">Requirements</h4>
+<ul>
+<li>Create a snapshot of a specific index</li>
+<li>Configure the snapshot to be searchable</li>
+<li>Verify that the snapshot is searchable</li>
+</ul>
+</section>
+<section id="steps-9" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-9">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Create a snapshot of the index</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_repo/snapshot_1</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"indices"</span><span class="fu">:</span> <span class="st">"{index_name}"</span><span class="fu">,</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"ignore_unavailable"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"metadata"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"searchable"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Verify that the snapshot is searchable</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_snapshot/my_repo/snapshot_1/_search</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-9" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-9">Test</h4>
+<ul>
+<li><p>Verify that search results are returned from the snapshot</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_snapshot/my_repo/snapshot_1/_search</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="considerations-9" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-9">Considerations</h4>
+<ul>
+<li>Searchable snapshots allow for fast and efficient searching of historical data.</li>
+<li>Searchable snapshots can be used for auditing, compliance, and data analytics.</li>
+</ul>
+</section>
+<section id="clean-up-optional-9" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-9">Clean-up (optional)</h4>
+</section>
+<section id="documentation-9" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-9">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots.html">Elasticsearch Searchable Snapshots</a></li>
+</ul>
+</section>
+</section>
+<section id="example-3-enabling-search-functionality-on-a-snapshot-for-backup-analysis" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-3-enabling-search-functionality-on-a-snapshot-for-backup-analysis">Example 3: Enabling search functionality on a snapshot for backup analysis</h3>
+<section id="requirements-10" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-10">Requirements</h4>
+<ul>
+<li>Create a snapshot of an Elasticsearch cluster with searchable capabilities.</li>
+<li>Perform search queries on the snapshot data without restoring the entire index.</li>
+</ul>
+</section>
+<section id="steps-10" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-10">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Use the Snapshot API with the <code>include_global_state</code> parameter to create a searchable snapshot</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/</span><span class="fu">{</span><span class="er">repository_name</span><span class="fu">}</span><span class="er">/</span><span class="fu">{</span><span class="er">snapshot_name</span><span class="fu">}</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"fs"</span><span class="fu">,</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"location"</span><span class="fu">:</span> <span class="st">"/path/to/backup/directory"</span><span class="fu">,</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span> <span class="er">//</span> <span class="er">Adjust</span> <span class="er">based</span> <span class="er">on</span> <span class="er">desired</span> <span class="er">concurrency</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"include_global_state"</span><span class="fu">:</span> <span class="kw">true</span> <span class="er">//</span> <span class="er">Enable</span> <span class="er">search</span> <span class="er">on</span> <span class="er">the</span> <span class="er">snapshot</span></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"indices"</span><span class="fu">:</span> <span class="st">"*"</span> <span class="er">//</span> <span class="er">Capturing</span> <span class="er">all</span> <span class="er">indices</span> <span class="er">(or</span> <span class="er">specify</span> <span class="er">a</span> <span class="er">list</span> <span class="er">of</span> <span class="er">indices)</span></span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Utilize the Snapshot Mount API to mount the snapshot as a read-only index</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_snapshot/</span><span class="fu">{</span><span class="er">repository_name</span><span class="fu">}</span><span class="er">/</span><span class="fu">{</span><span class="er">snapshot_name</span><span class="fu">}</span><span class="er">/_mount</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"{mounted_index_name}"</span> <span class="er">//</span> <span class="er">Choose</span> <span class="er">a</span> <span class="er">name</span> <span class="er">for</span> <span class="er">the</span> <span class="er">mounted</span> <span class="er">index</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Perform search queries on the mounted index to explore the snapshot data</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/</span><span class="fu">{</span><span class="er">mounted_index_name</span><span class="fu">}</span><span class="er">/_search</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Use the Snapshot Unmount API to detach the mounted index after analysis</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_snapshot/</span><span class="fu">{</span><span class="er">repository_name</span><span class="fu">}</span><span class="er">/</span><span class="fu">{</span><span class="er">snapshot_name</span><span class="fu">}</span><span class="er">/_unmount</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"{mounted_index_name}"</span></span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-10" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-10">Test</h4>
+<ol type="1">
+<li><p>Verify the snapshot creation with searchable capabilities using the Snapshot Status API.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_snapshot/</span><span class="fu">{</span><span class="er">repository_name</span><span class="fu">}</span><span class="er">/</span><span class="fu">{</span><span class="er">snapshot_name</span><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Simulate a scenario where you need to analyze data from the snapshot.</p></li>
+<li><p>Mount the snapshot as a read-only index using the Mount API.</p></li>
+<li><p>Execute search queries on the mounted index to explore the snapshot content.</p></li>
+<li><p>Unmount the snapshot using the Unmount API when finished.</p></li>
+</ol>
+</section>
+<section id="considerations-10" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-10">Considerations</h4>
+<ul>
+<li>The <code>include_global_state</code> parameter in the Snapshot API enables storing cluster state information alongside the data, allowing searches on the snapshot.</li>
+<li>Mounting the snapshot creates a temporary read-only index accessible for exploration purposes.</li>
+<li>Unmounting detaches the mounted index after use, optimizing resource utilization.</li>
+</ul>
+</section>
+<section id="clean-up-optional-10" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-10">Clean-up (optional)</h4>
+</section>
+<section id="documentation-10" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-10">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/create-snapshot-api.html">Snapshot API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots-api-mount-snapshot.html">Snapshot Mount API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots-api-unmount-snapshot.html">Snapshot Unmount API</a></li>
+</ul>
+</section>
+</section>
+<section id="example-4-creating-a-searchable-snapshot-for-a-product-catalog" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-4-creating-a-searchable-snapshot-for-a-product-catalog">Example 4: Creating a searchable snapshot for a product catalog</h3>
+<section id="requirements-11" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-11">Requirements</h4>
+<ul>
+<li>Create a snapshot of the product catalog index</li>
+<li>Configure the snapshot to be searchable</li>
+<li>Perform a search on the snapshot</li>
+</ul>
+</section>
+<section id="steps-11" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-11">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client</p></li>
+<li><p>Create a sample product catalog index with some data</p></li>
+</ol>
+<div class="sourceCode" id="cb71"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/product_catalog/_doc/1</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product A"</span><span class="fu">,</span></span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"Electronics"</span><span class="fu">,</span></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">99.99</span></span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/product_catalog/_doc/2</span></span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product B"</span><span class="fu">,</span></span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"Clothing"</span><span class="fu">,</span></span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">49.99</span></span>
+<span id="cb71-13"><a href="#cb71-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Create a snapshot repository</li>
+</ol>
+<div class="sourceCode" id="cb72"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/product_snapshots</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"fs"</span><span class="fu">,</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"location"</span><span class="fu">:</span> <span class="st">"/path/to/snapshot/directory"</span><span class="fu">,</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"readonly"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Create a searchable snapshot of the product catalog index</li>
+</ol>
+<div class="sourceCode" id="cb73"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/product_snapshots/product_catalog_snapshot</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"indices"</span><span class="fu">:</span> <span class="st">"product_catalog"</span><span class="fu">,</span></span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"data_streams"</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"feature_states"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"searchable_snapshot"</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Search the snapshot</li>
+</ol>
+<div class="sourceCode" id="cb74"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_snapshot/product_snapshots/product_catalog_snapshot/_search</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"match"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product A"</span></span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-11" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-11">Test</h4>
+<ul>
+<li>The search query should return the document(s) matching the search criteria from the snapshot.</li>
+</ul>
+</section>
+<section id="considerations-11" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-11">Considerations</h4>
+<ul>
+<li>The readonly setting for the snapshot repository is set to true to prevent accidental modifications to the snapshot data.</li>
+<li>The <code>feature_states</code> parameter in the snapshot creation request includes the <code>searchable_snapshot</code> feature to enable searching on the snapshot.</li>
+<li>Searchable snapshots are read-only and cannot be modified or updated.</li>
+</ul>
+</section>
+<section id="clean-up-optional-11" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-11">Clean-up (optional)</h4>
+</section>
+<section id="documentation-11" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-11">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots.html">Searchable Snapshots</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html">Snapshot and Restore</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshots-repositories.html">Snapshot Repository APIs</a></li>
+</ul>
+</section>
+</section>
+<section id="example-5-creating-a-searchable-snapshot-for-an-elasticsearch-index" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-5-creating-a-searchable-snapshot-for-an-elasticsearch-index">Example 5: Creating a searchable snapshot for an Elasticsearch index</h3>
+<section id="requirements-12" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-12">Requirements</h4>
+<ul>
+<li>An Elasticsearch index named “logs” containing log data</li>
+<li>A snapshot repository configured for storing backups</li>
+</ul>
+</section>
+<section id="steps-12" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-12">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Create a snapshot repository (if not already created)</p></li>
+</ol>
+<div class="sourceCode" id="cb75"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup_repo</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"fs"</span><span class="fu">,</span></span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"location"</span><span class="fu">:</span> <span class="st">"/path/to/backup/directory"</span></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Take a snapshot of the “logs” index with the “searchable” option enabled</li>
+</ol>
+<div class="sourceCode" id="cb76"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_snapshot/my_backup_repo/searchable_snapshot</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"indices"</span><span class="fu">:</span> <span class="st">"logs"</span><span class="fu">,</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"metadata"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"searchable"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Monitor the snapshot progress</li>
+</ol>
+<div class="sourceCode" id="cb77"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_snapshot/my_backup_repo/searchable_snapshot/_status</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Once the snapshot is completed, you can search the snapshot directly</li>
+</ol>
+<div class="sourceCode" id="cb78"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_snapshot/my_backup_repo/searchable_snapshot/_search</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"match"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"error"</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-12" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-12">Test</h4>
+<ol type="1">
+<li><p>After creating the searchable snapshot, execute the search query against the snapshot and verify that the results are returned correctly.</p></li>
+<li><p>You can also restore the snapshot to a new index and search the restored index.</p></li>
+</ol>
+</section>
+<section id="considerations-12" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-12">Considerations</h4>
+<ul>
+<li>The “searchable” option in the snapshot metadata enables searching the snapshot directly without restoring it first.</li>
+<li>Searchable snapshots are read-only and cannot be updated or modified.</li>
+<li>Searchable snapshots can be useful for data exploration, analysis, or backup verification without restoring the entire index.</li>
+<li>Searching snapshots directly can be slower than searching a regular index, as the data is stored in compressed form.</li>
+</ul>
+</section>
+<section id="clean-up-optional-12" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-12">Clean-up (optional)</h4>
+</section>
+<section id="documentation-12" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-12">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/searchable-snapshots.html">Elasticsearch Searchable Snapshots</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html">Snapshot and Restore</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/snapshot-restore.html#snapshot-restore-apis">Snapshot Repository APIs</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="task-configure-a-cluster-for-cross-cluster-search" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="task-configure-a-cluster-for-cross-cluster-search"><span class="header-section-number">5.4</span> Task: Configure a cluster for cross-cluster search</h2>
+<p>This is similar to the example at:</p>
+<p>Searching Data</p>
+<blockquote class="blockquote">
+<p>Write and execute a query that searches across multiple clusters</p>
+</blockquote>
+<p><strong><em>[SEE IF THIS CAN DONE FROM THE UI]</em></strong></p>
+<section id="example-1-setting-up-cross-cluster-search-between-a-local-cluster-and-a-remote-cluster-for-an-e-commerce-catalog" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-setting-up-cross-cluster-search-between-a-local-cluster-and-a-remote-cluster-for-an-e-commerce-catalog">Example 1: Setting up cross-cluster search between a local cluster and a remote cluster for an e-commerce catalog</h3>
+<section id="requirements-13" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-13">Requirements</h4>
+<ul>
+<li>Configure the remote cluster to be searchable from the local cluster.</li>
+<li>Ensure secure communication between clusters.</li>
+<li>Verify the cross-cluster search functionality.</li>
+</ul>
+</section>
+<section id="steps-13" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-13">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Configure the remote cluster on the local cluster</p></li>
+</ol>
+<div class="sourceCode" id="cb79"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"cluster"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"remote"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"remote_cluster"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">"seeds"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"remote_node_1:9300"</span><span class="ot">,</span></span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"remote_node_2:9300"</span></span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>                    <span class="ot">]</span></span>
+<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Replace <code>remote_node_1</code> and <code>remote_node_2</code> with the actual addresses of the nodes in the remote cluster.</p>
+<ol start="3" type="1">
+<li>Set up security settings (<strong>optional</strong> but recommended for secure communication). On the remote cluster:</li>
+</ol>
+<div class="sourceCode" id="cb80"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.enabled"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.transport.ssl.enabled"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.transport.ssl.verification_mode"</span><span class="fu">:</span> <span class="st">"certificate"</span><span class="fu">,</span></span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.transport.ssl.keystore.path"</span><span class="fu">:</span> <span class="st">"/path/to/keystore.jks"</span><span class="fu">,</span></span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.transport.ssl.truststore.path"</span><span class="fu">:</span> <span class="st">"/path/to/truststore.jks"</span></span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>On the local cluster:</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.enabled"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.transport.ssl.enabled"</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.transport.ssl.verification_mode"</span><span class="fu">:</span> <span class="st">"certificate"</span><span class="fu">,</span></span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.transport.ssl.keystore.path"</span><span class="fu">:</span> <span class="st">"/path/to/keystore.jks"</span><span class="fu">,</span></span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"xpack.security.transport.ssl.truststore.path"</span><span class="fu">:</span> <span class="st">"/path/to/truststore.jks"</span></span>
+<span id="cb81-9"><a href="#cb81-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb81-10"><a href="#cb81-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Verify the remote cluster configuration</li>
+</ol>
+<div class="sourceCode" id="cb82"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_remote/info</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Perform a cross-cluster search query</li>
+</ol>
+<div class="sourceCode" id="cb83"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/remote_cluster:product_catalog/_search</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-13" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-13">Test</h4>
+<ol type="1">
+<li>Verify the remote cluster info</li>
+</ol>
+<div class="sourceCode" id="cb84"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_remote/info</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Search the remote cluster from the local cluster</li>
+</ol>
+<div class="sourceCode" id="cb85"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/remote_cluster:product_catalog/_search</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="considerations-13" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-13">Considerations</h4>
+<ul>
+<li>Ensure that the nodes listed in the seeds setting are accessible from the local cluster.</li>
+<li>Security settings such as SSL/TLS should be configured to ensure secure communication between clusters.</li>
+<li>Regularly monitor the connection status between the clusters to ensure reliability.</li>
+</ul>
+</section>
+<section id="clean-up-optional-13" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-13">Clean-up (optional)</h4>
+</section>
+<section id="documentation-13" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-13">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cross-cluster-search.html">Cross-Cluster Search</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-remote-info.html">Cluster Remote Info API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html">Search API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html">Security Settings</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="task-implement-cross-cluster-replication" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="task-implement-cross-cluster-replication"><span class="header-section-number">5.5</span> Task: Implement cross-cluster replication</h2>
+<p><strong><em>[THERE SHOULD PROBABLY BE ONLY TWO EXAMPLES: FROM THE UI AND THE CONSOLE]</em></strong></p>
+<p>The following is from <a href="https://triotechsystems.com/a-step-by-step-guide-to-setting-up-ccr-elasticsearch-replication/">https://triotechsystems.com/a-step-by-step-guide-to-setting-up-ccr-elasticsearchreplication/</a></p>
+<section id="from-the-ui-using-stack-management-in-kibana" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="from-the-ui-using-stack-management-in-kibana">From the UI: Using Stack Management in Kibana</h4>
+<ol type="1">
+<li><p>Open Kibana and navigate to Stack Management from the side navigation panel.</p></li>
+<li><p>Select “Remote Clusters” to access the remote cluster configuration settings.</p></li>
+<li><p>Specify the endpoint URL or the IP address/host name of the remote cluster (Cluster A), followed by the transport port (typically 9300). For example, you can enter:</p></li>
+</ol>
+<div class="sourceCode" id="cb86"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="er">"cluster.es.eastus2.staging.azure.foundit.no:9400"</span> <span class="er">or</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="er">"192.168.1.1:9300"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>as the remote cluster’s connection details.</p>
+</section>
+<section id="using-kibana-to-set-up-the-follower-index" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="using-kibana-to-set-up-the-follower-index">Using Kibana to set up the follower index</h4>
+<ol type="1">
+<li><p>Open Kibana and navigate to Cross-Cluster Replication in the side navigation.</p></li>
+<li><p>Select the “Follower Indices” tab.</p></li>
+<li><p>Choose the cluster (Cluster A) that contains the leader index you want to replicate.</p></li>
+<li><p>Enter the name of the leader index. In this tutorial, it’s “kibana_sample_data_ecommerce.”</p></li>
+<li><p>Provide a name for your follower index, such as “follower-kibana-sample-data.”</p></li>
+</ol>
+<p>Elasticsearch will initialize the follower index using the remote recovery process. This process transfers existing Lucene segment files from the leader index to the follower index. Initially, the index status will be “Paused.” Once the remote recovery process completes, the index status changes to “Active.”</p>
+<p><strong><em>(Optional) Setting up auto-follow for time series indices replication</em></strong> To set up an auto-follow pattern using Kibana:</p>
+<p>Access Kibana and navigate to Cross Cluster Replication in the side navigation.</p>
+<p>Select the “Auto-follow patterns” tab.</p>
+<p>Provide a name for your auto-follow pattern, for instance, “beats.”</p>
+<p>Choose the remote cluster (Cluster A) that contains the index you want to replicate.</p>
+<p>Define one or more index patterns that identify the indices you want to replicate from the remote cluster. For example, you can enter “metricbeat-” and “packetbeat-” to automatically create followers for Metricbeat and Packetbeat indices.</p>
+<p>To make it easier to identify replicated indices, add “follower-” as a prefix to the names of the follower indices.</p>
+<p>With this setup, whenever new indices that match the specified patterns are created on the remote cluster, Elasticsearch automatically initiates their replication to local follower indices.</p>
+<p><strong><em>Or from the Kibana Console:</em></strong></p>
+</section>
+<section id="example-1-setting-up-cross-cluster-replication-for-the-product-catalog-index-between-a-leader-cluster-and-a-follower-cluster" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="example-1-setting-up-cross-cluster-replication-for-the-product-catalog-index-between-a-leader-cluster-and-a-follower-cluster">Example 1: Setting up cross-cluster replication for the product catalog index between a leader cluster and a follower cluster</h4>
+</section>
+<section id="requirements-14" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-14">Requirements</h4>
+<ul>
+<li>Configure remote cluster settings on both leader and follower clusters.</li>
+<li>Set up the leader index on the leader cluster.</li>
+<li>Configure the follower index on the follower cluster to replicate from the leader index.</li>
+<li>Ensure secure communication between clusters.</li>
+<li>Verify replication and data consistency.</li>
+</ul>
+</section>
+<section id="steps-14" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-14">Steps</h4>
+<ol type="1">
+<li><strong>Open the Kibana Console</strong> or use a REST client.</li>
+<li>Configure the remote cluster settings on the follower cluster</li>
+</ol>
+<div class="sourceCode" id="cb87"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"cluster"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"remote"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"leader_cluster"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"seeds"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"leader_node_1:9300"</span><span class="ot">,</span></span>
+<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"leader_node_2:9300"</span></span>
+<span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span></span>
+<span id="cb87-11"><a href="#cb87-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb87-12"><a href="#cb87-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb87-13"><a href="#cb87-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb87-14"><a href="#cb87-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb87-15"><a href="#cb87-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Replace leader_node_1 and leader_node_2 with the actual addresses of the nodes in the leader cluster.</p>
+<ol start="3" type="1">
+<li>Create the leader index on the leader cluster</li>
+</ol>
+<div class="sourceCode" id="cb88"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/product_catalog</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"product_id"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb88-12"><a href="#cb88-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb88-13"><a href="#cb88-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb88-14"><a href="#cb88-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb88-15"><a href="#cb88-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"description"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb88-16"><a href="#cb88-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb88-17"><a href="#cb88-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb88-18"><a href="#cb88-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"price"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb88-19"><a href="#cb88-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"double"</span></span>
+<span id="cb88-20"><a href="#cb88-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb88-21"><a href="#cb88-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb88-22"><a href="#cb88-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb88-23"><a href="#cb88-23" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Index sample documents in the leader index</li>
+</ol>
+<div class="sourceCode" id="cb89"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/product_catalog/_bulk</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"product_id"</span><span class="fu">:</span> <span class="st">"p001"</span><span class="fu">,</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product 1"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Description of product 1"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">20.0</span> <span class="fu">}</span></span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"product_id"</span><span class="fu">:</span> <span class="st">"p002"</span><span class="fu">,</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product 2"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Description of product 2"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">30.0</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Configure the follower index on the follower cluster</li>
+</ol>
+<div class="sourceCode" id="cb90"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/product_catalog_follower/_ccr/follow</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"remote_cluster"</span><span class="fu">:</span> <span class="st">"leader_cluster"</span><span class="fu">,</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"leader_index"</span><span class="fu">:</span> <span class="st">"product_catalog"</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-14" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-14">Test</h4>
+<ol type="1">
+<li>Verify the follower index is following the leader index</li>
+</ol>
+<div class="sourceCode" id="cb91"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/product_catalog_follower/_stats</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Check the data in the follower index to ensure it matches the leader index</li>
+</ol>
+<div class="sourceCode" id="cb92"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/product_catalog_follower/_search</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="considerations-14" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-14">Considerations</h4>
+<ul>
+<li>Ensure the nodes listed in the seeds setting are accessible from the follower cluster.</li>
+<li>Security settings such as SSL/TLS should be configured to ensure secure communication between clusters.</li>
+<li>Regularly monitor the replication status and performance to ensure data consistency and reliability.</li>
+</ul>
+</section>
+<section id="clean-up-optional-14" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-14">Clean-up (optional)</h4>
+</section>
+<section id="documentation-14" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-14">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/xpack-ccr.html">Cross-Cluster Replication</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html">Create Follower Index API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-remote-info.html">Cluster Remote Info API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html">Search API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html">Security Settings</a></li>
+</ul>
+<p>Here’s the cleaned-up markup:</p>
+</section>
+<section id="example-2-configuring-cross-cluster-replication-between-two-elasticsearch-clusters" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-2-configuring-cross-cluster-replication-between-two-elasticsearch-clusters">Example 2: Configuring cross-cluster replication between two Elasticsearch clusters</h3>
+<section id="requirements-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-15">Requirements</h4>
+<ul>
+<li>Set up two Elasticsearch clusters (leader and follower)</li>
+<li>Configure cross-cluster replication to replicate indices from the leader to the follower cluster</li>
+<li>Verify that data is replicated between the clusters</li>
+</ul>
+</section>
+<section id="steps-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-15">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client for both clusters.</p></li>
+<li><p>On the leader cluster, create a sample index with some data</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/source_index/_doc/1</span></span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 1"</span></span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/source_index/_doc/2</span></span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb93-8"><a href="#cb93-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 2"</span></span>
+<span id="cb93-9"><a href="#cb93-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>On the follower cluster, configure the cross-cluster replication</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"cluster.remote.connections"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"leader_cluster"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"cluster"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"leader_cluster_node_1:9300"</span><span class="ot">,</span> <span class="st">"leader_cluster_node_2:9300"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"skip_unavailable"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>On the follower cluster, create a follower index</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/follower_index/_ccr/follow?wait_for_active_shards=1</span></span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"remote_cluster"</span><span class="fu">:</span> <span class="st">"leader_cluster"</span><span class="fu">,</span></span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"leader_index"</span><span class="fu">:</span> <span class="st">"source_index"</span></span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-15">Test</h4>
+<ol type="1">
+<li><p>On the follower cluster, check the status of the follower index</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/follower_index/_ccr/stats</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The response should show the follower index as active and replicating data from the leader index.</p></li>
+<li><p>On the follower cluster, search the follower index</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/follower_index/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The search response should include the documents from the leader index.</p></li>
+<li><p>On the leader cluster, add a new document</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/source_index/_doc/3</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Document 3"</span></span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>On the follower cluster, search the follower index again</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/follower_index/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The search response should now include the new document replicated from the leader index.</p></li>
+</ol>
+</section>
+<section id="considerations-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-15">Considerations</h4>
+<ul>
+<li>The cluster.remote.connections setting configures the follower cluster to connect to the leader cluster for cross-cluster replication.</li>
+<li>The skip_unavailable option is set to true to skip unavailable nodes during the replication process.</li>
+<li>The wait_for_active_shards=1 parameter in the follower index creation ensures that the follower index is active before proceeding.</li>
+<li>Cross-cluster replication replicates data in a unidirectional manner from the leader to the follower cluster.</li>
+</ul>
+</section>
+<section id="clean-up-optional-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-15">Clean-up (optional)</h4>
+</section>
+<section id="documentation-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-15">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cross-cluster-replication.html">Cross-Cluster Replication</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-update-settings.html">Cluster Settings</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html">Follower Index API</a></li>
+</ul>
+<p>Here’s the cleaned-up markup:</p>
+</section>
+</section>
+<section id="example-3-setting-up-cross-cluster-replication-between-two-elasticsearch-clusters" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-3-setting-up-cross-cluster-replication-between-two-elasticsearch-clusters">Example 3: Setting up cross-cluster replication between two Elasticsearch clusters</h3>
+<section id="requirements-16" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-16">Requirements</h4>
+<ul>
+<li>Two Elasticsearch clusters: “cluster_one” and “cluster_two”</li>
+<li>An index named “products” in “cluster_one” with documents containing fields like “name”, “price”, “category”, etc.</li>
+<li>Replicate the “products” index from “cluster_one” to “cluster_two” for high availability and disaster recovery</li>
+</ul>
+</section>
+<section id="steps-16" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-16">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client</p></li>
+<li><p>On both clusters, enable the remote_cluster_client node role by setting node.roles in the elasticsearch.yml configuration file and restarting the nodes</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="er">node.roles:</span> <span class="ot">[</span> <span class="er">remote_cluster_client</span> <span class="ot">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>On “cluster_one”, add an entry for the remote “cluster_two”</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"cluster.remote.cluster_two"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"seeds"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb101-6"><a href="#cb101-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"10.0.2.1:9300"</span><span class="ot">,</span></span>
+<span id="cb101-7"><a href="#cb101-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"10.0.2.2:9300"</span></span>
+<span id="cb101-8"><a href="#cb101-8" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb101-9"><a href="#cb101-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb101-10"><a href="#cb101-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb101-11"><a href="#cb101-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Replace the IP addresses with the actual addresses of the nodes in “cluster_two”.</p></li>
+<li><p>On “cluster_two”, add an entry for the remote “cluster_one”</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"cluster.remote.cluster_one"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"seeds"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"10.0.1.1:9300"</span><span class="ot">,</span></span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"10.0.1.2:9300"</span></span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb102-9"><a href="#cb102-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb102-10"><a href="#cb102-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb102-11"><a href="#cb102-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Replace the IP addresses with the actual addresses of the nodes in “cluster_one”.</p></li>
+<li><p>Configure security privileges (if enabled) to allow cross-cluster replication between the two clusters</p></li>
+<li><p>On “cluster_one”, create a follower index in “cluster_two” that will replicate the “products” index</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_ccr/follow?wait_for_active_shards=1</span></span>
+<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"remote_cluster"</span><span class="fu">:</span> <span class="st">"cluster_two"</span><span class="fu">,</span></span>
+<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"leader_index"</span><span class="fu">:</span> <span class="st">"products"</span><span class="fu">,</span></span>
+<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"follower_index"</span><span class="fu">:</span> <span class="st">"replicated_products"</span></span>
+<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-16" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-16">Test</h4>
+<ol type="1">
+<li><p>Index some documents into the “products” index on “cluster_one”</p></li>
+<li><p>Search the “replicated_products” index on “cluster_two” and verify that the documents have been replicated</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/replicated_products/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<h4 id="considerations-16" class="unnumbered anchored">Considerations</h4></li>
+</ol>
+<ul>
+<li>Cross-cluster replication requires the remote_cluster_client node role and cluster.remote settings on both clusters.</li>
+<li>Security privileges must be configured correctly to allow cross-cluster replication.</li>
+<li>The follower index on the remote cluster will automatically replicate changes from the leader index.</li>
+<li>Cross-cluster replication can be used for disaster recovery, high availability, and geo-replication scenarios.</li>
+</ul>
+</section>
+<section id="clean-up-optional-16" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-16">Clean-up (optional)</h4>
+</section>
+<section id="documentation-16" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-16">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-getting-started.html">Elasticsearch Cross-Cluster Replication</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-getting-started.html#ccr-remote-clusters">Configuring Remote Clusters</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-getting-started.html#ccr-security">Cross-Cluster Replication Security</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html">Follow Index API</a></li>
+</ul>
+<p>Here’s the cleaned-up markup:</p>
+</section>
+</section>
+<section id="example-4-copilot-creating-a-follower-index-for-my_remote_cluster" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-4-copilot-creating-a-follower-index-for-my_remote_cluster">Example 4: (Copilot) Creating a follower index for my_remote_cluster</h3>
+<section id="requirements-17" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-17">Requirements</h4>
+<ul>
+<li>Elasticsearch 6.7.0 or later</li>
+<li>Two clusters: my_local_cluster (the follower cluster) and my_remote_cluster (the leader cluster)</li>
+<li>The my_remote_cluster has an index named my_index</li>
+</ul>
+</section>
+<section id="steps-17" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-17">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client</p></li>
+<li><p>Register the remote cluster in the local cluster using the _cluster/settings API</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"cluster"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"remote"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb105-6"><a href="#cb105-6" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"my_remote_cluster"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb105-7"><a href="#cb105-7" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">"seeds"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"&lt;ip_address&gt;:&lt;port&gt;"</span><span class="ot">]</span></span>
+<span id="cb105-8"><a href="#cb105-8" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb105-9"><a href="#cb105-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb105-10"><a href="#cb105-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb105-11"><a href="#cb105-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb105-12"><a href="#cb105-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Replace &lt;ip_address&gt; and &lt;port&gt; with the actual address and port of the remote cluster.</p></li>
+<li><p>Create a follower index in the local cluster using the _ccr/follow API</p>
+<div class="sourceCode" id="cb106"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/&lt;follower_index&gt;/_ccr/follow</span></span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"remote_cluster"</span> <span class="fu">:</span> <span class="st">"my_remote_cluster"</span><span class="fu">,</span></span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"leader_index"</span> <span class="fu">:</span> <span class="st">"my_index"</span></span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-17" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-17">Test</h4>
+<ul>
+<li><p>Check the follower index’s replication status using the _ccr/stats API</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/&lt;follower_index&gt;/_ccr/stats</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="considerations-17" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-17">Considerations</h4>
+<ul>
+<li>Cross-cluster replication requires sufficient resources (CPU, memory, and storage) on both the leader and follower clusters.</li>
+<li>Network connectivity and latency between the clusters can impact replication performance.</li>
+</ul>
+</section>
+<section id="clean-up-optional-17" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-17">Clean-up (optional)</h4>
+</section>
+<section id="documentation-17" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-17">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-getting-started.html">Cross-cluster replication</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/ccr-put-follow.html">Follower index APIs</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-update-settings.html">Remote cluster settings</a></li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./4-data-processing.html" class="pagination-link" aria-label="Data Processing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./6-appendix.html" class="pagination-link" aria-label="Appendix">
+        <span class="nav-page-text">Appendix</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
