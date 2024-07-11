@@ -103,14 +103,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-search-results"></div>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="2-searching-data.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -136,8 +138,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="steps" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="steps">Steps</h4>
 <ol type="1">
-<li><strong>Open the Kibana Console</strong> or use a REST client.</li>
-<li>Index some documents which will create an index at the same time. The Elastic Console doesn’t like properly formatted documents when calling <strong>_bulk</strong> so they need to be tightly packed.</li>
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Index some documents which will create an index at the same time. The Elastic Console doesn’t like properly formatted documents when calling <code>_bulk</code> so they need to be tightly packed.</p></li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/example_index/_bulk</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{}</span> <span class="fu">}</span></span>
@@ -151,11 +153,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{}</span> <span class="fu">}</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Fox tales"</span><span class="fu">,</span> <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"The tale of the quick fox that jumped over the lazy dog has become a legend."</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
-<li>Execute a <strong>term</strong> query</li>
+<li>Execute a <code>term</code> query</li>
 </ol>
 <ul>
-<li>Use the GET method to search for documents containing the term “Elasticsearch” in the title field using 3 different ways to search at the term level (there are 10 different ways currently. Refer to the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/term-level-queries.html">Term-level Queries</a> documentation for the full list).</li>
-</ul>
+<li><p>Use the GET method to search for documents containing the term “Elasticsearch” in the title field using 3 different ways to search at the term level (there are 10 different ways currently. Refer to the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/term-level-queries.html">Term-level Queries</a> documentation for the full list).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">example_index/_search</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -184,13 +185,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
 <ol start="4" type="1">
-<li>Execute a <strong>phrase</strong> query</li>
+<li>Execute a <code>phrase</code> query</li>
 </ol>
 <ul>
-<li>returns 2 docs</li>
-</ul>
+<li><p>returns 2 docs</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/example_index/_search</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -198,10 +199,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"quick brown fox"</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>returns 1 doc</li>
-</ul>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>returns 1 doc</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/example_index/_search</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -209,10 +208,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"fast and curi"</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>returns 1 doc</li>
-</ul>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>returns 1 doc</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/example_index/_search</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -221,14 +218,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"query"</span><span class="fu">:</span> <span class="st">"</span><span class="ch">\"</span><span class="st">fox jumps</span><span class="ch">\"</span><span class="st">"</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
 </section>
 <section id="considerations" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="considerations">Considerations</h4>
 <ul>
 <li>The default <strong>standard analyzer</strong> (lowercasing, whitespace tokenization, basic normalization) is used.</li>
-<li>The <strong>term</strong> query is used for exact matches and is not analyzed, meaning it matches the exact term in the inverted index.</li>
-<li>The <strong>match_phrase</strong> query analyzes the input text and matches it as a phrase, making it useful for finding exact sequences of terms.</li>
+<li>The <code>term</code> query is used for exact matches and is not analyzed, meaning it matches the exact term in the inverted index.</li>
+<li>The <code>match_phrase</code> query analyzes the input text and matches it as a phrase, making it useful for finding exact sequences of terms.</li>
 </ul>
 </section>
 <section id="test" class="level4 unnumbered">
@@ -240,9 +238,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="clean-up-optional" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="clean-up-optional">Clean-up (optional)</h4>
 <ul>
-<li>Delete the example index</li>
+<li><p>Delete the example index</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">example_index</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">example_index</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="documentation" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="documentation">Documentation</h4>
@@ -293,7 +291,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="4" type="1">
-<li>Add a <strong>must</strong> query for the description field. This will return 4 documents.</li>
+<li>Add a <code>must</code> query for the description field. This will return 4 documents.</li>
 </ol>
 <div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">books/_search</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
@@ -314,7 +312,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="5" type="1">
-<li>Add a <strong>filter</strong> query for the category field. This will return 2 documents.</li>
+<li>Add a <code>filter</code> query for the category field. This will return 2 documents.</li>
 </ol>
 <div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">books/_search</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
@@ -342,7 +340,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
 <span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="6" type="1">
-<li>Add a <strong>must_not</strong> filter for the title field. This will return 1 document.</li>
+<li>Add a <code>must_not</code> filter for the title field. This will return 1 document.</li>
 </ol>
 <div class="sourceCode" id="cb13"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">books/_search</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
@@ -432,9 +430,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="clean-up-optional-1" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-1">Clean-up (optional)</h4>
 <ul>
-<li>Delete the index</li>
+<li><p>Delete the index</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">books</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
-<div class="sourceCode" id="cb15"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">books</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="documentation-1" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="documentation-1">Documentation</h4>
@@ -2118,12 +2116,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="unnumbered anchored" data-anchor-id="steps-12">Steps</h4>
 <ol type="1">
 <li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
-<li><p>Set up multiple clusters on localhost.</p>
-<ul>
-<li>Assume you have two clusters, es01 and es02 and they have been set up as directed in the <strong>Appendix</strong>.</li>
-<li>In the local cluster, configure communication between the clusters by updating the local cluster settings.</li>
-</ul></li>
+<li><p>Set up multiple clusters on localhost.</p></li>
 </ol>
+<ul>
+<li><p>Assume you have two clusters, <strong>es01</strong> and <strong>es02</strong> and they have been set up as directed in the <strong>Appendix</strong>.</p></li>
+<li><p>In the local cluster, configure communication between the clusters by updating the local cluster settings.</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -2144,10 +2141,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb81-18"><a href="#cb81-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
 <span id="cb81-19"><a href="#cb81-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
 <span id="cb81-20"><a href="#cb81-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb81-21"><a href="#cb81-21" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb81-21"><a href="#cb81-21" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
 <ol start="3" type="1">
 <li>Create a product index in each cluster.</li>
 </ol>
+<ul>
+<li><p>From the <strong>Kibana Console</strong> (<strong>es01</strong>)</p>
 <div class="sourceCode" id="cb82"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/products</span></span>
 <span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -2163,8 +2163,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
 <span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
 <span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>From the command line execute:</p>
+<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>From the command line (<strong>es02</strong>).</p>
 <div class="sourceCode" id="cb83"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-u</span> elastic:[your password here] <span class="at">-X</span> PUT <span class="st">"http://localhost:9201/products?pretty"</span> <span class="at">-H</span> <span class="st">'Content-Type: application/json'</span> <span class="at">-d</span><span class="st">'</span></span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="st">{</span></span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="st">  "mappings": {</span></span>
@@ -2180,10 +2180,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb83-13"><a href="#cb83-13" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
 <span id="cb83-14"><a href="#cb83-14" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
 <span id="cb83-15"><a href="#cb83-15" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a><span class="st">}'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb83-16"><a href="#cb83-16" aria-hidden="true" tabindex="-1"></a><span class="st">}'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
 <ol start="4" type="1">
 <li>Index product documents into each cluster.</li>
 </ol>
+<ul>
+<li><p>For <strong>es01</strong>:</p>
 <div class="sourceCode" id="cb84"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/products/_bulk</span></span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
 <span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"product"</span><span class="fu">:</span> <span class="st">"Elasticsearch Guide"</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"Books"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">29.99</span> <span class="fu">}</span></span>
@@ -2192,8 +2195,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"3"</span> <span class="fu">}</span> <span class="fu">}</span></span>
 <span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"product"</span><span class="fu">:</span> <span class="st">"Elasticsearch T-shirt"</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"Apparel"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">19.99</span> <span class="fu">}</span></span>
 <span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"4"</span> <span class="fu">}</span> <span class="fu">}</span></span>
-<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"product"</span><span class="fu">:</span> <span class="st">"Elasticsearch Mug"</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"Apparel"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">12.99</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>From the command line execute:</p>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"product"</span><span class="fu">:</span> <span class="st">"Elasticsearch Mug"</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"Apparel"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">12.99</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>For <strong>es02</strong> through the command line:</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-u</span> elastic:[your password here] <span class="at">-X</span> POST <span class="st">"http://localhost:9201/products/_bulk?pretty"</span> <span class="at">-H</span> <span class="st">'Content-Type: application/json'</span> <span class="at">-d</span><span class="st">'</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="st">{ "index": { "_id": "5" } }</span></span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="st">{ "product": "Elasticsearch Stickers", "category": "Accessories", "price": 4.99 }</span></span>
@@ -2202,15 +2205,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="st">{ "index": { "_id": "7" } }</span></span>
 <span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a><span class="st">{ "product": "Elasticsearch Pen", "category": "Stationery", "price": 3.49 }</span></span>
 <span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a><span class="st">{ "index": { "_id": "8" } }</span></span>
-<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="st">{ "product": "Elasticsearch Hoodie", "category": "Apparel", "price": 45.99 }</span></span>
-<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a><span class="st">{ "product": "Elasticsearch Hoodie", "category": "Apparel", "price": 45.99 }    '</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
 <ol start="5" type="1">
 <li>Configure Cross-Cluster Search (CCS).</li>
 </ol>
 <ul>
-<li>In the local cluster, ensure the remote cluster is configured by checking the settings:</li>
+<li><p>In the local cluster, ensure the remote cluster is configured by checking the settings:</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/settings?include_defaults=true&amp;filter_path=defaults.cluster.remote</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
-<div class="sourceCode" id="cb86"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cluster/settings?include_defaults=true&amp;filter_path=defaults.cluster.remote</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="6" type="1">
 <li>Execute a Cross-Cluster Search query.</li>
 </ol>
@@ -2226,10 +2229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="test-12" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="test-12">Test</h4>
 <ol type="1">
-<li>Verify the index creation.
-<ul>
-<li>Verify the mappings are correctly applied in both clusters.</li>
-</ul></li>
+<li>Verify the index creation.</li>
 </ol>
 <div class="sourceCode" id="cb88"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>From the command line execute:</p>
@@ -2266,13 +2266,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="clean-up-optional-12" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-12">Clean-up (optional)</h4>
 <ul>
-<li>Delete the es01 index.</li>
+<li><p>Delete the <strong>es01</strong> index.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Delete the <strong>es02</strong> index from the command line.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-u</span> elastic:[your password here] <span class="at">-X</span> DELETE <span class="st">"http://localhost:9201/products?pretty"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
-<div class="sourceCode" id="cb93"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li>Delete the es02 index from the command line.</li>
-</ul>
-<div class="sourceCode" id="cb94"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-u</span> elastic:[your password here] <span class="at">-X</span> DELETE <span class="st">"http://localhost:9201/products?pretty"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="documentation-12" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="documentation-12">Documentation</h4>

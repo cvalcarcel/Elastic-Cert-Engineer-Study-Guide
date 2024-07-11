@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -69,14 +103,16 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-search-results"></div>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="6-appendix.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -185,134 +221,181 @@ ul.task-list li input[type="checkbox"] {
 <section id="setting-up-an-additional-single-node-cluster-for-cross-cluster-search-ccs" class="level3">
 <h3 class="anchored" data-anchor-id="setting-up-an-additional-single-node-cluster-for-cross-cluster-search-ccs">Setting Up An Additional Single-node Cluster for Cross-cluster Search (CCS)</h3>
 <p><strong><em>Setting up es01</em></strong></p>
-<ol start="13" type="1">
-<li><p>docker exec ssh es01 sudo docker exec -it es01 /bin/bash</p></li>
-<li><p>create the p12 certificate</p></li>
+<ol type="1">
+<li>Shell into the <strong>es01</strong> container</li>
 </ol>
-<p># https://www.elastic.co/guide/en/elasticsearch/reference/8.14/security-basic-setup.html</p>
-<p>elasticsearch-certutil ca</p>
-<p>elasticsearch-certutil cert --ca elastic-stack-ca.p12</p>
-<ol start="15" type="1">
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker exec <span class="at">-it</span> es01 /bin/bash</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>create the p12 certificate</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.elastic.co/guide/en/elasticsearch/reference/8.14/security-basic-setup.html</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">elasticsearch-certutil</span> ca</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">elasticsearch-certutil</span> cert <span class="at">--ca</span> elastic-stack-ca.p12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
 <li>move the p12 file into the config/certs directory and modify the file permissions</li>
 </ol>
-<p>cd config/certs mv ../../elastic-certificates.p12 . chmod ug+rw elastic-certificates.p12</p>
-<ol start="16" type="1">
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> config/certs </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> ../../elastic-certificates.p12 . </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> ug+rw elastic-certificates.p12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
 <li>reset the passwords (even if there is none)</li>
 </ol>
-<p>elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password</p>
-<ol start="17" type="1">
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">elasticsearch-keystore</span> add xpack.security.transport.ssl.keystore.secure_password </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">elasticsearch-keystore</span> add xpack.security.transport.ssl.truststore.secure_password</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
 <li>exit the container</li>
 </ol>
-<p>exit</p>
-<ol start="18" type="1">
-<li>docker copy the elasticsearch.yml file from <strong>es01</strong></li>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="6" type="1">
+<li><code>docker copy</code> the elasticsearch.yml file from <strong>es01</strong></li>
 </ol>
-<p>sudo docker cp es01:/usr/share/elasticsearch/config/elasticsearch.yml</p>
-<p>elasticsearch-es01.yml sudo chmod ugo+rw elasticsearch.yml</p>
-<ol start="19" type="1">
-<li>Edit elasticsearch-es01.yml:</li>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker cp es01:/usr/share/elasticsearch/config/elasticsearch.yml elasticsearch-es01.yml sudo chmod ugo+rw elasticsearch.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="7" type="1">
+<li>Edit <strong>elasticsearch-es01.yml</strong></li>
 </ol>
-<p>cluster.name: "cluster-1" network.host: 0.0.0.0 node.name: c1-node-1</p>
-<p># Enable security features xpack.security.enabled: true xpack.security.enrollment.enabled: false xpack.security.transport.ssl.enabled: true</p>
-<p>xpack.security.transport.ssl.verification_mode: certificate xpack.security.transport.ssl.client_authentication: required</p>
-<p>xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12 xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12 xpack.security.authc.token.enabled: false</p>
-<p># Enable encryption for HTTP API client connections, such as Kibana, Logstash, and</p>
-<p>Agents xpack.security.http.ssl: enabled: false</p>
-<p>keystore.path: certs/http.p12</p>
-<ol start="20" type="1">
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cluster.name:</span> <span class="st">"cluster-1"</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">network.host:</span> 0.0.0.0 </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ex">node.name:</span> c1-node-1</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable security features xpack.security.enabled: true</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.enrollment.enabled:</span> false</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.enabled:</span> true</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.verification_mode:</span> certificate</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.client_authentication:</span> required</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.keystore.path:</span> certs/elastic-certificates.p12</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.truststore.path:</span> certs/elastic-certificates.p12 </span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.authc.token.enabled:</span> false</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents </span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.http.ssl:</span> enabled: false</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="ex">keystore.path:</span> certs/http.p12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="8" type="1">
 <li>Copy elasticsearch-es01.yml back to es01</li>
 </ol>
-<p>sudo docker cp elasticsearch-es01.yml</p>
-<p>es01:/usr/share/elasticsearch/config/elasticsearch.yml</p>
-<ol start="21" type="1">
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker cp elasticsearch-es01.yml es01:/usr/share/elasticsearch/config/elasticsearch.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="9" type="1">
 <li>restart es01 and confirm commication with kibana</li>
 </ol>
-<p>sudo docker stop es01 kibana sudo docker start es01 kibana</p>
-<p>sudo docker logs -f es01 # may need separate terminal sudo docker logs -f kibana # may need separate terminal</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker stop es01 kibana sudo docker start es01 kibana</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker logs <span class="at">-f</span> es01 <span class="co"># may need separate terminal </span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker logs <span class="at">-f</span> kibana <span class="co"># may need separate terminal</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong><em>es02</em></strong></p>
-<ol start="22" type="1">
-<li>open another tab or terminal and docker run es02</li>
+<ol start="10" type="1">
+<li>open another tab or terminal and <code>docker run</code> <strong>es02</strong></li>
 </ol>
-<p>sudo docker run --name es02 --net elastic -p 9201:9200 -p 9301:9300 -e</p>
-<p>"discovery.type=single-node" -e "cluster.name=cluster-2" -m 1GB -t docker.elastic.co/elasticsearch/elasticsearch:8.14.1</p>
-<ol start="23" type="1">
-<li>docker copy elastic-certificates.p12 from es01 (both clusters have to have the same transport certificate)</li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker run <span class="at">--name</span> es02 <span class="at">--net</span> elastic <span class="at">-p</span> 9201:9200 <span class="at">-p</span> 9301:9300 <span class="at">-e</span> <span class="st">"discovery.type=single-node"</span> <span class="at">-e</span> <span class="st">"cluster.name=cluster-2"</span> <span class="at">-m</span> 1GB <span class="at">-t</span> docker.elastic.co/elasticsearch/elasticsearch:8.14.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="11" type="1">
+<li><code>docker copy</code> <strong>elastic-certificates.p12</strong> from <strong>es01</strong> (both clusters have to have the same transport certificate)</li>
 </ol>
-<p>sudo docker cp es01:/usr/share/elasticsearch/config/certs/elasticcertificates.p12 .</p>
-<ol start="24" type="1">
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker cp es01:/usr/share/elasticsearch/config/certs/elasticcertificates.p12 .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="12" type="1">
 <li>docker copy elastic-certificates.p12 to es02</li>
 </ol>
-<p>sudo docker cp elastic-certificates.p12 es02:/usr/share/elasticsearch/config/certs</p>
-<ol start="25" type="1">
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker cp elastic-certificates.p12 es02:/usr/share/elasticsearch/config/certs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="13" type="1">
 <li>Copy elasticsearch-es01.yml to elasticsearch-es02.yml</li>
 </ol>
-<p>cp elasticsearch-es01.ymlcelasticsearch-es02.yml</p>
-<ol start="26" type="1">
-<li>Edit elasticsearch-es02.yml. The only thing to change is the cluster name and the node name.</li>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> elasticsearch-es01.yml elasticsearch-es02.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="14" type="1">
+<li>Edit <strong>elasticsearch-es02.yml</strong>. The only thing to change is the cluster name and the node name.</li>
 </ol>
-<p><strong>cluster.name: "cluster-2"</strong> network.host: 0.0.0.0 <strong>node.name: c2-node-1</strong></p>
-<p># Enable security features xpack.security.enabled: true xpack.security.enrollment.enabled: false xpack.security.transport.ssl.enabled: true</p>
-<p>xpack.security.transport.ssl.verification_mode: certificate xpack.security.transport.ssl.client_authentication: required</p>
-<p>xpack.security.transport.ssl.keystore.path: certs/elastic-certificates.p12 xpack.security.transport.ssl.truststore.path: certs/elastic-certificates.p12 xpack.security.authc.token.enabled: false</p>
-<p># Enable encryption for HTTP API client connections, such as Kibana, Logstash, and</p>
-<p>Agents xpack.security.http.ssl: enabled: false</p>
-<p>keystore.path: certs/http.p12</p>
-<ol start="27" type="1">
-<li><p>Confirm rw permissions to elasticsearch.ymlls -l elasticsearch-es02.yml</p></li>
-<li><p>docker copy the modified elasticsearch-es02.yml file to es02</p></li>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">cluster.name:</span> <span class="st">"cluster-2"</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="ex">network.host:</span> 0.0.0.0</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">node.name:</span> c2-node-1</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable security features xpack.security.enabled: true</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.enrollment.enabled:</span> false</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.enabled:</span> true</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.verification_mode:</span> certificate</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.client_authentication:</span> required</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.keystore.path:</span> certs/elastic-certificates.p12</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.transport.ssl.truststore.path:</span> certs/elastic-certificates.p12 </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.authc.token.enabled:</span> false</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents </span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="ex">xpack.security.http.ssl:</span> enabled: false</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="ex">keystore.path:</span> certs/http.p12</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="15" type="1">
+<li>Confirm <code>rw</code> permissions to elasticsearch.yml</li>
 </ol>
-<p>sudo docker cp elasticsearch-es02.yml</p>
-<p>es02:/usr/share/elasticsearch/config/elasticsearch-es02.yml</p>
-<ol start="29" type="1">
-<li><p>docker exec ssh es02 sudo docker exec -it es02 /bin/bash</p></li>
-<li><p>reset the passwords to access the p12 file (even if there is none)</p></li>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> elasticsearch-es02.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="16" type="1">
+<li><code>docker copy</code> the modified <strong>elasticsearch-es02.yml</strong> file to <strong>es02</strong></li>
 </ol>
-<p># https://www.elastic.co/guide/en/elasticsearch/reference/8.14/security-basic-</p>
-<p>setup.html</p>
-<p>elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password</p>
-<ol start="31" type="1">
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker cp elasticsearch-es02.yml es02:/usr/share/elasticsearch/config/elasticsearch-es02.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="17" type="1">
+<li><code>docker exec</code> ssh es02</li>
+</ol>
+<div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker exec <span class="at">-it</span> es02 /bin/bash</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="18" type="1">
+<li>reset the passwords to access the p12 file (even if there is none)</li>
+</ol>
+<div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://www.elastic.co/guide/en/elasticsearch/reference/8.14/security-basic-setup.html</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">elasticsearch-keystore</span> add xpack.security.transport.ssl.keystore.secure_password</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">elasticsearch-keystore</span> add xpack.security.transport.ssl.truststore.secure_password</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="19" type="1">
 <li>restart es02</li>
 </ol>
-<p>sudo docker stop es02 sudo docker start es02</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker stop es02 </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> docker start es02</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="the-first-time-use-this-to-configure-the-local-cluster-es01-to-recognize-the-remote-cluster-es02" class="level4">
 <h4 class="anchored" data-anchor-id="the-first-time-use-this-to-configure-the-local-cluster-es01-to-recognize-the-remote-cluster-es02">32. THE FIRST TIME USE THIS TO CONFIGURE THE LOCAL CLUSTER (ES01) TO RECOGNIZE THE REMOTE CLUSTER (ES02)</h4>
-<p># Do this from Kibana -&gt; Management -&gt; DevTools</p>
-<p>PUT /_cluster/settings</p>
-<p>{</p>
-<p>"persistent": {</p>
-<p>"cluster": {</p>
-<p>"remote": {</p>
-<p>"es01": {</p>
-<p>"seeds": [</p>
-<p>"es01:9300"</p>
-<p>],</p>
-<p>"skip_unavailable": true</p>
-<p>},</p>
-<p>"es02": {</p>
-<p>"seeds": [</p>
-<p>"es02:9300"</p>
-<p>],</p>
-<p>"skip_unavailable": false</p>
-<p>}</p>
-<p>}</p>
-<p>}</p>
-<p>}</p>
-<p>}</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="er">#</span> <span class="er">Do</span> <span class="er">this</span> <span class="er">from</span> <span class="er">Kibana</span> <span class="er">-&gt;</span> <span class="er">Management</span> <span class="er">-&gt;</span> <span class="er">DevTools</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"cluster"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"remote"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"es01"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"seeds"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">"es01:9300"</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"skip_unavailable"</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"es02"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"seeds"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>            <span class="st">"es02:9300"</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"skip_unavailable"</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Go to the Remote Cluster dashboard page. You should see es01 and es02 listed and communication as active.</p>
 <p><img src="media/image6.jpg" style="width:6.925in;height:2.34514in"></p>
 <p>Figure N: es01 and es02 are communicating and ready for cross-cluster queries.</p>
 <p>If you ever feel the need to delete the connection between the two cluster just execute this:</p>
-<p>33. AFTER EVERY SESSION YOU MUST DELETE THE CLUSTER SETTINGS AND RESTORE THEM BEFORE STARTING AGAIN:</p>
-<p># TO REMOVE THE CLUSTER SETTINGS</p>
-<p>PUT /_cluster/settings</p>
-<p>{</p>
-<p>"persistent": {</p>
-<p>"cluster.remote.local.seeds": null,</p>
-<p>"cluster.remote.local.skip_unavailable": null,</p>
-<p>"cluster.remote.remote.seeds": null,</p>
-<p>"cluster.remote.remote.skip_unavailable": null</p>
-<p>}</p>
-<p>}</p>
+<p>I HAVE NOT FOUND THIS TO BE TRUE:</p>
+<ol start="33" type="1">
+<li>AFTER EVERY SESSION YOU MUST DELETE THE CLUSTER SETTINGS AND RESTORE THEM BEFORE STARTING AGAIN:</li>
+</ol>
+<div class="sourceCode" id="cb21"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="er">#</span> <span class="er">TO</span> <span class="er">REMOVE</span> <span class="er">THE</span> <span class="er">CLUSTER</span> <span class="er">SETTINGS</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"cluster.remote.local.seeds"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"cluster.remote.local.skip_unavailable"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"cluster.remote.remote.seeds"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"cluster.remote.remote.skip_unavailable"</span><span class="fu">:</span> <span class="kw">null</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 </section>
@@ -327,41 +410,133 @@ ul.task-list li input[type="checkbox"] {
 <p>sudo docker start es01 sudo docker start kibana</p>
 <p>Go to the Kibana URL to run all the exercises:</p>
 <p>http://0.0.0.0:5601</p>
-<p><strong>Q: What is the importance of the @timestamp field?</strong></p>
-<p><strong>A:</strong> The <strong>@timestamp</strong> field in Elasticsearch serves a crucial purpose related to time-based data.</p>
+<p><strong>Q: What is the importance of the <code>@timestamp</code> field?</strong></p>
+<p><strong>A:</strong> The <strong><code>@timestamp</code></strong> field in Elasticsearch serves a crucial purpose related to time-based data.</p>
 <blockquote class="blockquote">
 <p>1. <strong>Timestamp for Time-Series Data</strong>:</p>
 </blockquote>
 <ul>
 <li><p>Elasticsearch often deals with time-series data, where each document represents an event or record associated with a specific timestamp (e.g., log entries, sensor readings, transactions).</p></li>
-<li><p>The @timestamp field explicitly indicates when the document was created or when the event occurred.</p></li>
+<li><p>The <code>@timestamp</code> field explicitly indicates when the document was created or when the event occurred.</p></li>
 </ul>
 <blockquote class="blockquote">
 <p>7. <strong>Data Streams and Rollover Policies</strong>:</p>
 </blockquote>
 <ul>
-<li><p>When using <strong>data streams</strong>, which handle append-only time series, the @timestamp field is mandatory.</p></li>
+<li><p>When using <strong>data streams</strong>, which handle append-only time series, the <code>@timestamp</code> field is mandatory.</p></li>
 <li><p>Data streams manage collections of documents with a time dimension. Having an explicit timestamp field allows Elasticsearch to apply time-based rollover policies.</p></li>
 <li><p>Rollover policies create new write indices (current write index) and backing indices (for historical data) based on time intervals or document count thresholds.</p></li>
-<li><p>The @timestamp field ensures that data streams can efficiently manage these indices.</p></li>
+<li><p>The <code>@timestamp</code> field ensures that data streams can efficiently manage these indices.</p></li>
 </ul>
 <blockquote class="blockquote">
 <p>8. <strong>Write and Backing Indices</strong>:</p>
 </blockquote>
 <ul>
 <li><p>Writes are directed to the current write index, while reads can access all backing indices.</p></li>
-<li><p>The @timestamp field plays a key role in determining which indices contain relevant data for a given time range.</p></li>
+<li><p>The <code>@timestamp</code> field plays a key role in determining which indices contain relevant data for a given time range.</p></li>
 <li><p>Without this field, Elasticsearch wouldn’t know how to organize data into time-based segments.</p></li>
 </ul>
 <blockquote class="blockquote">
 <p>9. <strong>Mapping and Default Options</strong>:</p>
 </blockquote>
 <ul>
-<li><p>Every document indexed to a data stream must contain an @timestamp field.</p></li>
-<li><p>By default, Elasticsearch maps @timestamp as a date field with default options.</p></li>
+<li><p>Every document indexed to a data stream must contain an <code>@timestamp</code> field.</p></li>
+<li><p>By default, Elasticsearch maps <code>@timestamp</code> as a date field with default options.</p></li>
 <li><p>You can customize the mapping if needed, but having the field is essential for proper data stream functioning.</p></li>
 </ul>
-<p>In summary, the @timestamp field ensures that Elasticsearch can effectively manage time-series data, apply rollover policies, and organize indices based on time intervals. <a href="https://stackoverflow.com/questions/68317063/what-is-the-use-of-the-mandatory-timestamp-field-in-elasticsearch-datastream"><u>It’s a fundamental part of</u> <u>handling time-based data in Elasticsearch3</u></a> <a href="https://stackoverflow.com/questions/21292284/is-the-timestamp-field-needed-when-using-logstash-to-store-in-elasticsearch"><u>4</u></a> . If you’re working with logs, events, or any time-stamped data, the @timestamp field becomes critical for accurate indexing and querying.</p>
+<p>In summary, the <code>@timestamp</code> field ensures that Elasticsearch can effectively manage time-series data, apply rollover policies, and organize indices based on time intervals. <a href="https://stackoverflow.com/questions/68317063/what-is-the-use-of-the-mandatory-timestamp-field-in-elasticsearch-datastream"><u>It’s a fundamental part of</u> <u>handling time-based data in Elasticsearch3</u></a> <a href="https://stackoverflow.com/questions/21292284/is-the-timestamp-field-needed-when-using-logstash-to-store-in-elasticsearch"><u>4</u></a> . If you’re working with logs, events, or any time-stamped data, the <code>@timestamp</code> field becomes critical for accurate indexing and querying.</p>
+<p><strong>Q: This stuff looks hard. Why?</strong></p>
+<p><strong>A:</strong> Okay, so the use of JSON for everything in Elasticsearch gives the impression that you must be a JSON rockstar to make things happen. Not the truth, but it helps. The fact is that you can accomplish a lot with a little in Elasticsearch, but once you leave the comfort of the easy stuff it can be quite complicated to make things work. For example, let’s say that you want to create an index. That’s easy as all you have to do it a <code>PUT</code> and the name of the index:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">my_index</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Woo hoo! You will see the above sometimes done as:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/my_index</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or even</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/my_index/</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>They are all equivalent. Compare that to a request that executes a query with sorting, filtering, and aggregations all in one call:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_scripts/product_search</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"script"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"lang"</span><span class="fu">:</span> <span class="st">"mustache"</span><span class="fu">,</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"source"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"bool"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"must"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"multi_match"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"query"</span><span class="fu">:</span> <span class="st">"{{query_string}}"</span><span class="fu">,</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"fields"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"name"</span><span class="ot">,</span> <span class="st">"description"</span><span class="ot">]</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"filter"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"term"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"{{category}}"</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"terms"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"tags"</span><span class="fu">:</span> <span class="st">"{{tags}}"</span></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"sort"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"{{sort_field}}"</span><span class="fu">:</span> <span class="st">"{{sort_order}}"</span></span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"from"</span><span class="fu">:</span> <span class="st">"{{from}}"</span><span class="fu">,</span></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"size"</span><span class="fu">:</span> <span class="st">"{{size}}"</span><span class="fu">,</span></span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"aggs"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"categories"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"terms"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"field"</span><span class="fu">:</span> <span class="st">"category"</span></span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"tags"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"terms"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"field"</span><span class="fu">:</span> <span class="st">"tags"</span></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"specifications"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"nested"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"path"</span><span class="fu">:</span> <span class="st">"specifications"</span></span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a>          <span class="fu">},</span></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"aggs"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"ram"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"terms"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"field"</span><span class="fu">:</span> <span class="st">"specifications.ram"</span></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a>            <span class="fu">},</span></span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"storage"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"terms"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"field"</span><span class="fu">:</span> <span class="st">"specifications.storage"</span></span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Of course, if we turn the above into a search template, as we do in <a href="3-developing-search-applications.html#example-3-creating-search-templates-for-an-e-commerce-product-catalog-with-nested-queries-sorting-pagination-and-aggregations"><strong>Developing Search Applications</strong> &gt; <strong>Task 3.5</strong> &gt; <strong>Example 3</strong></a>, then we can execute the above with a much simpler request:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products/_search/template</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"product_search"</span><span class="fu">,</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query_string"</span><span class="fu">:</span> <span class="st">"product"</span><span class="fu">,</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"Electronics"</span><span class="fu">,</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"tags"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"electronics"</span><span class="ot">,</span> <span class="st">"gadget"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"sort_field"</span><span class="fu">:</span> <span class="st">"price"</span><span class="fu">,</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"sort_order"</span><span class="fu">:</span> <span class="st">"desc"</span><span class="fu">,</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"from"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"size"</span><span class="fu">:</span> <span class="dv">2</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>But notice how all the manual work. First you have to work out the query, which is non-trivial, and then convert it into a search template and then define the final query based on the needs to the template. The template makes things much more efficient (can you say <em>function call</em>?), but the actual JSON is far from non-trivial. You must know the query syntax available in Elasticsearch to make it happen.</p>
+<p>That can lead to a certain amount of confusion (is there an advantage, from an engineering perspective, to have so many different ways to do the same thing? Well, it is the Unix way…), but makes certain developers happy. Does it adhere to REST conventions? I’ll leave that to others to decide…</p>
 </section>
 <section id="devtools-console-auto-complete" class="level2">
 <h2 class="anchored" data-anchor-id="devtools-console-auto-complete">DevTools Console Auto-complete</h2>
@@ -500,8 +675,87 @@ ul.task-list li input[type="checkbox"] {
 <p>docker start kibana # or whatever name you gave the containers</p>
 </blockquote>
 <p>Give it a minute or so and you should be able to see the login page again.</p>
+</section>
+</section>
+<section id="cluster-management-topics" class="level1">
+<h1>Cluster Management Topics</h1>
+<section id="how-to-create-an-index-with-unassigned-shards" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-create-an-index-with-unassigned-shards">How to Create an Index with Unassigned Shards</h2>
+<p>Creating an unassigned shard in Elasticsearch typically involves manipulating the cluster’s shard allocation settings. Here’s a step-by-step guide to achieve this:</p>
+<ol type="1">
+<li><p><strong>Create an Index with Unassigned Shards</strong>:</p>
+<ul>
+<li>You can create an index with a primary shard but set the number of replicas to a value higher than the number of available nodes. This will result in unassigned replica shards.</li>
+</ul>
+<div class="sourceCode" id="cb27"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/my-index</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">2</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this example, if you only have one node, the second replica will remain unassigned.</p></li>
+<li><p><strong>Disable Shard Allocation Temporarily</strong>:</p>
+<ul>
+<li>You can disable shard allocation to create unassigned shards intentionally.</li>
+</ul>
+<div class="sourceCode" id="cb28"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"cluster.routing.allocation.enable"</span><span class="fu">:</span> <span class="st">"none"</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Then create an index:</li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/my-index</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Re-enable shard allocation:</li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_cluster/settings</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"persistent"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"cluster.routing.allocation.enable"</span><span class="fu">:</span> <span class="st">"all"</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Manually Move Shards</strong>:</p>
+<ul>
+<li>You can manually move shards to create unassigned shards using the <code>_cluster/reroute</code> API.</li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_cluster/reroute</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"commands"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"move"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"my-index"</span><span class="fu">,</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"shard"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"from_node"</span><span class="fu">:</span> <span class="st">"node-1"</span><span class="fu">,</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"to_node"</span><span class="fu">:</span> <span class="st">"node-2"</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the target node (<code>node-2</code>) is not available or suitable, the shard will remain unassigned.</p></li>
+<li><p><strong>Check Unassigned Shards</strong>:</p>
+<ul>
+<li>Use the <code>_cat/shards</code> API to view unassigned shards.</li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">GET</span> /_cat/shards<span class="pp">?</span>v=true<span class="kw">&amp;</span><span class="va">h</span><span class="op">=</span>index,shard,prirep,state,node,unassigned.reason<span class="kw">&amp;</span><span class="va">s</span><span class="op">=</span>state</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+<p>These methods can help you create unassigned shards for testing or troubleshooting purposes. Always ensure you understand the implications of having unassigned shards in your cluster, as they can affect data availability and cluster performance¹².</p>
+<p>Source: Conversation with Copilot, 7/9/2024</p>
+<section id="references" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="references">References</h4>
+<p>[Diagnose unassigned shards | Elasticsearch Guide <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/diagnose-unassigned-shards.html">8.14</a> <a href="https://sematext.com/blog/elasticsearch-unassigned-shards/">How to Find and Fix Elasticsearch Unassigned Shards</a> <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-tool.html.">Elasticsearch-shard</a></p>
 
 
+</section>
 </section>
 </section>
 
