@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Searching Data – The Definitive Guide to the Elastic Certified Engineer Exam v8.1</title>
+<title>searching-data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,14 +58,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./3-developing-search-applications.html" rel="next">
-<link href="./1-data-management.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -106,174 +103,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-searching-data.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Searching Data</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">The Definitive Guide to the Elastic Certified Engineer Exam v8.1</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Welcome</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./0.1-preface.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./0.2-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./1-data-management.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Management</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./2-searching-data.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Searching Data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3-developing-search-applications.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Developing Search Applications</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./4-data-processing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./5-cluster-management.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./6-appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Appendix</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#task-write-and-execute-a-search-query-for-terms-andor-phrases-in-one-or-more-fields-of-an-index" id="toc-task-write-and-execute-a-search-query-for-terms-andor-phrases-in-one-or-more-fields-of-an-index" class="nav-link active" data-scroll-target="#task-write-and-execute-a-search-query-for-terms-andor-phrases-in-one-or-more-fields-of-an-index"><span class="header-section-number">2.1</span> Task: Write and execute a search query for terms and/or phrases in one or more fields of an index</a>
-  <ul class="collapse">
-  <li><a href="#example-1-write-and-execute-a-basic-term-and-phrase-search" id="toc-example-1-write-and-execute-a-basic-term-and-phrase-search" class="nav-link" data-scroll-target="#example-1-write-and-execute-a-basic-term-and-phrase-search">Example 1: Write and execute a basic term and phrase search</a></li>
-  </ul></li>
-  <li><a href="#task-write-and-execute-a-search-query-that-is-a-boolean-combination-of-multiple-queries-and-filters" id="toc-task-write-and-execute-a-search-query-that-is-a-boolean-combination-of-multiple-queries-and-filters" class="nav-link" data-scroll-target="#task-write-and-execute-a-search-query-that-is-a-boolean-combination-of-multiple-queries-and-filters"><span class="header-section-number">2.2</span> Task: Write and execute a search query that is a Boolean combination of multiple queries and filters</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-a-boolean-search-for-documents-in-a-book-index" id="toc-example-1-creating-a-boolean-search-for-documents-in-a-book-index" class="nav-link" data-scroll-target="#example-1-creating-a-boolean-search-for-documents-in-a-book-index">Example 1: Creating a Boolean search for documents in a book index</a></li>
-  <li><a href="#example-2-creating-a-boolean-search-for-finding-products-within-a-specific-price-range-and-excluding-discontinued-items" id="toc-example-2-creating-a-boolean-search-for-finding-products-within-a-specific-price-range-and-excluding-discontinued-items" class="nav-link" data-scroll-target="#example-2-creating-a-boolean-search-for-finding-products-within-a-specific-price-range-and-excluding-discontinued-items">Example 2: Creating a Boolean search for finding products within a specific price range and excluding discontinued items</a></li>
-  <li><a href="#example-3-creating-a-boolean-search-for-e-commerce-products" id="toc-example-3-creating-a-boolean-search-for-e-commerce-products" class="nav-link" data-scroll-target="#example-3-creating-a-boolean-search-for-e-commerce-products">Example 3: Creating a Boolean search for e-commerce products</a></li>
-  <li><a href="#example-4-creating-a-boolean-search-for-e-commerce-products" id="toc-example-4-creating-a-boolean-search-for-e-commerce-products" class="nav-link" data-scroll-target="#example-4-creating-a-boolean-search-for-e-commerce-products">Example 4: Creating a Boolean search for e-commerce products</a></li>
-  </ul></li>
-  <li><a href="#task-create-an-asynchronous-search" id="toc-task-create-an-asynchronous-search" class="nav-link" data-scroll-target="#task-create-an-asynchronous-search"><span class="header-section-number">2.3</span> Task: Create an asynchronous search</a>
-  <ul class="collapse">
-  <li><a href="#example-1-executing-an-asynchronous-search-on-a-large-log-index" id="toc-example-1-executing-an-asynchronous-search-on-a-large-log-index" class="nav-link" data-scroll-target="#example-1-executing-an-asynchronous-search-on-a-large-log-index">Example 1: Executing an asynchronous search on a large log index</a></li>
-  </ul></li>
-  <li><a href="#task-write-and-execute-metric-and-bucket-aggregations" id="toc-task-write-and-execute-metric-and-bucket-aggregations" class="nav-link" data-scroll-target="#task-write-and-execute-metric-and-bucket-aggregations"><span class="header-section-number">2.4</span> Task: Write and execute metric and bucket aggregations</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-metric-and-bucket-aggregations-for-product-prices" id="toc-example-1-creating-metric-and-bucket-aggregations-for-product-prices" class="nav-link" data-scroll-target="#example-1-creating-metric-and-bucket-aggregations-for-product-prices">Example 1: Creating Metric and Bucket Aggregations for Product Prices</a></li>
-  <li><a href="#example-2-creating-metric-and-bucket-aggregations-for-website-traffic" id="toc-example-2-creating-metric-and-bucket-aggregations-for-website-traffic" class="nav-link" data-scroll-target="#example-2-creating-metric-and-bucket-aggregations-for-website-traffic">Example 2: Creating Metric and Bucket Aggregations for Website Traffic</a></li>
-  <li><a href="#example-3-creating-metric-and-bucket-aggregations-for-analyzing-employee-salaries" id="toc-example-3-creating-metric-and-bucket-aggregations-for-analyzing-employee-salaries" class="nav-link" data-scroll-target="#example-3-creating-metric-and-bucket-aggregations-for-analyzing-employee-salaries">Example 3: Creating Metric and Bucket Aggregations for Analyzing Employee Salaries</a></li>
-  </ul></li>
-  <li><a href="#task-write-and-execute-aggregations-that-contain-subaggregations" id="toc-task-write-and-execute-aggregations-that-contain-subaggregations" class="nav-link" data-scroll-target="#task-write-and-execute-aggregations-that-contain-subaggregations"><span class="header-section-number">2.5</span> Task: Write and execute aggregations that contain subaggregations</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-aggregations-and-sub-aggregations-for-product-categories-and-prices" id="toc-example-1-creating-aggregations-and-sub-aggregations-for-product-categories-and-prices" class="nav-link" data-scroll-target="#example-1-creating-aggregations-and-sub-aggregations-for-product-categories-and-prices">Example 1: Creating aggregations and sub-aggregations for Product Categories and Prices</a></li>
-  <li><a href="#example-2-creating-aggregations-and-sub-aggregations-for-employee-data-analysis" id="toc-example-2-creating-aggregations-and-sub-aggregations-for-employee-data-analysis" class="nav-link" data-scroll-target="#example-2-creating-aggregations-and-sub-aggregations-for-employee-data-analysis">Example 2: Creating aggregations and sub-aggregations for Employee Data Analysis</a></li>
-  <li><a href="#example-3-creating-aggregations-and-sub-aggregations-for-application-logs-by-hour-and-log-level" id="toc-example-3-creating-aggregations-and-sub-aggregations-for-application-logs-by-hour-and-log-level" class="nav-link" data-scroll-target="#example-3-creating-aggregations-and-sub-aggregations-for-application-logs-by-hour-and-log-level">Example 3: Creating aggregations and sub-aggregations for application logs by Hour and Log Level</a></li>
-  </ul></li>
-  <li><a href="#task-write-and-execute-a-query-that-searches-across-multiple-clusters" id="toc-task-write-and-execute-a-query-that-searches-across-multiple-clusters" class="nav-link" data-scroll-target="#task-write-and-execute-a-query-that-searches-across-multiple-clusters"><span class="header-section-number">2.6</span> Task: Write and execute a query that searches across multiple clusters</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-search-queries-for-products-in-multiple-clusters" id="toc-example-1-creating-search-queries-for-products-in-multiple-clusters" class="nav-link" data-scroll-target="#example-1-creating-search-queries-for-products-in-multiple-clusters">Example 1: Creating search queries for Products in Multiple Clusters</a></li>
-  </ul></li>
-  <li><a href="#task-write-and-execute-a-search-that-utilizes-a-runtime-field" id="toc-task-write-and-execute-a-search-that-utilizes-a-runtime-field" class="nav-link" data-scroll-target="#task-write-and-execute-a-search-that-utilizes-a-runtime-field"><span class="header-section-number">2.7</span> Task: Write and execute a search that utilizes a runtime field</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-search-queries-for-products-with-a-runtime-field-for-discounted-prices" id="toc-example-1-creating-search-queries-for-products-with-a-runtime-field-for-discounted-prices" class="nav-link" data-scroll-target="#example-1-creating-search-queries-for-products-with-a-runtime-field-for-discounted-prices">Example 1: Creating search queries for products with a runtime field for discounted prices</a></li>
-  <li><a href="#example-2-creating-search-queries-for-employees-with-a-calculated-total-salary" id="toc-example-2-creating-search-queries-for-employees-with-a-calculated-total-salary" class="nav-link" data-scroll-target="#example-2-creating-search-queries-for-employees-with-a-calculated-total-salary">Example 2: Creating search queries for employees with a calculated total salary</a></li>
-  <li><a href="#example-3-creating-search-queries-with-a-runtime-field-for-restaurant-data" id="toc-example-3-creating-search-queries-with-a-runtime-field-for-restaurant-data" class="nav-link" data-scroll-target="#example-3-creating-search-queries-with-a-runtime-field-for-restaurant-data">Example 3: Creating search queries with a runtime field for restaurant data</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Searching Data</span></h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="task-write-and-execute-a-search-query-for-terms-andor-phrases-in-one-or-more-fields-of-an-index" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="task-write-and-execute-a-search-query-for-terms-andor-phrases-in-one-or-more-fields-of-an-index"><span class="header-section-number">2.1</span> Task: Write and execute a search query for terms and/or phrases in one or more fields of an index</h2>
+<section id="searching-data" class="level1">
+<h1>Searching Data</h1>
+<section id="task-write-and-execute-a-search-query-for-terms-andor-phrases-in-one-or-more-fields-of-an-index" class="level2">
+<h2 class="anchored" data-anchor-id="task-write-and-execute-a-search-query-for-terms-andor-phrases-in-one-or-more-fields-of-an-index">Task: Write and execute a search query for terms and/or phrases in one or more fields of an index</h2>
 <p>The following section will have only one full example, but will show variations of <strong>term</strong> and <strong>phrase</strong> queries. Also, bear in mind that when they say term they may not mean the Elasticsearch use of the word, but rather the generic search use of the word. There are a lot of ways to execute a search in Elasticsearch. Don’t get bogged down; focus on term and phrase searches for this section of the example.</p>
 <section id="example-1-write-and-execute-a-basic-term-and-phrase-search" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-write-and-execute-a-basic-term-and-phrase-search">Example 1: Write and execute a basic term and phrase search</h3>
@@ -409,8 +256,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-write-and-execute-a-search-query-that-is-a-boolean-combination-of-multiple-queries-and-filters" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="task-write-and-execute-a-search-query-that-is-a-boolean-combination-of-multiple-queries-and-filters"><span class="header-section-number">2.2</span> Task: Write and execute a search query that is a Boolean combination of multiple queries and filters</h2>
+<section id="task-write-and-execute-a-search-query-that-is-a-boolean-combination-of-multiple-queries-and-filters" class="level2">
+<h2 class="anchored" data-anchor-id="task-write-and-execute-a-search-query-that-is-a-boolean-combination-of-multiple-queries-and-filters">Task: Write and execute a search query that is a Boolean combination of multiple queries and filters</h2>
 <section id="example-1-creating-a-boolean-search-for-documents-in-a-book-index" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-a-boolean-search-for-documents-in-a-book-index">Example 1: Creating a Boolean search for documents in a book index</h3>
 <section id="requirements-1" class="level4 unnumbered">
@@ -1010,8 +857,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-create-an-asynchronous-search" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="task-create-an-asynchronous-search"><span class="header-section-number">2.3</span> Task: Create an asynchronous search</h2>
+<section id="task-create-an-asynchronous-search" class="level2">
+<h2 class="anchored" data-anchor-id="task-create-an-asynchronous-search">Task: Create an asynchronous search</h2>
 <p>Asynchronous search uses the same parameters as regular search with a few extra features listed in their entirety in the document listed below. For example, in the solution below the size option is from the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/8.13/search-search.html">Search API</a>. There is only one example here as you can look up the other options as needed during the exam.</p>
 <section id="example-1-executing-an-asynchronous-search-on-a-large-log-index" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-executing-an-asynchronous-search-on-a-large-log-index">Example 1: Executing an asynchronous search on a large log index</h3>
@@ -1086,8 +933,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-write-and-execute-metric-and-bucket-aggregations" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="task-write-and-execute-metric-and-bucket-aggregations"><span class="header-section-number">2.4</span> Task: Write and execute metric and bucket aggregations</h2>
+<section id="task-write-and-execute-metric-and-bucket-aggregations" class="level2">
+<h2 class="anchored" data-anchor-id="task-write-and-execute-metric-and-bucket-aggregations">Task: Write and execute metric and bucket aggregations</h2>
 <section id="example-1-creating-metric-and-bucket-aggregations-for-product-prices" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-metric-and-bucket-aggregations-for-product-prices">Example 1: Creating Metric and Bucket Aggregations for Product Prices</h3>
 <section id="requirements-6" class="level4 unnumbered">
@@ -1654,8 +1501,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-write-and-execute-aggregations-that-contain-subaggregations" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="task-write-and-execute-aggregations-that-contain-subaggregations"><span class="header-section-number">2.5</span> Task: Write and execute aggregations that contain subaggregations</h2>
+<section id="task-write-and-execute-aggregations-that-contain-subaggregations" class="level2">
+<h2 class="anchored" data-anchor-id="task-write-and-execute-aggregations-that-contain-subaggregations">Task: Write and execute aggregations that contain subaggregations</h2>
 <section id="example-1-creating-aggregations-and-sub-aggregations-for-product-categories-and-prices" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-aggregations-and-sub-aggregations-for-product-categories-and-prices">Example 1: Creating aggregations and sub-aggregations for Product Categories and Prices</h3>
 <section id="requirements-9" class="level4 unnumbered">
@@ -2252,8 +2099,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-write-and-execute-a-query-that-searches-across-multiple-clusters" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="task-write-and-execute-a-query-that-searches-across-multiple-clusters"><span class="header-section-number">2.6</span> Task: Write and execute a query that searches across multiple clusters</h2>
+<section id="task-write-and-execute-a-query-that-searches-across-multiple-clusters" class="level2">
+<h2 class="anchored" data-anchor-id="task-write-and-execute-a-query-that-searches-across-multiple-clusters">Task: Write and execute a query that searches across multiple clusters</h2>
 <p>If you are running your instance of Elasticsearch locally, and need to create an additional cluster so that you can run these examples, go to the <strong>Appendix: Adding a Cluster to your Elasticsearch Instance</strong> for information on how to set up an additional single-node cluster.</p>
 <section id="example-1-creating-search-queries-for-products-in-multiple-clusters" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-search-queries-for-products-in-multiple-clusters">Example 1: Creating search queries for Products in Multiple Clusters</h3>
@@ -2438,8 +2285,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-write-and-execute-a-search-that-utilizes-a-runtime-field" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="task-write-and-execute-a-search-that-utilizes-a-runtime-field"><span class="header-section-number">2.7</span> Task: Write and execute a search that utilizes a runtime field</h2>
+<section id="task-write-and-execute-a-search-that-utilizes-a-runtime-field" class="level2">
+<h2 class="anchored" data-anchor-id="task-write-and-execute-a-search-that-utilizes-a-runtime-field">Task: Write and execute a search that utilizes a runtime field</h2>
 <section id="example-1-creating-search-queries-for-products-with-a-runtime-field-for-discounted-prices" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-search-queries-for-products-with-a-runtime-field-for-discounted-prices">Example 1: Creating search queries for products with a runtime field for discounted prices</h3>
 <section id="requirements-13" class="level4 unnumbered">
@@ -2756,6 +2603,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 
 
+</section>
 </section>
 </section>
 </section>
@@ -3181,18 +3029,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./1-data-management.html" class="pagination-link" aria-label="Data Management">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Management</span></span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./3-developing-search-applications.html" class="pagination-link" aria-label="Developing Search Applications">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Developing Search Applications</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 

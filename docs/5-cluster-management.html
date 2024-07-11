@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Cluster Management – The Definitive Guide to the Elastic Certified Engineer Exam v8.1</title>
+<title>cluster-management</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,14 +58,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./6-appendix.html" rel="next">
-<link href="./4-data-processing.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -106,178 +103,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-cluster-management.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">The Definitive Guide to the Elastic Certified Engineer Exam v8.1</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Welcome</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./0.1-preface.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./0.2-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./1-data-management.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Management</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./2-searching-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Searching Data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3-developing-search-applications.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Developing Search Applications</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./4-data-processing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./5-cluster-management.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./6-appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Appendix</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#task-diagnose-shard-issues-and-repair-a-clusters-health" id="toc-task-diagnose-shard-issues-and-repair-a-clusters-health" class="nav-link active" data-scroll-target="#task-diagnose-shard-issues-and-repair-a-clusters-health"><span class="header-section-number">5.1</span> Task: Diagnose shard issues and repair a cluster's health</a>
-  <ul class="collapse">
-  <li><a href="#example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health" id="toc-example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health" class="nav-link" data-scroll-target="#example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health">Example 1: Identifying and resolving unassigned shards to improve cluster health</a></li>
-  </ul></li>
-  <li><a href="#join-with" id="toc-join-with" class="nav-link" data-scroll-target="#join-with">JOIN WITH</a>
-  <ul class="collapse">
-  <li><a href="#example-analyzing-cluster-health-and-repairing-unassigned-shards" id="toc-example-analyzing-cluster-health-and-repairing-unassigned-shards" class="nav-link" data-scroll-target="#example-analyzing-cluster-health-and-repairing-unassigned-shards">Example: Analyzing cluster health and repairing unassigned shards</a></li>
-  <li><a href="#example-2-identifying-and-resolving-a-shard-failure-in-a-cluster" id="toc-example-2-identifying-and-resolving-a-shard-failure-in-a-cluster" class="nav-link" data-scroll-target="#example-2-identifying-and-resolving-a-shard-failure-in-a-cluster">Example 2: Identifying and resolving a shard failure in a cluster</a></li>
-  </ul></li>
-  <li><a href="#join-with-1" id="toc-join-with-1" class="nav-link" data-scroll-target="#join-with-1">JOIN WITH</a>
-  <ul class="collapse">
-  <li><a href="#example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster" id="toc-example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster" class="nav-link" data-scroll-target="#example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster">Example: Diagnosing and resolving shard issues in an Elasticsearch cluster</a></li>
-  </ul></li>
-  <li><a href="#join-with-2" id="toc-join-with-2" class="nav-link" data-scroll-target="#join-with-2">JOIN WITH</a>
-  <ul class="collapse">
-  <li><a href="#example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster-1" id="toc-example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster-1" class="nav-link" data-scroll-target="#example-diagnosing-and-resolving-shard-issues-in-an-elasticsearch-cluster-1">Example: Diagnosing and resolving shard issues in an Elasticsearch cluster</a></li>
-  </ul></li>
-  <li><a href="#task-backup-and-restore-a-cluster-andor-specific-indices" id="toc-task-backup-and-restore-a-cluster-andor-specific-indices" class="nav-link" data-scroll-target="#task-backup-and-restore-a-cluster-andor-specific-indices"><span class="header-section-number">5.2</span> Task: Backup and restore a cluster and/or specific indices</a>
-  <ul class="collapse">
-  <li><a href="#example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster" id="toc-example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster" class="nav-link" data-scroll-target="#example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster">Example 1: Create a snapshot of an entire cluster and restore the cluster</a></li>
-  <li><a href="#example-2-create-a-snapshot-of-an-entire-cluster-and-restore-a-single-index" id="toc-example-2-create-a-snapshot-of-an-entire-cluster-and-restore-a-single-index" class="nav-link" data-scroll-target="#example-2-create-a-snapshot-of-an-entire-cluster-and-restore-a-single-index">Example 2: Create a snapshot of an entire cluster and restore a single index</a></li>
-  <li><a href="#example-3-creating-a-snapshot-of-a-single-index-and-restoring-it" id="toc-example-3-creating-a-snapshot-of-a-single-index-and-restoring-it" class="nav-link" data-scroll-target="#example-3-creating-a-snapshot-of-a-single-index-and-restoring-it">Example 3: Creating a snapshot of a single index and restoring it</a></li>
-  </ul></li>
-  <li><a href="#task-configure-a-snapshot-to-be-searchable" id="toc-task-configure-a-snapshot-to-be-searchable" class="nav-link" data-scroll-target="#task-configure-a-snapshot-to-be-searchable"><span class="header-section-number">5.3</span> Task: Configure a snapshot to be searchable</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-a-searchable-snapshot-for-the-product-catalog-index" id="toc-example-1-creating-a-searchable-snapshot-for-the-product-catalog-index" class="nav-link" data-scroll-target="#example-1-creating-a-searchable-snapshot-for-the-product-catalog-index">Example 1: Creating a searchable snapshot for the product catalog index</a></li>
-  <li><a href="#example-2-creating-a-searchable-snapshot-for-a-specific-index" id="toc-example-2-creating-a-searchable-snapshot-for-a-specific-index" class="nav-link" data-scroll-target="#example-2-creating-a-searchable-snapshot-for-a-specific-index">Example 2: Creating a searchable snapshot for a specific index</a></li>
-  <li><a href="#example-3-enabling-search-functionality-on-a-snapshot-for-backup-analysis" id="toc-example-3-enabling-search-functionality-on-a-snapshot-for-backup-analysis" class="nav-link" data-scroll-target="#example-3-enabling-search-functionality-on-a-snapshot-for-backup-analysis">Example 3: Enabling search functionality on a snapshot for backup analysis</a></li>
-  <li><a href="#example-4-creating-a-searchable-snapshot-for-a-product-catalog" id="toc-example-4-creating-a-searchable-snapshot-for-a-product-catalog" class="nav-link" data-scroll-target="#example-4-creating-a-searchable-snapshot-for-a-product-catalog">Example 4: Creating a searchable snapshot for a product catalog</a></li>
-  <li><a href="#example-5-creating-a-searchable-snapshot-for-an-elasticsearch-index" id="toc-example-5-creating-a-searchable-snapshot-for-an-elasticsearch-index" class="nav-link" data-scroll-target="#example-5-creating-a-searchable-snapshot-for-an-elasticsearch-index">Example 5: Creating a searchable snapshot for an Elasticsearch index</a></li>
-  </ul></li>
-  <li><a href="#task-configure-a-cluster-for-cross-cluster-search" id="toc-task-configure-a-cluster-for-cross-cluster-search" class="nav-link" data-scroll-target="#task-configure-a-cluster-for-cross-cluster-search"><span class="header-section-number">5.4</span> Task: Configure a cluster for cross-cluster search</a>
-  <ul class="collapse">
-  <li><a href="#example-1-setting-up-cross-cluster-search-between-a-local-cluster-and-a-remote-cluster-for-an-e-commerce-catalog" id="toc-example-1-setting-up-cross-cluster-search-between-a-local-cluster-and-a-remote-cluster-for-an-e-commerce-catalog" class="nav-link" data-scroll-target="#example-1-setting-up-cross-cluster-search-between-a-local-cluster-and-a-remote-cluster-for-an-e-commerce-catalog">Example 1: Setting up cross-cluster search between a local cluster and a remote cluster for an e-commerce catalog</a></li>
-  </ul></li>
-  <li><a href="#task-implement-cross-cluster-replication" id="toc-task-implement-cross-cluster-replication" class="nav-link" data-scroll-target="#task-implement-cross-cluster-replication"><span class="header-section-number">5.5</span> Task: Implement cross-cluster replication</a>
-  <ul class="collapse">
-  <li><a href="#example-2-configuring-cross-cluster-replication-between-two-elasticsearch-clusters" id="toc-example-2-configuring-cross-cluster-replication-between-two-elasticsearch-clusters" class="nav-link" data-scroll-target="#example-2-configuring-cross-cluster-replication-between-two-elasticsearch-clusters">Example 2: Configuring cross-cluster replication between two Elasticsearch clusters</a></li>
-  <li><a href="#example-3-setting-up-cross-cluster-replication-between-two-elasticsearch-clusters" id="toc-example-3-setting-up-cross-cluster-replication-between-two-elasticsearch-clusters" class="nav-link" data-scroll-target="#example-3-setting-up-cross-cluster-replication-between-two-elasticsearch-clusters">Example 3: Setting up cross-cluster replication between two Elasticsearch clusters</a></li>
-  <li><a href="#example-4-copilot-creating-a-follower-index-for-my_remote_cluster" id="toc-example-4-copilot-creating-a-follower-index-for-my_remote_cluster" class="nav-link" data-scroll-target="#example-4-copilot-creating-a-follower-index-for-my_remote_cluster">Example 4: (Copilot) Creating a follower index for my_remote_cluster</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="task-diagnose-shard-issues-and-repair-a-clusters-health" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="task-diagnose-shard-issues-and-repair-a-clusters-health"><span class="header-section-number">5.1</span> Task: Diagnose shard issues and repair a cluster's health</h2>
+<section id="cluster-management" class="level1">
+<h1>Cluster Management</h1>
+<section id="task-diagnose-shard-issues-and-repair-a-clusters-health" class="level2">
+<h2 class="anchored" data-anchor-id="task-diagnose-shard-issues-and-repair-a-clusters-health">Task: Diagnose shard issues and repair a cluster's health</h2>
 <section id="example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-identifying-and-resolving-unassigned-shards-to-improve-cluster-health">Example 1: Identifying and resolving unassigned shards to improve cluster health</h3>
 <section id="requirements" class="level4 unnumbered">
@@ -629,8 +472,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-backup-and-restore-a-cluster-andor-specific-indices" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="task-backup-and-restore-a-cluster-andor-specific-indices"><span class="header-section-number">5.2</span> Task: Backup and restore a cluster and/or specific indices</h2>
+<section id="task-backup-and-restore-a-cluster-andor-specific-indices" class="level2">
+<h2 class="anchored" data-anchor-id="task-backup-and-restore-a-cluster-andor-specific-indices">Task: Backup and restore a cluster and/or specific indices</h2>
 <section id="example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-create-a-snapshot-of-an-entire-cluster-and-restore-the-cluster">Example 1: Create a snapshot of an entire cluster and restore the cluster</h3>
 <section id="requirements-5" class="level4 unnumbered">
@@ -864,8 +707,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-configure-a-snapshot-to-be-searchable" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="task-configure-a-snapshot-to-be-searchable"><span class="header-section-number">5.3</span> Task: Configure a snapshot to be searchable</h2>
+<section id="task-configure-a-snapshot-to-be-searchable" class="level2">
+<h2 class="anchored" data-anchor-id="task-configure-a-snapshot-to-be-searchable">Task: Configure a snapshot to be searchable</h2>
 <section id="example-1-creating-a-searchable-snapshot-for-the-product-catalog-index" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-a-searchable-snapshot-for-the-product-catalog-index">Example 1: Creating a searchable snapshot for the product catalog index</h3>
 <section id="requirements-8" class="level4 unnumbered">
@@ -1243,8 +1086,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-configure-a-cluster-for-cross-cluster-search" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="task-configure-a-cluster-for-cross-cluster-search"><span class="header-section-number">5.4</span> Task: Configure a cluster for cross-cluster search</h2>
+<section id="task-configure-a-cluster-for-cross-cluster-search" class="level2">
+<h2 class="anchored" data-anchor-id="task-configure-a-cluster-for-cross-cluster-search">Task: Configure a cluster for cross-cluster search</h2>
 <p>This is similar to the example at:</p>
 <p>Searching Data</p>
 <blockquote class="blockquote">
@@ -1359,8 +1202,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-implement-cross-cluster-replication" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="task-implement-cross-cluster-replication"><span class="header-section-number">5.5</span> Task: Implement cross-cluster replication</h2>
+<section id="task-implement-cross-cluster-replication" class="level2">
+<h2 class="anchored" data-anchor-id="task-implement-cross-cluster-replication">Task: Implement cross-cluster replication</h2>
 <p><strong><em>[THERE SHOULD PROBABLY BE ONLY TWO EXAMPLES: FROM THE UI AND THE CONSOLE]</em></strong></p>
 <p>The following is from <a href="https://triotechsystems.com/a-step-by-step-guide-to-setting-up-ccr-elasticsearch-replication/">https://triotechsystems.com/a-step-by-step-guide-to-setting-up-ccr-elasticsearchreplication/</a></p>
 <section id="from-the-ui-using-stack-management-in-kibana" class="level4 unnumbered">
@@ -1738,6 +1581,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 
 
+</section>
 </section>
 </section>
 </section>
@@ -2163,18 +2007,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./4-data-processing.html" class="pagination-link" aria-label="Data Processing">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./6-appendix.html" class="pagination-link" aria-label="Appendix">
-        <span class="nav-page-text">Appendix</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 

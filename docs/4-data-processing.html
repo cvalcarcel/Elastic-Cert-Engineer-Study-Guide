@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Data Processing – The Definitive Guide to the Elastic Certified Engineer Exam v8.1</title>
+<title>data-processing</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,14 +58,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./5-cluster-management.html" rel="next">
-<link href="./3-developing-search-applications.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -106,173 +103,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="fullcontent">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4-data-processing.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">The Definitive Guide to the Elastic Certified Engineer Exam v8.1</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Welcome</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./0.1-preface.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preface</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./0.2-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./1-data-management.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Management</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./2-searching-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Searching Data</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3-developing-search-applications.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Developing Search Applications</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./4-data-processing.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./5-cluster-management.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./6-appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Appendix</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#task-define-a-mapping-that-satisfies-a-given-set-of-requirements" id="toc-task-define-a-mapping-that-satisfies-a-given-set-of-requirements" class="nav-link active" data-scroll-target="#task-define-a-mapping-that-satisfies-a-given-set-of-requirements"><span class="header-section-number">4.1</span> Task: Define a mapping that satisfies a given set of requirements</a>
-  <ul class="collapse">
-  <li><a href="#example-1-defining-index-mappings-for-a-product-catalog" id="toc-example-1-defining-index-mappings-for-a-product-catalog" class="nav-link" data-scroll-target="#example-1-defining-index-mappings-for-a-product-catalog">Example 1: Defining Index Mappings for a Product Catalog</a></li>
-  <li><a href="#example-2-creating-a-mapping-for-a-social-media-platform" id="toc-example-2-creating-a-mapping-for-a-social-media-platform" class="nav-link" data-scroll-target="#example-2-creating-a-mapping-for-a-social-media-platform">Example 2: Creating a mapping for a social media platform</a></li>
-  <li><a href="#example-3-creating-a-mapping-for-storing-and-searching-restaurant-data" id="toc-example-3-creating-a-mapping-for-storing-and-searching-restaurant-data" class="nav-link" data-scroll-target="#example-3-creating-a-mapping-for-storing-and-searching-restaurant-data">Example 3: Creating a mapping for storing and searching restaurant data</a></li>
-  </ul></li>
-  <li><a href="#task-define-and-use-a-custom-analyzer-that-satisfies-a-given-set-of-requirements" id="toc-task-define-and-use-a-custom-analyzer-that-satisfies-a-given-set-of-requirements" class="nav-link" data-scroll-target="#task-define-and-use-a-custom-analyzer-that-satisfies-a-given-set-of-requirements"><span class="header-section-number">4.2</span> Task: Define and use a custom analyzer that satisfies a given set of requirements</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-a-mapping-for-a-social-media-platform" id="toc-example-1-creating-a-mapping-for-a-social-media-platform" class="nav-link" data-scroll-target="#example-1-creating-a-mapping-for-a-social-media-platform">Example 1: Creating a mapping for a social media platform</a></li>
-  <li><a href="#example-2-creating-a-custom-analyzer-for-product-descriptions" id="toc-example-2-creating-a-custom-analyzer-for-product-descriptions" class="nav-link" data-scroll-target="#example-2-creating-a-custom-analyzer-for-product-descriptions">Example 2: Creating a custom analyzer for product descriptions</a></li>
-  <li><a href="#example-3-creating-a-custom-analyzer-for-product-descriptions-in-an-ecommerce-catalog" id="toc-example-3-creating-a-custom-analyzer-for-product-descriptions-in-an-ecommerce-catalog" class="nav-link" data-scroll-target="#example-3-creating-a-custom-analyzer-for-product-descriptions-in-an-ecommerce-catalog">Example 3: Creating a custom analyzer for product descriptions in an ecommerce catalog</a></li>
-  </ul></li>
-  <li><a href="#task-define-and-use-multi-fields-with-different-data-types-andor-analyzers" id="toc-task-define-and-use-multi-fields-with-different-data-types-andor-analyzers" class="nav-link" data-scroll-target="#task-define-and-use-multi-fields-with-different-data-types-andor-analyzers"><span class="header-section-number">4.3</span> Task: Define and use multi-fields with different data types and/or analyzers</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-multi-fields-for-product-names-in-an-e-commerce-catalog" id="toc-example-1-creating-multi-fields-for-product-names-in-an-e-commerce-catalog" class="nav-link" data-scroll-target="#example-1-creating-multi-fields-for-product-names-in-an-e-commerce-catalog">Example 1: Creating multi-fields for product names in an e-commerce catalog</a></li>
-  <li><a href="#example-2-creating-a-multi-field-for-a-title-with-different-analyzers" id="toc-example-2-creating-a-multi-field-for-a-title-with-different-analyzers" class="nav-link" data-scroll-target="#example-2-creating-a-multi-field-for-a-title-with-different-analyzers">Example 2: Creating a multi-field for a title with different analyzers</a></li>
-  <li><a href="#example-3-creating-multi-fields-for-analyzing-text-data" id="toc-example-3-creating-multi-fields-for-analyzing-text-data" class="nav-link" data-scroll-target="#example-3-creating-multi-fields-for-analyzing-text-data">Example 3: Creating multi-fields for analyzing text data</a></li>
-  </ul></li>
-  <li><a href="#task-use-the-reindex-api-and-update-by-query-api-to-reindex-andor-update-documents" id="toc-task-use-the-reindex-api-and-update-by-query-api-to-reindex-andor-update-documents" class="nav-link" data-scroll-target="#task-use-the-reindex-api-and-update-by-query-api-to-reindex-andor-update-documents"><span class="header-section-number">4.4</span> Task: Use the Reindex API and Update By Query API to reindex and/or update documents</a>
-  <ul class="collapse">
-  <li><a href="#example-1-moving-and-updating-product-data-to-a-new-index-with-a-new-field" id="toc-example-1-moving-and-updating-product-data-to-a-new-index-with-a-new-field" class="nav-link" data-scroll-target="#example-1-moving-and-updating-product-data-to-a-new-index-with-a-new-field">Example 1: Moving and updating product data to a new index with a new field</a></li>
-  <li><a href="#example-2-reindexing-and-updating-product-data" id="toc-example-2-reindexing-and-updating-product-data" class="nav-link" data-scroll-target="#example-2-reindexing-and-updating-product-data">Example 2: Reindexing and updating product data</a></li>
-  <li><a href="#example-3-reindexing-documents-from-an-old-product-catalog-to-a-new-one-with-updated-mappings-and-updating-prices-in-the-new-catalog" id="toc-example-3-reindexing-documents-from-an-old-product-catalog-to-a-new-one-with-updated-mappings-and-updating-prices-in-the-new-catalog" class="nav-link" data-scroll-target="#example-3-reindexing-documents-from-an-old-product-catalog-to-a-new-one-with-updated-mappings-and-updating-prices-in-the-new-catalog">Example 3: Reindexing documents from an old product catalog to a new one with updated mappings and updating prices in the new catalog</a></li>
-  </ul></li>
-  <li><a href="#task-define-and-use-an-ingest-pipeline-that-satisfies-a-given-set-of-requirements-including-the-use-of-painless-to-modify-documents" id="toc-task-define-and-use-an-ingest-pipeline-that-satisfies-a-given-set-of-requirements-including-the-use-of-painless-to-modify-documents" class="nav-link" data-scroll-target="#task-define-and-use-an-ingest-pipeline-that-satisfies-a-given-set-of-requirements-including-the-use-of-painless-to-modify-documents"><span class="header-section-number">4.5</span> Task: Define and use an ingest pipeline that satisfies a given set of requirements, including the use of Painless to modify documents</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-an-ingest-pipeline-for-enriching-and-modifying-product-data-in-an-e-commerce-catalog" id="toc-example-1-creating-an-ingest-pipeline-for-enriching-and-modifying-product-data-in-an-e-commerce-catalog" class="nav-link" data-scroll-target="#example-1-creating-an-ingest-pipeline-for-enriching-and-modifying-product-data-in-an-e-commerce-catalog">Example 1: Creating an ingest pipeline for enriching and modifying product data in an e-commerce catalog</a></li>
-  <li><a href="#example-2-creating-an-ingest-pipeline-to-extract-and-transform-data-for-a-logging-index" id="toc-example-2-creating-an-ingest-pipeline-to-extract-and-transform-data-for-a-logging-index" class="nav-link" data-scroll-target="#example-2-creating-an-ingest-pipeline-to-extract-and-transform-data-for-a-logging-index">Example 2: Creating an ingest pipeline to extract and transform data for a logging index</a></li>
-  <li><a href="#example-3-creating-an-ingest-pipeline-for-product-data" id="toc-example-3-creating-an-ingest-pipeline-for-product-data" class="nav-link" data-scroll-target="#example-3-creating-an-ingest-pipeline-for-product-data">Example 3: Creating an ingest pipeline for product data</a></li>
-  </ul></li>
-  <li><a href="#task-define-runtime-fields-to-retrieve-custom-values-using-painless-scripting" id="toc-task-define-runtime-fields-to-retrieve-custom-values-using-painless-scripting" class="nav-link" data-scroll-target="#task-define-runtime-fields-to-retrieve-custom-values-using-painless-scripting"><span class="header-section-number">4.6</span> Task: Define runtime fields to retrieve custom values using Painless scripting</a>
-  <ul class="collapse">
-  <li><a href="#example-1-creating-a-runtime-field-for-discounted-prices-in-a-product-catalog" id="toc-example-1-creating-a-runtime-field-for-discounted-prices-in-a-product-catalog" class="nav-link" data-scroll-target="#example-1-creating-a-runtime-field-for-discounted-prices-in-a-product-catalog">Example 1: Creating a runtime field for discounted prices in a product catalog</a></li>
-  <li><a href="#example-2-creating-a-runtime-field-to-extract-the-domain-from-a-url" id="toc-example-2-creating-a-runtime-field-to-extract-the-domain-from-a-url" class="nav-link" data-scroll-target="#example-2-creating-a-runtime-field-to-extract-the-domain-from-a-url">Example 2: Creating a runtime field to extract the domain from a URL</a></li>
-  <li><a href="#example-3-calculating-the-age-difference-in-years-based-on-date-fields" id="toc-example-3-calculating-the-age-difference-in-years-based-on-date-fields" class="nav-link" data-scroll-target="#example-3-calculating-the-age-difference-in-years-based-on-date-fields">Example 3: Calculating the age difference in years based on date fields</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="task-define-a-mapping-that-satisfies-a-given-set-of-requirements" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="task-define-a-mapping-that-satisfies-a-given-set-of-requirements"><span class="header-section-number">4.1</span> Task: Define a mapping that satisfies a given set of requirements</h2>
+<section id="data-processing" class="level1">
+<h1>Data Processing</h1>
+<section id="task-define-a-mapping-that-satisfies-a-given-set-of-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="task-define-a-mapping-that-satisfies-a-given-set-of-requirements">Task: Define a mapping that satisfies a given set of requirements</h2>
 <section id="example-1-defining-index-mappings-for-a-product-catalog" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-defining-index-mappings-for-a-product-catalog">Example 1: Defining Index Mappings for a Product Catalog</h3>
 <section id="requirements" class="level4 unnumbered">
@@ -534,8 +382,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-define-and-use-a-custom-analyzer-that-satisfies-a-given-set-of-requirements" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="task-define-and-use-a-custom-analyzer-that-satisfies-a-given-set-of-requirements"><span class="header-section-number">4.2</span> Task: Define and use a custom analyzer that satisfies a given set of requirements</h2>
+<section id="task-define-and-use-a-custom-analyzer-that-satisfies-a-given-set-of-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="task-define-and-use-a-custom-analyzer-that-satisfies-a-given-set-of-requirements">Task: Define and use a custom analyzer that satisfies a given set of requirements</h2>
 <section id="example-1-creating-a-mapping-for-a-social-media-platform" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-a-mapping-for-a-social-media-platform">Example 1: Creating a mapping for a social media platform</h3>
 <section id="requirements-3" class="level4 unnumbered">
@@ -625,8 +473,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="clean-up-optional-3" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-3">Clean-up (optional)</h4>
 </section>
-<section id="documentation-3" class="level4" data-number="4.2.0.1">
-<h4 data-number="4.2.0.1" class="anchored" data-anchor-id="documentation-3"><span class="header-section-number">4.2.0.1</span> Documentation</h4>
+<section id="documentation-3" class="level4">
+<h4 class="anchored" data-anchor-id="documentation-3">Documentation</h4>
 <ul>
 <li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/8.13/cat-indices.html">Elastic Mapping API</a></li>
 </ul>
@@ -840,8 +688,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-define-and-use-multi-fields-with-different-data-types-andor-analyzers" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="task-define-and-use-multi-fields-with-different-data-types-andor-analyzers"><span class="header-section-number">4.3</span> Task: Define and use multi-fields with different data types and/or analyzers</h2>
+<section id="task-define-and-use-multi-fields-with-different-data-types-andor-analyzers" class="level2">
+<h2 class="anchored" data-anchor-id="task-define-and-use-multi-fields-with-different-data-types-andor-analyzers">Task: Define and use multi-fields with different data types and/or analyzers</h2>
 <section id="example-1-creating-multi-fields-for-product-names-in-an-e-commerce-catalog" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-multi-fields-for-product-names-in-an-e-commerce-catalog">Example 1: Creating multi-fields for product names in an e-commerce catalog</h3>
 <section id="requirements-6" class="level4 unnumbered">
@@ -1158,8 +1006,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-use-the-reindex-api-and-update-by-query-api-to-reindex-andor-update-documents" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="task-use-the-reindex-api-and-update-by-query-api-to-reindex-andor-update-documents"><span class="header-section-number">4.4</span> Task: Use the Reindex API and Update By Query API to reindex and/or update documents</h2>
+<section id="task-use-the-reindex-api-and-update-by-query-api-to-reindex-andor-update-documents" class="level2">
+<h2 class="anchored" data-anchor-id="task-use-the-reindex-api-and-update-by-query-api-to-reindex-andor-update-documents">Task: Use the Reindex API and Update By Query API to reindex and/or update documents</h2>
 <section id="example-1-moving-and-updating-product-data-to-a-new-index-with-a-new-field" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-moving-and-updating-product-data-to-a-new-index-with-a-new-field">Example 1: Moving and updating product data to a new index with a new field</h3>
 <section id="requirements-9" class="level4 unnumbered">
@@ -1486,8 +1334,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-define-and-use-an-ingest-pipeline-that-satisfies-a-given-set-of-requirements-including-the-use-of-painless-to-modify-documents" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="task-define-and-use-an-ingest-pipeline-that-satisfies-a-given-set-of-requirements-including-the-use-of-painless-to-modify-documents"><span class="header-section-number">4.5</span> Task: Define and use an ingest pipeline that satisfies a given set of requirements, including the use of Painless to modify documents</h2>
+<section id="task-define-and-use-an-ingest-pipeline-that-satisfies-a-given-set-of-requirements-including-the-use-of-painless-to-modify-documents" class="level2">
+<h2 class="anchored" data-anchor-id="task-define-and-use-an-ingest-pipeline-that-satisfies-a-given-set-of-requirements-including-the-use-of-painless-to-modify-documents">Task: Define and use an ingest pipeline that satisfies a given set of requirements, including the use of Painless to modify documents</h2>
 <section id="example-1-creating-an-ingest-pipeline-for-enriching-and-modifying-product-data-in-an-e-commerce-catalog" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-an-ingest-pipeline-for-enriching-and-modifying-product-data-in-an-e-commerce-catalog">Example 1: Creating an ingest pipeline for enriching and modifying product data in an e-commerce catalog</h3>
 <section id="requirements-12" class="level4 unnumbered">
@@ -1808,8 +1656,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="task-define-runtime-fields-to-retrieve-custom-values-using-painless-scripting" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="task-define-runtime-fields-to-retrieve-custom-values-using-painless-scripting"><span class="header-section-number">4.6</span> Task: Define runtime fields to retrieve custom values using Painless scripting</h2>
+<section id="task-define-runtime-fields-to-retrieve-custom-values-using-painless-scripting" class="level2">
+<h2 class="anchored" data-anchor-id="task-define-runtime-fields-to-retrieve-custom-values-using-painless-scripting">Task: Define runtime fields to retrieve custom values using Painless scripting</h2>
 <section id="example-1-creating-a-runtime-field-for-discounted-prices-in-a-product-catalog" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-a-runtime-field-for-discounted-prices-in-a-product-catalog">Example 1: Creating a runtime field for discounted prices in a product catalog</h3>
 <section id="requirements-15" class="level4 unnumbered">
@@ -2062,6 +1910,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 
 
+</section>
 </section>
 </section>
 </section>
@@ -2487,18 +2336,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./3-developing-search-applications.html" class="pagination-link" aria-label="Developing Search Applications">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Developing Search Applications</span></span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./5-cluster-management.html" class="pagination-link" aria-label="Cluster Management">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 
