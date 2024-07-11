@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.50">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Developing Search Applications – The Definitive Guide to the Elastic Certified Engineer Exam v8.1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./4-data-processing.html" rel="next">
+<link href="./2-searching-data.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3-developing-search-applications.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Developing Search Applications</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">The Definitive Guide to the Elastic Certified Engineer Exam v8.1</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0.1-preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./0.2-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1-data-management.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Data Management</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2-searching-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Searching Data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3-developing-search-applications.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Developing Search Applications</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-data-processing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5-cluster-management.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Cluster Management</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#task-highlight-the-search-terms-in-the-response-of-a-query" id="toc-task-highlight-the-search-terms-in-the-response-of-a-query" class="nav-link active" data-scroll-target="#task-highlight-the-search-terms-in-the-response-of-a-query"><span class="header-section-number">3.1</span> Task: Highlight the search terms in the response of a query</a>
+  <ul class="collapse">
+  <li><a href="#example-1-creating-search-queries-whighlighting-for-blog-posts" id="toc-example-1-creating-search-queries-whighlighting-for-blog-posts" class="nav-link" data-scroll-target="#example-1-creating-search-queries-whighlighting-for-blog-posts">Example 1: Creating search queries w/highlighting for blog posts</a></li>
+  <li><a href="#example-2-creating-search-queries-whighlighting-for-customer-order-data" id="toc-example-2-creating-search-queries-whighlighting-for-customer-order-data" class="nav-link" data-scroll-target="#example-2-creating-search-queries-whighlighting-for-customer-order-data">Example 2: Creating search queries w/highlighting for customer order data</a></li>
+  </ul></li>
+  <li><a href="#task-sort-the-results-of-a-query-by-a-given-set-of-requirements" id="toc-task-sort-the-results-of-a-query-by-a-given-set-of-requirements" class="nav-link" data-scroll-target="#task-sort-the-results-of-a-query-by-a-given-set-of-requirements"><span class="header-section-number">3.2</span> Task: Sort the results of a query by a given set of requirements</a>
+  <ul class="collapse">
+  <li><a href="#example-1-creating-search-queries-w-sorting-for-e-commerce-products" id="toc-example-1-creating-search-queries-w-sorting-for-e-commerce-products" class="nav-link" data-scroll-target="#example-1-creating-search-queries-w-sorting-for-e-commerce-products">Example 1: Creating Search Queries w/ Sorting for e-commerce products</a></li>
+  </ul></li>
+  <li><a href="#task-implement-pagination-of-the-results-of-a-search-query" id="toc-task-implement-pagination-of-the-results-of-a-search-query" class="nav-link" data-scroll-target="#task-implement-pagination-of-the-results-of-a-search-query"><span class="header-section-number">3.3</span> Task: Implement pagination of the results of a search query</a>
+  <ul class="collapse">
+  <li><a href="#example-1-creating-pagination-queries-for-an-e-commerce-product-catalog" id="toc-example-1-creating-pagination-queries-for-an-e-commerce-product-catalog" class="nav-link" data-scroll-target="#example-1-creating-pagination-queries-for-an-e-commerce-product-catalog">Example 1: Creating pagination queries for an e-commerce product catalog</a></li>
+  </ul></li>
+  <li><a href="#task-define-and-use-index-aliases" id="toc-task-define-and-use-index-aliases" class="nav-link" data-scroll-target="#task-define-and-use-index-aliases"><span class="header-section-number">3.4</span> Task: Define and use index aliases</a>
+  <ul class="collapse">
+  <li><a href="#example-1-creating-index-aliases-for-customer-data" id="toc-example-1-creating-index-aliases-for-customer-data" class="nav-link" data-scroll-target="#example-1-creating-index-aliases-for-customer-data">Example 1: Creating Index Aliases for Customer Data</a></li>
+  <li><a href="#example-2-creating-index-aliases-for-logging-data-with-filtering-and-routing" id="toc-example-2-creating-index-aliases-for-logging-data-with-filtering-and-routing" class="nav-link" data-scroll-target="#example-2-creating-index-aliases-for-logging-data-with-filtering-and-routing">Example 2: Creating index aliases for logging data with filtering and routing</a></li>
+  </ul></li>
+  <li><a href="#task-define-and-use-a-search-template" id="toc-task-define-and-use-a-search-template" class="nav-link" data-scroll-target="#task-define-and-use-a-search-template"><span class="header-section-number">3.5</span> Task: Define and use a search template</a>
+  <ul class="collapse">
+  <li><a href="#example-1-creating-search-templates-for-product-search" id="toc-example-1-creating-search-templates-for-product-search" class="nav-link" data-scroll-target="#example-1-creating-search-templates-for-product-search">Example 1: Creating Search Templates for Product Search</a></li>
+  <li><a href="#example-2-creating-search-templates-for-an-e-commerce-product-catalog-with-sorting-and-pagination" id="toc-example-2-creating-search-templates-for-an-e-commerce-product-catalog-with-sorting-and-pagination" class="nav-link" data-scroll-target="#example-2-creating-search-templates-for-an-e-commerce-product-catalog-with-sorting-and-pagination">Example 2: Creating search templates for an e-commerce product catalog with sorting and pagination</a></li>
+  <li><a href="#example-3-creating-search-templates-for-an-e-commerce-product-catalog-with-nested-queries-sorting-pagination-and-aggregations" id="toc-example-3-creating-search-templates-for-an-e-commerce-product-catalog-with-nested-queries-sorting-pagination-and-aggregations" class="nav-link" data-scroll-target="#example-3-creating-search-templates-for-an-e-commerce-product-catalog-with-nested-queries-sorting-pagination-and-aggregations">Example 3: Creating search templates for an e-commerce product catalog with nested queries, sorting, pagination, and aggregations</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Developing Search Applications</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="task-highlight-the-search-terms-in-the-response-of-a-query" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="task-highlight-the-search-terms-in-the-response-of-a-query"><span class="header-section-number">3.1</span> Task: Highlight the search terms in the response of a query</h2>
+<section id="example-1-creating-search-queries-whighlighting-for-blog-posts" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-creating-search-queries-whighlighting-for-blog-posts">Example 1: Creating search queries w/highlighting for blog posts</h3>
+<section id="requirements" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements">Requirements</h4>
+<ul>
+<li>Create an index and populate it with example documents.</li>
+<li>Perform a search query on the index.</li>
+<li>Highlight the search terms in the response.</li>
+<li>Use the Kibana Console or a REST client for all steps.</li>
+</ul>
+</section>
+<section id="steps" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or Use a REST Client</p></li>
+<li><p>Create and Populate the Index</p></li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/blog_posts/_bulk</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Introduction to Elasticsearch"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"Elasticsearch is a powerful search engine."</span> <span class="fu">}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Advanced Elasticsearch Techniques"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"This guide covers advanced features of Elasticsearch."</span> <span class="fu">}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"3"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Elasticsearch Performance Tuning"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"Learn how to optimize Elasticsearch for better performance."</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Perform a Search Query with Highlighting</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/blog_posts/_search</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"elasticsearch"</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"highlight"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"fields"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"content"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test">Test</h4>
+<ol type="1">
+<li>Confirm the index exists</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/blog_posts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Execute the query and confirm that the content field has highlighting</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"hits"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"hits"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_source"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Introduction to Elasticsearch"</span><span class="fu">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"Elasticsearch is a powerful search engine."</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"highlight"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"content"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"&lt;em&gt;Elasticsearch&lt;/em&gt; is a powerful search engine."</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>      <span class="er">//</span> <span class="er">Additional</span> <span class="er">documents...</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="considerations" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations">Considerations</h4>
+<ul>
+<li><strong>Field Selection</strong>: The highlight field in the search request specifies which fields to highlight. In this example, we highlight the content field.</li>
+<li><strong>Performance</strong>: Highlighting can impact search performance, especially on large datasets. It is essential to balance the need for highlighting with performance considerations.</li>
+<li><strong>Highlight Configuration</strong>: Additional configurations, such as pre-tags and post-tags, can customize the highlighting format.</li>
+</ul>
+</section>
+<section id="clean-up-optional" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional">Clean-up (optional)</h4>
+<ul>
+<li>Delete the index</li>
+</ul>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">blog_posts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-highlighting.html">Highlighting</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query.html">Match Query</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html">Bulk API</a></li>
+</ul>
+</section>
+</section>
+<section id="example-2-creating-search-queries-whighlighting-for-customer-order-data" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-2-creating-search-queries-whighlighting-for-customer-order-data">Example 2: Creating search queries w/highlighting for customer order data</h3>
+<section id="requirements-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-1">Requirements</h4>
+<ul>
+<li>An index (<code>orders</code>) with documents containing customer order information (<code>customer_name</code>, <code>order_date</code>, <code>products</code>, <code>total_price</code>)</li>
+<li>A search query to retrieve orders with specific products and a total price range</li>
+<li>Highlighting the search terms in the response, including nested objects (<code>products</code>)</li>
+</ul>
+</section>
+<section id="steps-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-1">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Create the <code>orders</code> index by indexing some documents</p></li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/orders/_bulk</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"customer_name"</span><span class="fu">:</span> <span class="st">"John Doe"</span><span class="fu">,</span> <span class="dt">"order_date"</span><span class="fu">:</span> <span class="st">"2022-01-01"</span><span class="fu">,</span> <span class="dt">"products"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product A"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">10.99</span> <span class="fu">}</span><span class="ot">,</span><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product B"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">5.99</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span> <span class="dt">"total_price"</span><span class="fu">:</span> <span class="fl">16.98</span> <span class="fu">}</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"customer_name"</span><span class="fu">:</span> <span class="st">"Jane Smith"</span><span class="fu">,</span> <span class="dt">"order_date"</span><span class="fu">:</span> <span class="st">"2022-01-15"</span><span class="fu">,</span> <span class="dt">"products"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product B"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">5.99</span> <span class="fu">}</span><span class="ot">,</span><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product C"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">7.99</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span> <span class="dt">"total_price"</span><span class="fu">:</span> <span class="fl">13.98</span> <span class="fu">}</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"3"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"customer_name"</span><span class="fu">:</span> <span class="st">"Bob Johnson"</span><span class="fu">,</span> <span class="dt">"order_date"</span><span class="fu">:</span> <span class="st">"2022-02-01"</span><span class="fu">,</span> <span class="dt">"products"</span><span class="fu">:</span> <span class="ot">[</span><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product A"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">10.99</span> <span class="fu">}</span><span class="ot">,</span><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product C"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">7.99</span> <span class="fu">}</span><span class="ot">]</span><span class="fu">,</span> <span class="dt">"total_price"</span><span class="fu">:</span> <span class="fl">18.98</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Execute a search query with highlighting</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/orders/_search</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"bool"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"must"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"match"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"products.name"</span><span class="fu">:</span> <span class="st">"Product A"</span> <span class="fu">}</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span> <span class="dt">"range"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"total_price"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"gte"</span><span class="fu">:</span> <span class="dv">15</span><span class="fu">,</span> <span class="dt">"lte"</span><span class="fu">:</span> <span class="dv">20</span> <span class="fu">}</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"highlight"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"fields"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"products.name"</span><span class="fu">:</span> <span class="fu">{},</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"products.price"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"pre_tags"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"&lt;b&gt;"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"post_tags"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"&lt;/b&gt;"</span><span class="ot">]</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-1">Test</h4>
+<ul>
+<li>Confirm the index exists</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/orders</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Execute the query and confirm that <code>products.name</code> has highlighting</li>
+</ul>
+<div class="sourceCode" id="cb9"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"hits"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">"orders"</span><span class="fu">,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"_score"</span><span class="fu">:</span> <span class="fl">1.6536093</span><span class="fu">,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"_source"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"customer_name"</span><span class="fu">:</span> <span class="st">"John Doe"</span><span class="fu">,</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"order_date"</span><span class="fu">:</span> <span class="st">"2022-01-01"</span><span class="fu">,</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"products"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>          <span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product A"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">10.99</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>          <span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Product B"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">5.99</span> <span class="fu">}</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"total_price"</span><span class="fu">:</span> <span class="fl">16.98</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"highlight"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"products.name"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>          <span class="st">"&lt;b&gt;Product&lt;/b&gt; &lt;b&gt;A&lt;/b&gt;"</span><span class="ot">,</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>          <span class="st">"&lt;b&gt;Product&lt;/b&gt; B"</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="er">//</span> <span class="er">Additional</span> <span class="er">documents...</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="considerations-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-1">Considerations</h4>
+<ul>
+<li>Highlighting is used to emphasize the search terms in the response, making it easier to see why a document matched the query.</li>
+<li>The highlight section in the search query specifies which fields to highlight and how to format the highlighted text.</li>
+<li>Nested objects (<code>products</code>) are highlighted using the fields section with dot notation (<code>products.name</code>, <code>products.price</code>).</li>
+</ul>
+</section>
+<section id="clean-up-optional-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-1">Clean-up (optional)</h4>
+<ul>
+<li>Delete the index</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">orders</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-1">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-highlighting.html">Highlighting</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-query.html">Match Query</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html">Bulk API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search.html">Elasticsearch Search API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/nested.html">Elasticsearch Nested Objects</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="task-sort-the-results-of-a-query-by-a-given-set-of-requirements" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="task-sort-the-results-of-a-query-by-a-given-set-of-requirements"><span class="header-section-number">3.2</span> Task: Sort the results of a query by a given set of requirements</h2>
+<section id="example-1-creating-search-queries-w-sorting-for-e-commerce-products" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-creating-search-queries-w-sorting-for-e-commerce-products">Example 1: Creating Search Queries w/ Sorting for e-commerce products</h3>
+<section id="requirements-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-2">Requirements</h4>
+<ul>
+<li>Search for e-commerce product data in an index named <code>products</code>.</li>
+<li>Sort the results by two criteria:
+<ul>
+<li><strong>Primary Sort:</strong> In descending order by product <code>price</code> (highest to lowest).</li>
+<li><strong>Secondary Sort:</strong> In ascending order by product <code>name</code> (alphabetically).</li>
+</ul></li>
+</ul>
+</section>
+<section id="steps-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-2">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Create the <code>products</code> index</p></li>
+</ol>
+<div class="sourceCode" id="cb11"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">products</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"price"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"float"</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Index some documents</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/products/_bulk</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{},</span><span class="dt">"action"</span><span class="fu">:</span><span class="st">"index"</span><span class="fu">,</span><span class="dt">"_id"</span><span class="fu">:</span><span class="st">"1"</span><span class="fu">}</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Headphones"</span><span class="fu">,</span><span class="dt">"price"</span><span class="fu">:</span><span class="fl">79.99</span><span class="fu">}</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{},</span><span class="dt">"action"</span><span class="fu">:</span><span class="st">"index"</span><span class="fu">,</span><span class="dt">"_id"</span><span class="fu">:</span><span class="st">"2"</span><span class="fu">}</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Smartwatch"</span><span class="fu">,</span><span class="dt">"price"</span><span class="fu">:</span><span class="fl">249.99</span><span class="fu">}</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{},</span><span class="dt">"action"</span><span class="fu">:</span><span class="st">"index"</span><span class="fu">,</span><span class="dt">"_id"</span><span class="fu">:</span><span class="st">"3"</span><span class="fu">}</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Laptop"</span><span class="fu">,</span><span class="dt">"price"</span><span class="fu">:</span><span class="fl">1299.99</span><span class="fu">}</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{},</span><span class="dt">"action"</span><span class="fu">:</span><span class="st">"index"</span><span class="fu">,</span><span class="dt">"_id"</span><span class="fu">:</span><span class="st">"4"</span><span class="fu">}</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Wireless Speaker"</span><span class="fu">,</span><span class="dt">"price"</span><span class="fu">:</span><span class="fl">99.99</span><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Define a query to perform the primary sort</li>
+</ol>
+<div class="sourceCode" id="cb13"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products/_search</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sort"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"price"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"order"</span><span class="fu">:</span> <span class="st">"desc"</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Define a query to perform the secondary sort</li>
+</ol>
+<div class="sourceCode" id="cb14"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products/_search</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sort"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"order"</span><span class="fu">:</span> <span class="st">"asc"</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="6" type="1">
+<li>Combine the two sorts and their impact on the results</li>
+</ol>
+<div class="sourceCode" id="cb15"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products/_search</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sort"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"price"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"order"</span><span class="fu">:</span> <span class="st">"desc"</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"order"</span><span class="fu">:</span> <span class="st">"asc"</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-2">Test</h4>
+<ul>
+<li>Confirm the index exists</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Run the search queries and examine the response</li>
+</ul>
+</section>
+<section id="considerations-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-2">Considerations</h4>
+<ul>
+<li>The <code>sort</code> clause defines the sorting criteria.</li>
+<li>An array of sort definitions is specified, prioritizing them from top to bottom.</li>
+<li>In this example, <code>price</code> is sorted in descending order (<code>desc</code>), while <code>name</code> is sorted in ascending order (<code>asc</code>).</li>
+</ul>
+</section>
+<section id="clean-up-optional-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-2">Clean-up (optional)</h4>
+<ul>
+<li>Delete the index</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-2">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/sort-search-results.html">Sort Options</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="task-implement-pagination-of-the-results-of-a-search-query" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="task-implement-pagination-of-the-results-of-a-search-query"><span class="header-section-number">3.3</span> Task: Implement pagination of the results of a search query</h2>
+<p>There is only one example here as pagination is rather simple with very few configuration options.</p>
+<section id="example-1-creating-pagination-queries-for-an-e-commerce-product-catalog" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-creating-pagination-queries-for-an-e-commerce-product-catalog">Example 1: Creating pagination queries for an e-commerce product catalog</h3>
+<section id="requirements-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-3">Requirements</h4>
+<ul>
+<li>An index named <code>products</code> with documents containing fields like <code>name</code>, <code>price</code>, <code>category</code>, <code>description</code>, etc.</li>
+<li>Implement pagination to retrieve search results in batches of 10 documents at a time.</li>
+</ul>
+</section>
+<section id="steps-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-3">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Index sample <code>products</code> documents</p></li>
+</ol>
+<div class="sourceCode" id="cb18"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/products/_bulk</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">1</span><span class="fu">}}</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product A"</span><span class="fu">,</span><span class="dt">"price"</span><span class="fu">:</span><span class="fl">99.99</span><span class="fu">,</span><span class="dt">"category"</span><span class="fu">:</span><span class="st">"Electronics"</span><span class="fu">,</span><span class="dt">"description"</span><span class="fu">:</span><span class="st">"High-quality product"</span><span class="fu">}</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">2</span><span class="fu">}}</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product B"</span><span class="fu">,</span><span class="dt">"price"</span><span class="fu">:</span><span class="fl">49.99</span><span class="fu">,</span><span class="dt">"category"</span><span class="fu">:</span><span class="st">"Books"</span><span class="fu">,</span><span class="dt">"description"</span><span class="fu">:</span><span class="st">"Best-selling novel"</span><span class="fu">}</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">3</span><span class="fu">}}</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product C"</span><span class="fu">,</span><span class="dt">"price"</span><span class="fu">:</span><span class="fl">149.99</span><span class="fu">,</span><span class="dt">"category"</span><span class="fu">:</span><span class="st">"Electronics"</span><span class="fu">,</span><span class="dt">"description"</span><span class="fu">:</span><span class="st">"Top-rated gadget"</span><span class="fu">}</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">4</span><span class="fu">}}</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product D"</span><span class="fu">,</span><span class="dt">"price"</span><span class="fu">:</span><span class="fl">29.99</span><span class="fu">,</span><span class="dt">"category"</span><span class="fu">:</span><span class="st">"Clothing"</span><span class="fu">,</span><span class="dt">"description"</span><span class="fu">:</span><span class="st">"Stylish t-shirt"</span><span class="fu">}</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">5</span><span class="fu">}}</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product E"</span><span class="fu">,</span><span class="dt">"price"</span><span class="fu">:</span><span class="fl">19.99</span><span class="fu">,</span><span class="dt">"category"</span><span class="fu">:</span><span class="st">"Books"</span><span class="fu">,</span><span class="dt">"description"</span><span class="fu">:</span><span class="st">"Classic literature"</span><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Define the initial search query with pagination</li>
+</ol>
+<div class="sourceCode" id="cb19"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products/_search</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sort"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"_doc"</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"from"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"size"</span><span class="fu">:</span> <span class="dv">2</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This query will retrieve the first 2 documents sorted by the <code>_doc</code> field (document ID).</p>
+<ol start="4" type="1">
+<li><p>To retrieve the next page of results, use one of two methods:</p>
+<ol type="1">
+<li>Update the <code>from</code> field with the document count to proceed from (not the document id)</li>
+</ol></li>
+</ol>
+<div class="sourceCode" id="cb20"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products/_search</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sort"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"_doc"</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"from"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"size"</span><span class="fu">:</span> <span class="dv">2</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Use the <code>search_after</code> parameter along with the sort values from the last hit in the previous page</li>
+</ol>
+<div class="sourceCode" id="cb21"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products/_search</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"sort"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"_doc"</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"size"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"search_after"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">1</span><span class="ot">]</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-3">Test</h4>
+<ol type="1">
+<li>Confirm the index exists</li>
+</ol>
+<div class="sourceCode" id="cb22"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li><p>Execute the initial search query to retrieve the first 2 documents</p></li>
+<li><p>Inspect the sort values in the response for the last hit</p></li>
+<li><p>Examine the results using both of the queries to return the next page of results</p></li>
+</ol>
+</section>
+<section id="considerations-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-3">Considerations</h4>
+<ul>
+<li>The <code>sort</code> parameter is used to ensure consistent ordering of results across pages.</li>
+<li>The <code>_doc</code> field is used as a tiebreaker to ensure a stable sort order.</li>
+<li>The <code>size</code> parameter specifies the number of documents to retrieve per page.</li>
+<li>The <code>from</code> parameter is used for the initial query to start from the beginning.</li>
+<li>The <code>search_after</code> parameter can be used for subsequent queries to retrieve the next page of results based on the sort values from the last hit or simply update the <code>from</code> parameter to start with the next group starting from a certain number of items in the search results.</li>
+</ul>
+</section>
+<section id="clean-up-optional-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-3">Clean-up (optional)</h4>
+<ul>
+<li>Delete the index</li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation-3" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-3">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html">Elasticsearch Pagination</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html#request-body-search-after">Search After API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/sort-search-results.html">Sort Search Results</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="task-define-and-use-index-aliases" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="task-define-and-use-index-aliases"><span class="header-section-number">3.4</span> Task: Define and use index aliases</h2>
+<section id="example-1-creating-index-aliases-for-customer-data" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-creating-index-aliases-for-customer-data">Example 1: Creating Index Aliases for Customer Data</h3>
+<p>This is an example of the simplest kind of alias.</p>
+<section id="requirements-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-4">Requirements</h4>
+<ul>
+<li>Create multiple indices for customer data (e.g., <code>customers-2024-01</code>, <code>customers-2024-02</code>).</li>
+<li>Create an alias that points to these indices.</li>
+<li>Use the alias to perform search operations across all customer indices.</li>
+</ul>
+</section>
+<section id="steps-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-4">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST Client.</p></li>
+<li><p>Create the 2 indices as a side-effect of indexing sample documents</p></li>
+</ol>
+<div class="sourceCode" id="cb24"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/customers-2024-01/_bulk</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"John Doe"</span><span class="fu">,</span> <span class="dt">"email"</span><span class="fu">:</span> <span class="st">"john.doe@example.com"</span><span class="fu">,</span> <span class="dt">"signup_date"</span><span class="fu">:</span> <span class="st">"2024-01-15"</span> <span class="fu">}</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Jane Smith"</span><span class="fu">,</span> <span class="dt">"email"</span><span class="fu">:</span> <span class="st">"jane.smith@example.com"</span><span class="fu">,</span> <span class="dt">"signup_date"</span><span class="fu">:</span> <span class="st">"2024-01-20"</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/customers-2024-02/_bulk</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Alice Johnson"</span><span class="fu">,</span> <span class="dt">"email"</span><span class="fu">:</span> <span class="st">"alice.johnson@example.com"</span><span class="fu">,</span> <span class="dt">"signup_date"</span><span class="fu">:</span> <span class="st">"2024-02-05"</span> <span class="fu">}</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Bob Brown"</span><span class="fu">,</span> <span class="dt">"email"</span><span class="fu">:</span> <span class="st">"bob.brown@example.com"</span><span class="fu">,</span> <span class="dt">"signup_date"</span><span class="fu">:</span> <span class="st">"2024-02-10"</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Create an alias for the two indices</li>
+</ol>
+<div class="sourceCode" id="cb26"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_aliases</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"actions"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"add"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"customers-2024-01"</span><span class="fu">,</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"alias"</span><span class="fu">:</span> <span class="st">"customers-current"</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"add"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"customers-2024-02"</span><span class="fu">,</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"alias"</span><span class="fu">:</span> <span class="st">"customers-current"</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Execute a search query using the alias and confirm 4 documents returned</li>
+</ol>
+<div class="sourceCode" id="cb27"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/customers-current/_search</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-4">Test</h4>
+<ol type="1">
+<li>Verify the alias was created</li>
+</ol>
+<div class="sourceCode" id="cb28"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_alias/customers-current</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Confirm 4 documents returned when executing the test query</li>
+</ol>
+<div class="sourceCode" id="cb29"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/customers-current/_search</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match_all"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or just</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/customers-current/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="considerations-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-4">Considerations</h4>
+<ul>
+<li><strong>Alias Flexibility</strong>: Using an alias allows for flexibility in managing indices. The alias can point to multiple indices, making it easier to manage and query data across time-based indices.</li>
+<li><strong>Index Patterns</strong>: Ensure that the alias name (customers-current) is descriptive and clearly indicates its purpose.</li>
+<li><strong>Performance</strong>: Searching using an alias is efficient and does not introduce significant overhead compared to searching directly on indices.</li>
+</ul>
+</section>
+<section id="clean-up-optional-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-4">Clean-up (optional)</h4>
+<ul>
+<li>Delete the aliases</li>
+</ul>
+<div class="sourceCode" id="cb31"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">customers-2024-01/_alias/customers</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">customers-2024-02/_alias/customers</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Delete the 2 indices</li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">customers-2024-01</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">customers-2024-02</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation-4" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-4">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html">Bulk API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-alias.html">Delete Aliases</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html">Index Aliases</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html">Search API</a></li>
+</ul>
+</section>
+</section>
+<section id="example-2-creating-index-aliases-for-logging-data-with-filtering-and-routing" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-2-creating-index-aliases-for-logging-data-with-filtering-and-routing">Example 2: Creating index aliases for logging data with filtering and routing</h3>
+<p>This is a slightly more complex use of an index alias. It includes a custom configuration for each index defined in the alias and any custom <strong>filtering</strong> and/or <strong>routing</strong> that is required.</p>
+<section id="requirements-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-5">Requirements</h4>
+<ul>
+<li>Three indices (<code>logs_2022</code>, <code>logs_2023</code>, and <code>logs_2024</code>) with documents containing log data (<code>message</code>, <code>level</code>, <code>timestamp</code>)</li>
+<li>An index alias (<code>logs</code>) that points to all three indices with filtering and routing based on the log level</li>
+<li>A search query against the message field to retrieve documents from the alias</li>
+</ul>
+</section>
+<section id="steps-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-5">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Create the <code>logs_2022</code>, <code>logs_2023</code>, and <code>logs_2024</code> indices</p></li>
+</ol>
+<div class="sourceCode" id="cb33"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">logs_2022</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"message"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"level"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"date"</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">logs_2023</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"message"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"level"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"date"</span></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">logs_2024</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"message"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"level"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"date"</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Create an index alias (<code>logs</code>) with filtering and routing (this must be done before indexing any documents)</li>
+</ol>
+<div class="sourceCode" id="cb36"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_aliases</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"actions"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"add"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"logs_2022"</span><span class="fu">,</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"alias"</span><span class="fu">:</span> <span class="st">"logs"</span><span class="fu">,</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"filter"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"term"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"ERROR"</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"routing"</span><span class="fu">:</span> <span class="st">"error"</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"add"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"logs_2023"</span><span class="fu">,</span></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"alias"</span><span class="fu">:</span> <span class="st">"logs"</span><span class="fu">,</span></span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"filter"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"term"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"INFO"</span></span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"routing"</span><span class="fu">:</span> <span class="st">"info"</span></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"add"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"index"</span><span class="fu">:</span> <span class="st">"logs_2024"</span><span class="fu">,</span></span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"alias"</span><span class="fu">:</span> <span class="st">"logs"</span><span class="fu">,</span></span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"filter"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"term"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"DEBUG"</span></span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"routing"</span><span class="fu">:</span> <span class="st">"debug"</span></span>
+<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb36-39"><a href="#cb36-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb36-40"><a href="#cb36-40" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb36-41"><a href="#cb36-41" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Index sample documents</li>
+</ol>
+<div class="sourceCode" id="cb37"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/logs_2022/_bulk</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Error occurred"</span><span class="fu">,</span> <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"ERROR"</span><span class="fu">,</span> <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2022-01-01T12:00:00Z"</span> <span class="fu">}</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Error occurred"</span><span class="fu">,</span> <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"ERROR"</span><span class="fu">,</span> <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2022-01-01T12:00:00Z"</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/logs_2023/_bulk</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Info message"</span><span class="fu">,</span> <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"INFO"</span><span class="fu">,</span> <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2023-01-01T12:00:01Z"</span> <span class="fu">}</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Info message"</span><span class="fu">,</span> <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"INFO"</span><span class="fu">,</span> <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2023-01-01T12:00:01Z"</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/logs_2024/_bulk</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Debug message"</span><span class="fu">,</span> <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"DEBUG"</span><span class="fu">,</span> <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2024-01-01T12:00:01Z"</span> <span class="fu">}</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Debug message"</span><span class="fu">,</span> <span class="dt">"level"</span><span class="fu">:</span> <span class="st">"DEBUG"</span><span class="fu">,</span> <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2024-01-01T12:00:01Z"</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Execute a search query using the <code>logs</code> alias</li>
+</ol>
+<div class="sourceCode" id="cb40"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/logs/_search</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"terms"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"message"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"error"</span><span class="ot">,</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"info"</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-5">Test</h4>
+<ul>
+<li>Verify the alias was created</li>
+</ul>
+<div class="sourceCode" id="cb41"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_alias/logs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Confirm 4 documents returned when executing the test query: 2 from <code>logs_2022</code> and 2 from <code>logs_2023</code></li>
+</ul>
+</section>
+<section id="considerations-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-5">Considerations</h4>
+<ul>
+<li>The index must be set up in the proper order for the query using the alias with filtering and routing to work:
+<ul>
+<li>create the index</li>
+<li>create the alias using filtering and/or routing</li>
+<li>index the documents</li>
+</ul></li>
+<li>Index aliases with filtering and routing allow you to control which documents are included in the alias based on specific criteria.</li>
+<li>In this example, we created an alias that points to three indices with filtering based on the log level and routing to separate indices.</li>
+</ul>
+</section>
+<section id="clean-up-optional-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-5">Clean-up (optional)</h4>
+<ul>
+<li>Delete the aliases</li>
+</ul>
+<div class="sourceCode" id="cb42"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">logs_2022/_alias/logs</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">logs_2023/_alias/logs</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">logs_2024/_alias/logs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Delete the indices</li>
+</ul>
+<div class="sourceCode" id="cb43"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">logs_2022</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">logs_2023</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">logs_2024</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation-5" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-5">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html">Bulk API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-delete-alias.html">Delete Aliases</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html">Index Aliases</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html">Search API</a></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="task-define-and-use-a-search-template" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="task-define-and-use-a-search-template"><span class="header-section-number">3.5</span> Task: Define and use a search template</h2>
+<section id="example-1-creating-search-templates-for-product-search" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-1-creating-search-templates-for-product-search">Example 1: Creating Search Templates for Product Search</h3>
+<section id="requirements-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-6">Requirements</h4>
+<ul>
+<li>Create an index and populate it with example product documents</li>
+<li>Define a search template for querying products based on a keyword</li>
+</ul>
+</section>
+<section id="steps-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-6">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST Client</p></li>
+<li><p>Create the index as a side-effect of indexing sample documents</p></li>
+</ol>
+<div class="sourceCode" id="cb44"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/products/_bulk</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Laptop"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"A high-performance laptop"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">999.99</span> <span class="fu">}</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Smartphone"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"A latest model smartphone"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">799.99</span> <span class="fu">}</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"3"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Tablet"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"A new tablet with excellent features"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">499.99</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Define a search template</li>
+</ol>
+<div class="sourceCode" id="cb45"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/_scripts/product_search</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"script"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"lang"</span><span class="fu">:</span> <span class="st">"mustache"</span><span class="fu">,</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"source"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"match"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"{{query_string}}"</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Use the search template</li>
+</ol>
+<div class="sourceCode" id="cb46"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">products/_search/template</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"product_search_template"</span><span class="fu">,</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query_string"</span><span class="fu">:</span> <span class="st">"laptop"</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Or</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">_search/template</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"product_search_template"</span><span class="fu">,</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query_string"</span><span class="fu">:</span> <span class="st">"laptop"</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-6">Test</h4>
+<ol type="1">
+<li>Verify the documents are indexed</li>
+</ol>
+<div class="sourceCode" id="cb48"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">products/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Verify the template was created</li>
+</ol>
+<div class="sourceCode" id="cb49"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_scripts/product_search_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Perform a search using the template (results below)</li>
+</ol>
+<div class="sourceCode" id="cb50"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"hits"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"total"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"value"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"relation"</span><span class="fu">:</span> <span class="st">"eq"</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"hits"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">{</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">"products"</span><span class="fu">,</span></span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span><span class="fu">,</span></span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_source"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb50-12"><a href="#cb50-12" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"Laptop"</span><span class="fu">,</span></span>
+<span id="cb50-13"><a href="#cb50-13" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"A high-performance laptop"</span><span class="fu">,</span></span>
+<span id="cb50-14"><a href="#cb50-14" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"price"</span><span class="fu">:</span> <span class="fl">999.99</span></span>
+<span id="cb50-15"><a href="#cb50-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb50-16"><a href="#cb50-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb50-17"><a href="#cb50-17" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb50-19"><a href="#cb50-19" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="considerations-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-6">Considerations</h4>
+<ul>
+<li><strong>Template Flexibility</strong>: Using a search template allows for reusable and parameterized queries, reducing the need to write complex queries multiple times.</li>
+<li><strong>Performance</strong>: Search templates can improve performance by reusing the query logic and reducing the overhead of constructing queries dynamically.</li>
+<li><strong>Template Language</strong>: Mustache is used as the templating language, providing a simple and powerful way to define dynamic queries.</li>
+</ul>
+</section>
+<section id="clean-up-optional-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-6">Clean-up (optional)</h4>
+<ul>
+<li>Delete the search template</li>
+</ul>
+<div class="sourceCode" id="cb51"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_scripts/product_search_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Delete the index</li>
+</ul>
+<div class="sourceCode" id="cb52"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation-6" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-6">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html">Bulk API</a></li>
+<li><a href="https://mustache.github.io/">Mustache</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-search.html">Search API</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-template.html">Search Templates</a></li>
+</ul>
+</section>
+</section>
+<section id="example-2-creating-search-templates-for-an-e-commerce-product-catalog-with-sorting-and-pagination" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-2-creating-search-templates-for-an-e-commerce-product-catalog-with-sorting-and-pagination">Example 2: Creating search templates for an e-commerce product catalog with sorting and pagination</h3>
+<section id="requirements-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-7">Requirements</h4>
+<ul>
+<li>An Elasticsearch index named <code>products</code> with documents containing fields like <code>name</code>, <code>price</code>, <code>category</code>, <code>description</code>, <code>rating</code>, etc.</li>
+<li>Define a search template to search for products based on a user-provided query string, category filter, sort order, and pagination.</li>
+</ul>
+</section>
+<section id="steps-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-7">Steps</h4>
+<ol type="1">
+<li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
+<li><p>Index sample product documents using the /_bulk endpoint:</p></li>
+</ol>
+<div class="sourceCode" id="cb53"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/products/_bulk</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">1</span><span class="fu">}}</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product A"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span><span class="fl">99.99</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span><span class="st">"Electronics"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span><span class="st">"High-quality product"</span><span class="fu">,</span> <span class="dt">"rating"</span><span class="fu">:</span><span class="fl">4.2</span><span class="fu">}</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">2</span><span class="fu">}}</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product B"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span><span class="fl">49.99</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span><span class="st">"Books"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span><span class="st">"Best-selling novel"</span><span class="fu">,</span> <span class="dt">"rating"</span><span class="fu">:</span><span class="fl">4.5</span><span class="fu">}</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">3</span><span class="fu">}}</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product C"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span><span class="fl">149.99</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span><span class="st">"Electronics"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span><span class="st">"Top-rated gadget"</span><span class="fu">,</span> <span class="dt">"rating"</span><span class="fu">:</span><span class="fl">3.8</span><span class="fu">}</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">4</span><span class="fu">}}</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product D"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span><span class="fl">29.99</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span><span class="st">"Clothing"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span><span class="st">"Stylish t-shirt"</span><span class="fu">,</span> <span class="dt">"rating"</span><span class="fu">:</span><span class="fl">4.1</span><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Define the search template:</li>
+</ol>
+<div class="sourceCode" id="cb54"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_scripts/product_search_template</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"script"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"lang"</span><span class="fu">:</span> <span class="st">"mustache"</span><span class="fu">,</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"source"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"bool"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"must"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"term"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>                  <span class="dt">"value"</span><span class="fu">:</span> <span class="st">"{{product}}"</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>                <span class="fu">}</span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"filter"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"term"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"{{category}}"</span></span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb54-23"><a href="#cb54-23" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span></span>
+<span id="cb54-24"><a href="#cb54-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb54-25"><a href="#cb54-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb54-26"><a href="#cb54-26" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"sort"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb54-27"><a href="#cb54-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb54-28"><a href="#cb54-28" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"{{sort_field}}"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb54-29"><a href="#cb54-29" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"order"</span><span class="fu">:</span> <span class="st">"asc"</span></span>
+<span id="cb54-30"><a href="#cb54-30" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb54-31"><a href="#cb54-31" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb54-32"><a href="#cb54-32" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb54-33"><a href="#cb54-33" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"from"</span><span class="fu">:</span> <span class="st">"{{from}}"</span><span class="fu">,</span></span>
+<span id="cb54-34"><a href="#cb54-34" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"size"</span><span class="fu">:</span> <span class="st">"{{size}}"</span></span>
+<span id="cb54-35"><a href="#cb54-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb54-36"><a href="#cb54-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb54-37"><a href="#cb54-37" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Use the search template with sorting and pagination:</li>
+</ol>
+<div class="sourceCode" id="cb55"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">products/_search/template</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"product_search_template"</span><span class="fu">,</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"product"</span> <span class="fu">:</span> <span class="st">"product"</span><span class="fu">,</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"category"</span> <span class="fu">:</span> <span class="st">"electronics"</span><span class="fu">,</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"sort_field"</span> <span class="fu">:</span> <span class="st">"price"</span><span class="fu">,</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"from"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"size"</span> <span class="fu">:</span> <span class="dv">2</span></span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-7">Test</h4>
+<ul>
+<li>Verify the documents are indexed</li>
+</ul>
+<div class="sourceCode" id="cb56"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">products/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Verify the template is created</li>
+</ul>
+<div class="sourceCode" id="cb57"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_scripts/product_search_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Execute a query using the search template, and it should return the first 2 documents matching the provided query string (“product”), category filter (“Electronics”), sorted by price in descending order.</li>
+<li>To retrieve the next page of results, update the <code>from</code> parameter in the <code>params</code> object and execute the query again.</li>
+</ul>
+</section>
+<section id="considerations-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-7">Considerations</h4>
+<ul>
+<li>The search template includes sorting and pagination parameters (<code>sort_field</code>, <code>sort_order</code>, <code>from</code>, <code>size</code>).</li>
+<li>The sort parameter in the template specifies the field and order for sorting the results.</li>
+<li>The <code>from</code> and <code>size</code> parameters control the pagination of the results.</li>
+<li>The <code>params</code> object in the search template request provides the values for all placeholders in the template.</li>
+</ul>
+</section>
+<section id="clean-up-optional-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-7">Clean-up (optional)</h4>
+<ul>
+<li>Delete the search template</li>
+</ul>
+<div class="sourceCode" id="cb58"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_scripts/product_search_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Delete the index</li>
+</ul>
+<div class="sourceCode" id="cb59"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation-7" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-7">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-template.html">Elasticsearch Search Template</a></li>
+<li><a href="https://mustache.github.io/">Mustache Language</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html">Paginate Search Results</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html">Scripting in Elasticsearch</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/sort-search-results.html">Sort Search Results</a></li>
+</ul>
+</section>
+</section>
+<section id="example-3-creating-search-templates-for-an-e-commerce-product-catalog-with-nested-queries-sorting-pagination-and-aggregations" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="example-3-creating-search-templates-for-an-e-commerce-product-catalog-with-nested-queries-sorting-pagination-and-aggregations">Example 3: Creating search templates for an e-commerce product catalog with nested queries, sorting, pagination, and aggregations</h3>
+<section id="requirements-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-8">Requirements</h4>
+<ul>
+<li>An Elasticsearch index named <code>products</code> with documents containing fields like <code>name</code>, <code>price</code>, <code>category</code>, <code>description</code>, <code>rating</code>, <code>tags</code>, <code>specifications</code> (nested object), etc.</li>
+<li>Define a search template to search for products based on a user-provided query string, category filter, tag filter, sort order, pagination, and include aggregations for faceted search.</li>
+</ul>
+</section>
+<section id="steps-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-8">Steps</h4>
+<ol type="1">
+<li><strong>Open the Kibana Console</strong> or use a REST client.</li>
+<li>Create the index with two fields (<code>category</code> and <code>tags</code>) of type <code>keyword</code> for use in the aggregation</li>
+</ol>
+<div class="sourceCode" id="cb60"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">products</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"price"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"float"</span></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"category"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"description"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"rating"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"float"</span></span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"tags"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"specifications"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"ram"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"type"</span> <span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a>          <span class="fu">},</span></span>
+<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"storage"</span> <span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb60-29"><a href="#cb60-29" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"type"</span> <span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb60-30"><a href="#cb60-30" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb60-31"><a href="#cb60-31" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb60-32"><a href="#cb60-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb60-33"><a href="#cb60-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb60-34"><a href="#cb60-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb60-35"><a href="#cb60-35" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Index sample <code>products</code> documents</li>
+</ol>
+<div class="sourceCode" id="cb61"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/products/_bulk</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">1</span><span class="fu">}}</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product A"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span><span class="fl">99.99</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span><span class="st">"Electronics"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span><span class="st">"High-quality product"</span><span class="fu">,</span> <span class="dt">"rating"</span><span class="fu">:</span><span class="fl">4.2</span><span class="fu">,</span> <span class="dt">"tags"</span><span class="fu">:</span><span class="ot">[</span><span class="st">"electronics"</span><span class="ot">,</span> <span class="st">"gadget"</span><span class="ot">]</span><span class="fu">,</span> <span class="dt">"specifications"</span><span class="fu">:{</span><span class="dt">"ram"</span><span class="fu">:</span><span class="st">"8GB"</span><span class="fu">,</span> <span class="dt">"storage"</span><span class="fu">:</span><span class="st">"256GB"</span><span class="fu">}}</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">2</span><span class="fu">}}</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product B"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span><span class="fl">49.99</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span><span class="st">"Books"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span><span class="st">"Best-selling novel"</span><span class="fu">,</span> <span class="dt">"rating"</span><span class="fu">:</span><span class="fl">4.5</span><span class="fu">,</span> <span class="dt">"tags"</span><span class="fu">:</span><span class="ot">[</span><span class="st">"book"</span><span class="ot">,</span> <span class="st">"fiction"</span><span class="ot">]</span><span class="fu">}</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">3</span><span class="fu">}}</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product C"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span><span class="fl">149.99</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span><span class="st">"Electronics"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span><span class="st">"Top-rated gadget"</span><span class="fu">,</span> <span class="dt">"rating"</span><span class="fu">:</span><span class="fl">3.8</span><span class="fu">,</span> <span class="dt">"tags"</span><span class="fu">:</span><span class="ot">[</span><span class="st">"electronics"</span><span class="ot">,</span> <span class="st">"laptop"</span><span class="ot">]</span><span class="fu">,</span> <span class="dt">"specifications"</span><span class="fu">:{</span><span class="dt">"ram"</span><span class="fu">:</span><span class="st">"16GB"</span><span class="fu">,</span> <span class="dt">"storage"</span><span class="fu">:</span><span class="st">"512GB"</span><span class="fu">}}</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"index"</span><span class="fu">:{</span><span class="dt">"_id"</span><span class="fu">:</span><span class="dv">4</span><span class="fu">}}</span></span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"name"</span><span class="fu">:</span><span class="st">"Product D"</span><span class="fu">,</span> <span class="dt">"price"</span><span class="fu">:</span><span class="fl">29.99</span><span class="fu">,</span> <span class="dt">"category"</span><span class="fu">:</span><span class="st">"Clothing"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span><span class="st">"Stylish t-shirt"</span><span class="fu">,</span> <span class="dt">"rating"</span><span class="fu">:</span><span class="fl">4.1</span><span class="fu">,</span> <span class="dt">"tags"</span><span class="fu">:</span><span class="ot">[</span><span class="st">"clothing"</span><span class="ot">,</span> <span class="st">"tshirt"</span><span class="ot">]</span><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Define the search template</li>
+</ol>
+<div class="sourceCode" id="cb62"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_scripts/products_search_template</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"script"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"lang"</span><span class="fu">:</span> <span class="st">"mustache"</span><span class="fu">,</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"source"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"bool"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"must"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"query_string"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"default_field"</span><span class="fu">:</span> <span class="st">"{{default_field}}"</span><span class="fu">,</span></span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"query"</span><span class="fu">:</span> <span class="st">"{{query}}"</span></span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"filter"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"term"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"category"</span><span class="fu">:</span> <span class="st">"{{category_filter}}"</span></span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"term"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"tags"</span><span class="fu">:</span> <span class="st">"{{tags_filter}}"</span></span>
+<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span></span>
+<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb62-30"><a href="#cb62-30" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"sort"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb62-31"><a href="#cb62-31" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb62-32"><a href="#cb62-32" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"{{sort_field}}"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-33"><a href="#cb62-33" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"order"</span><span class="fu">:</span> <span class="st">"{{sort_order}}"</span></span>
+<span id="cb62-34"><a href="#cb62-34" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb62-35"><a href="#cb62-35" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb62-36"><a href="#cb62-36" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb62-37"><a href="#cb62-37" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"from"</span><span class="fu">:</span> <span class="st">"{{from}}"</span><span class="fu">,</span></span>
+<span id="cb62-38"><a href="#cb62-38" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"size"</span><span class="fu">:</span> <span class="st">"{{page_size}}"</span><span class="fu">,</span></span>
+<span id="cb62-39"><a href="#cb62-39" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"aggs"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-40"><a href="#cb62-40" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"category_agg"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-41"><a href="#cb62-41" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"terms"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-42"><a href="#cb62-42" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"field"</span><span class="fu">:</span> <span class="st">"category"</span></span>
+<span id="cb62-43"><a href="#cb62-43" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb62-44"><a href="#cb62-44" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb62-45"><a href="#cb62-45" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"tags_agg"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-46"><a href="#cb62-46" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"terms"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-47"><a href="#cb62-47" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"field"</span><span class="fu">:</span> <span class="st">"tags"</span></span>
+<span id="cb62-48"><a href="#cb62-48" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb62-49"><a href="#cb62-49" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb62-50"><a href="#cb62-50" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"price_range"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-51"><a href="#cb62-51" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"range"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb62-52"><a href="#cb62-52" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"field"</span><span class="fu">:</span> <span class="st">"price"</span><span class="fu">,</span></span>
+<span id="cb62-53"><a href="#cb62-53" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"ranges"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb62-54"><a href="#cb62-54" aria-hidden="true" tabindex="-1"></a>              <span class="fu">{</span></span>
+<span id="cb62-55"><a href="#cb62-55" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"from"</span><span class="fu">:</span> <span class="dv">50</span><span class="fu">,</span></span>
+<span id="cb62-56"><a href="#cb62-56" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"to"</span><span class="fu">:</span> <span class="dv">200</span></span>
+<span id="cb62-57"><a href="#cb62-57" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb62-58"><a href="#cb62-58" aria-hidden="true" tabindex="-1"></a>            <span class="ot">]</span></span>
+<span id="cb62-59"><a href="#cb62-59" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb62-60"><a href="#cb62-60" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb62-61"><a href="#cb62-61" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb62-62"><a href="#cb62-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb62-63"><a href="#cb62-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb62-64"><a href="#cb62-64" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Use the search template with sorting, pagination, and aggregations:</li>
+</ol>
+<div class="sourceCode" id="cb63"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/products/_search/template</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"products_search_template"</span><span class="fu">,</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"default_field"</span><span class="fu">:</span> <span class="st">"description"</span><span class="fu">,</span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"query"</span><span class="fu">:</span> <span class="st">"*"</span><span class="fu">,</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"category_filter"</span><span class="fu">:</span> <span class="st">"Electronics"</span><span class="fu">,</span></span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"tags_filter"</span><span class="fu">:</span> <span class="st">"electronics"</span><span class="fu">,</span></span>
+<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"sort_field"</span><span class="fu">:</span> <span class="st">"price"</span><span class="fu">,</span></span>
+<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"sort_order"</span><span class="fu">:</span> <span class="st">"desc"</span><span class="fu">,</span></span>
+<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"from"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"page_size"</span><span class="fu">:</span> <span class="dv">2</span></span>
+<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="test-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-8">Test</h4>
+<ul>
+<li>Verify the index is created</li>
+</ul>
+<div class="sourceCode" id="cb64"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Verify the documents are indexed</li>
+</ul>
+<div class="sourceCode" id="cb65"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">products/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Verify the template is created</li>
+</ul>
+<div class="sourceCode" id="cb66"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_scripts/product_search_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Execute a search using the search template query, and it should return the first 2 documents matching the provided query string (“*“), category filter (”Electronics”), tag filter (“electronics”), sorted by price in descending order.
+<ul>
+<li>The response should also include aggregations for <code>category</code>, <code>tags</code>, and <code>price</code>.</li>
+</ul></li>
+<li>To retrieve the next page of results, update the <code>from</code> parameter in the <code>params</code> object and execute the query again.</li>
+</ul>
+</section>
+<section id="considerations-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-8">Considerations</h4>
+<ul>
+<li>The search template includes nested queries, filters, sorting, pagination, and aggregations.</li>
+<li>The tags filter uses a terms query to match documents with any of the specified tags.</li>
+<li>The specifications aggregation is a nested aggregation that aggregates the nested specifications object.</li>
+<li>The aggs section in the template defines the aggregations to be included in the search results.</li>
+<li>The params object in the search template request provides the values for all placeholders in the template.</li>
+</ul>
+</section>
+<section id="clean-up-optional-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-8">Clean-up (optional)</h4>
+<ul>
+<li>Delete the search template</li>
+</ul>
+<div class="sourceCode" id="cb67"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_scripts/product_search_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>Delete the index</li>
+</ul>
+<div class="sourceCode" id="cb68"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">products</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="documentation-8" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-8">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations.html">Aggregations</a></li>
+<li><a href="https://mustache.github.io/">Mustache Language</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-nested-aggregation.html">Nested Aggregations</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/paginate-search-results.html">Paginate Search Results</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html">Scripting in Elasticsearch</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-template.html">Search Template</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/sort-search-results.html">Sort Search Results</a></li>
+</ul>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./2-searching-data.html" class="pagination-link" aria-label="Searching Data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Searching Data</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./4-data-processing.html" class="pagination-link" aria-label="Data Processing">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data Processing</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
