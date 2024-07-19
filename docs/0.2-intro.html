@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introduction – The Definitive Guide to the Elastic Certified Engineer Exam v8.1</title>
+<title>Introduction – The Elastic Certified Engineer Exam v8.1 Study Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">The Definitive Guide to the Elastic Certified Engineer Exam v8.1</a> 
+      <a href="./">The Elastic Certified Engineer Exam v8.1 Study Guide</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -285,42 +285,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="assumptions" class="level2">
 <h2 class="anchored" data-anchor-id="assumptions">Assumptions</h2>
-<p>This study guide makes a number of assumptions about the reader; not the least of which is your understanding of search and search technologies. This guide is:</p>
+<p>This study guide assumes you have a foundational understanding of search and search technologies. It is:</p>
 <ul>
-<li>not an introductory text on search and search technologies</li>
-<li>not an Elastic or Kibana tutorial</li>
-<li>not a JSON tutorial</li>
+<li>Not an introductory text on search and search technologies.</li>
+<li>Not an <a href="https://www.elastic.co/learn">Elastic</a> or <a href="https://www.elastic.co/guide/en/kibana/current/index.html">Kibana</a> tutorial.</li>
+<li>Not a <a href="https://www.w3schools.com/js/js_json_intro.asp">JSON</a> tutorial.</li>
 </ul>
-<p>The examples present the answers as REST API calls in JSON for the <strong>Elastic Kibana Console</strong>. In the <strong>Things You Must Do</strong> section we will show you how to translate the REST API calls into curl calls. This is done specifically so you understand how to execute the calls both ways, but will not be used in the examples.</p>
+<p>The examples are presented as REST API calls in JSON for the <strong>Elastic Kibana Console</strong>. In the <strong>Things You Must Do</strong> section, we will show you how to translate these REST API calls into <code>curl</code> commands. This is to ensure you understand how to execute the calls both ways, but <code>curl</code> commands will not be used in the examples.</p>
 </section>
 <section id="things-you-must-do" class="level2">
 <h2 class="anchored" data-anchor-id="things-you-must-do">Things You Must Do</h2>
-<p>Regardless of where you are running Elastic (locally or from the Elastic cloud) you are going to need two bits of information to access your deployment:</p>
+<p>Regardless of where you are running Elastic (locally or from the Elastic Cloud), you will need two pieces of information to access your deployment:</p>
 <ul>
-<li>username</li>
-<li>password</li>
+<li>Username</li>
+<li>Password</li>
 </ul>
-<p>How and where you get those two will depend on whether you have a local instance of Elasticsearch/Kibana or if you are using an Elastic Cloud deployment.</p>
-<p>The installation of a local instance of Elasticsearch/Kibana can be found in the <strong>Appendix</strong> along with basic instructions on how you get the username/password when you create an Elastic cloud deployment. These same instructions can be found in the <a href="https://www.elastic.co/guide/index.html"><u>Elastic documentation</u></a>.</p>
-<p>If you decide to run these examples from the command line using <strong>curl</strong> you must:</p>
+<p>How and where you obtain these will depend on whether you have a local instance of Elasticsearch/Kibana or are using an Elastic Cloud deployment.</p>
+<p>Instructions for installing a local instance of Elasticsearch/Kibana can be found in the <strong>Appendix</strong>, along with basic instructions on obtaining the username/password when you create an Elastic Cloud deployment. These instructions are also available in the <a href="https://www.elastic.co/guide/index.html">Elastic documentation</a>.</p>
+<p>If you decide to run these examples from the command line using <code>curl</code>, you must:</p>
 <ul>
-<li>have <strong>curl</strong> installed</li>
-<li>have your Elasticsearch username (<strong>elastic</strong>) and password handy. The password will vary based on whether you are running your own local copy of the Elastic Stack or using the Elastic Cloud.</li>
-<li>If you are running <strong>curl</strong> against your <strong>local</strong> container instance your command line should look like this:</li>
+<li>Have <code>curl</code> installed.</li>
+<li>Have your Elasticsearch username (<code>elastic</code>) and password handy. The password will vary depending on whether you are running your own local copy of the Elastic Stack or using the Elastic Cloud.</li>
+<li>If you are running <code>curl</code> against your <strong>local</strong> container instance, your command line should look like this:</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--cacert</span> http_ca.crt <span class="at">-u</span> elastic:[container instance password here] <span class="at">-X</span> [desired HTTP command] <span class="st">"https://[elastic endpoint here]/[API path as appropriate]"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <strong>http_ca.crt</strong> file was something you should have extracted from the container while you were deploying it. If you haven’t then execute this first in the location where you are doing your certification work (assuming you have called your Elasticsearch container <strong>es01</strong>):</p>
+<p>The <code>http_ca.crt</code> file should be extracted from the container during deployment. If you haven’t done this, execute the following command in the location where you are doing your certification work (assuming your Elasticsearch container is named <strong>es01</strong>):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> cp es01:/usr/share/elasticsearch/config/certs/http_ca.crt .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Keep that file secret. Keep that file safe.</p>
-<p>As a test you should be able to run:</p>
+<p>As a test, you should be able to run:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--cacert</span> http_ca.crt <span class="at">-u</span> elastic:[container instance password here] https://localhost:9200/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You should get some reasonable output.</p>
 <ul>
-<li>If you are running curl against the <strong>Elastic Cloud</strong> your command line should look like this:</li>
+<li>If you are running <code>curl</code> against the <strong>Elastic Cloud</strong>, your command line should look like this:</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-u</span> elastic:[elastic cloud deployment password here] <span class="at">-X</span> [desired HTTP command] <span class="st">"https://[elastic endpoint here]/[API path as appropriate]"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The only thing different with the above and the local command is you don’t need the certificate file if you are running curl against the Elastic Cloud.</p>
-<p>Originally, the examples had both the REST API calls and the curl calls. Since the curl calls are slightly different between the local instance the the Elastic Cloud instance I have left them out. If you want to run curl using the Elastic REST API then remember that the REST API looks like this in the Elastic cloud console:</p>
+<p>The only difference between the above and the local command is that you don’t need the certificate file if you are running <code>curl</code> against the Elastic Cloud.</p>
+<p>Originally, the examples included both the REST API calls and the <code>curl</code> commands. Since the <code>curl</code> commands differ slightly between the local instance and the Elastic Cloud instance, they have been left out. If you want to run <code>curl</code> using the Elastic REST API, remember that the REST API looks like this in the Elastic Cloud console:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>or</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/example_index</span></span>
@@ -336,22 +336,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The associated <strong>curl</strong> command for would like like this:</p>
+<p>The associated <code>curl</code> command would look like this:</p>
 <ul>
 <li>Local</li>
 </ul>
 <p>The first call:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--cacert</span> http_ca.crt <span class="at">-u</span> elastic:[container instance password here] <span class="at">-X</span> GET https://localhost:9200/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>or for the second call (note the use of single quotes around the JSON):</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--cacert</span> http_ca.crt <span class="at">-u</span> elastic:[container instance password here] <span class="at">-X</span> PUT https://localhost:9200/example_index<span class="st">" -H 'Content-Type: application/json' -d'</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">--cacert</span> http_ca.crt <span class="at">-u</span> elastic:[container instance password here] <span class="at">-X</span> PUT https://localhost:9200/example_index <span class="at">-H</span> <span class="st">'Content-Type: application/json'</span> <span class="at">-d</span><span class="st">'</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">{</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">  "</span>mappings<span class="st">": {</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">    "</span>properties<span class="st">": {</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">      "</span>title<span class="st">": {</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st">        "</span>type<span class="st">": "</span>text<span class="st">"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">  "mappings": {</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">    "properties": {</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">      "title": {</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st">        "type": "text"</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="st">      },</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">      "</span>description<span class="st">": {</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="st">        "</span>type<span class="st">": "</span>text<span class="st">"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">      "description": {</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="st">        "type": "text"</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">      }</span></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
@@ -379,33 +379,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-to-pass-the-test" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-pass-the-test">How to Pass the Test</h2>
 <p>Do the examples and more. Be over-prepared.</p>
-<p>Go through the <a href="https://www.elastic.co/guide/index.html"><u>documentation</u></a> so you know where to look when a task shows up in the certification exam and you are not sure what the syntax or format of a given JSON might be. This is an open book test, but the only book you can use is the Elastic documentation.</p>
-<p>Learn the basics. The Elastic console has code completion so you don’t have to remember everything…just what might be the appropriate JSON elements for the solution you are implementing.</p>
-<p>Learn the query syntax of Query DSL. This is a search engine after all and knowledge of querying is fundamental to the certification exam.</p>
-<p>While there is no magic bullet the exam should not be that hard if you already have knowledge of:</p>
+<p>Go through the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html">documentation</a> so you know where to look when a task shows up in the certification exam and you are not sure what the syntax or format of a given JSON might be. This is an open book test, but the only book you can use is the Elastic documentation.</p>
+<p>Learn the basics. The Elastic console has code completion, so you don’t have to remember everything—just what might be the appropriate JSON elements for the solution you are implementing.</p>
+<p>Learn the query syntax of Query DSL. This is a search engine, after all, and knowledge of querying is fundamental to the certification exam.</p>
+<p>While there is no magic bullet, the exam should not be that hard if you already have knowledge of:</p>
 <ul>
-<li>search and search technologies (preferably hands-on)</li>
+<li>Search and search technologies (preferably hands-on)</li>
 <li>JSON</li>
 </ul>
 <p>Things that will trip you up:</p>
 <ul>
-<li>syntax</li>
-<li>depth of various JSON nodes</li>
+<li>Syntax</li>
+<li>Depth of various JSON nodes</li>
 </ul>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>This book will not teach you Elastic search or Kibana or any of the other Elastic products available in the first half of 2024. It assumes you have an understanding of various search topics, JSON, REST APIs, and areas like regular expressions, and web technologies. The examples are valid with the current documentation and were all confirmed as working in the same time period.</p>
-<p>If you run into any problems with the examples, please send an email to <u>support@brushedsteelconsulting.com</u>. When in doubt, asking one of the many public LLMs available should help as well:</p>
+<p>This book will not teach you Elasticsearch or Kibana or any of the other Elastic products available in the first half of 2024. It assumes you have an understanding of various search topics, JSON, REST APIs, and areas like regular expressions and web technologies. The examples are valid with the current documentation and were all confirmed as working in the same time period.</p>
+<p>If you run into any problems with the examples, please send an email to <a href="mailto:support@brushedsteelconsulting.com">support@brushedsteelconsulting.com</a>. When in doubt, asking in the <a href="https://www.elastic.co/community/">Elastic community</a> or one of the many public LLMs available should help as well:</p>
 <ul>
-<li><a href="https://chatgpt.com/"><u>ChatGPT</u></a></li>
-<li><a href="https://claude.ai/"><u>Claude.ai</u></a></li>
-<li><a href="https://gemini.google.com/"><u>Gemini</u></a></li>
-<li><a href="https://meat.ai/"><u>Meta.ai</u></a></li>
-<li><a href="https://www.perplexity.ai/"><u>Perplexity.ai</u></a></li>
+<li><a href="https://chatgpt.com/">ChatGPT</a></li>
+<li><a href="https://claude.ai/">Claude.ai</a></li>
+<li><a href="https://gemini.google.com/">Gemini</a></li>
+<li><a href="https://meta.ai/">Meta.ai</a></li>
+<li><a href="https://www.perplexity.ai/">Perplexity.ai</a></li>
 </ul>
-<p>All of the examples were originally generated by the various LLMs above sites with many changes made by an actual human as the examples and the generated content left much to be desired.</p>
-<p><em>Disclaimer: this book was written with the assistance of various tools include a host of LLMs, but always under the guidance of the author. Make of that what you will.</em></p>
+<p>All of the examples were originally generated by the various LLMs listed above with many changes made by an actual human as the examples and the generated content left much to be desired.</p>
+<p><em>Disclaimer: this book was written with the assistance of various tools, including a host of LLMs, but always under the guidance of the author. Make of that what you will.</em></p>
 
 
 </section>

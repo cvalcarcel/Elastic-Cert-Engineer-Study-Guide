@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Data Management – The Definitive Guide to the Elastic Certified Engineer Exam v8.1</title>
+<title>1&nbsp; Data Management – The Elastic Certified Engineer Exam v8.1 Study Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">The Definitive Guide to the Elastic Certified Engineer Exam v8.1</a> 
+      <a href="./">The Elastic Certified Engineer Exam v8.1 Study Guide</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -239,6 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#example-1-creating-an-index-template-for-continuously-flowing-application-logs-version-1" id="toc-example-1-creating-an-index-template-for-continuously-flowing-application-logs-version-1" class="nav-link" data-scroll-target="#example-1-creating-an-index-template-for-continuously-flowing-application-logs-version-1">Example 1: Creating an index template for continuously flowing application logs (version 1)</a></li>
   <li><a href="#example-2-creating-an-index-template-for-continuously-flowing-application-logs-version-2" id="toc-example-2-creating-an-index-template-for-continuously-flowing-application-logs-version-2" class="nav-link" data-scroll-target="#example-2-creating-an-index-template-for-continuously-flowing-application-logs-version-2">Example 2: Creating an index template for continuously flowing application logs (version 2)</a></li>
   <li><a href="#example-3-creating-a-metrics-data-stream-for-application-performance-monitoring" id="toc-example-3-creating-a-metrics-data-stream-for-application-performance-monitoring" class="nav-link" data-scroll-target="#example-3-creating-a-metrics-data-stream-for-application-performance-monitoring">Example 3: Creating a metrics data stream for application performance monitoring</a></li>
+  <li><a href="#example-4-defining-a-data-stream-with-specific-lifecycle-policies" id="toc-example-4-defining-a-data-stream-with-specific-lifecycle-policies" class="nav-link" data-scroll-target="#example-4-defining-a-data-stream-with-specific-lifecycle-policies"><span class="header-section-number">1.5.1</span> Example 4: Defining a Data Stream with Specific Lifecycle Policies</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -272,8 +273,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="requirements" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="requirements">Requirements</h4>
 <ul>
-<li>The platform hosts articles, each with text content, a publication date, author details, and tags.</li>
-<li>Articles need to be searchable by content, title, and tags.</li>
+<li>The platform hosts articles, each with <code>text</code> content, a publication date, author details, and tags.</li>
+<li>Articles need to be searchable by <code>content</code>, <code>title</code>, and <code>tags</code>.</li>
 <li>The application requires fast search responses and efficient storage.</li>
 <li>The application should handle date-based queries efficiently.</li>
 <li>Author details are nested objects that include the author’s name and email.</li>
@@ -282,123 +283,87 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="steps" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="steps">Steps</h4>
 <ol class="example" type="1">
-<li><strong>Choose Appropriate Settings:</strong>
-<ul>
-<li>Use a custom analyzer for the articles’ content to improve text search.</li>
-<li>Set the number of shards to balance between write performance and search speed.</li>
-<li>Configure replicas for high availability and read performance.</li>
-</ul></li>
+<li><strong>Open the Kibana Console</strong> or use a REST client.</li>
 <li><strong>Define Mappings:</strong>
 <ul>
-<li><strong>Content and Title:</strong> Use the text data type with a custom analyzer.</li>
-<li><strong>Publication Date:</strong> Use the date data type.</li>
-<li><strong>Tags:</strong> Use the keyword data type for exact matching.</li>
-<li><strong>Author:</strong> Use a nested object to keep author details searchable and well-structured.</li>
+<li><strong>Content and Title:</strong> Use the text data type</li>
+<li><strong>Publication Date:</strong> Use the date data type</li>
+<li><strong>Tags:</strong> Use the keyword data type for exact matching</li>
+<li><strong>Author:</strong> Use a nested object to keep author details searchable and well-structuredse</li>
 </ul></li>
-<li><strong>Open the Kibana Console</strong> or use a REST client.</li>
 <li>Create the index</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">blog_articles</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"analysis"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"analyzer"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"custom_text_analyzer"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"custom"</span><span class="fu">,</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"tokenizer"</span><span class="fu">:</span> <span class="st">"standard"</span><span class="fu">,</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"filter"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"lowercase"</span><span class="ot">,</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">"asciifolding"</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"title"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span><span class="fu">,</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"analyzer"</span><span class="fu">:</span> <span class="st">"custom_text_analyzer"</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"content"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span><span class="fu">,</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"analyzer"</span><span class="fu">:</span> <span class="st">"custom_text_analyzer"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"title"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"content"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"publication_date"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"date"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"author"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"nested"</span><span class="fu">,</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>          <span class="fu">},</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"email"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"publication_date"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"date"</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"author"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"nested"</span><span class="fu">,</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span><span class="fu">,</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"analyzer"</span><span class="fu">:</span> <span class="st">"custom_text_analyzer"</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>          <span class="fu">},</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"email"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"tags"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"tags"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Or insert the settings and mappings separately.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">blog_articles</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"analysis"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"analyzer"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"custom_text_analyzer"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"custom"</span><span class="fu">,</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"tokenizer"</span><span class="fu">:</span> <span class="st">"standard"</span><span class="fu">,</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"filter"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"lowercase"</span><span class="ot">,</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            <span class="st">"asciifolding"</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>          <span class="ot">]</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>And:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">blog_articles/_mapping</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"title"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span><span class="fu">,</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"analyzer"</span><span class="fu">:</span> <span class="st">"custom_text_analyzer"</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"content"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span><span class="fu">,</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"analyzer"</span><span class="fu">:</span> <span class="st">"custom_text_analyzer"</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"publication_date"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"date"</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"author"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"nested"</span><span class="fu">,</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span><span class="fu">,</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"analyzer"</span><span class="fu">:</span> <span class="st">"custom_text_analyzer"</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"email"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"tags"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"content"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"publication_date"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"date"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"author"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"nested"</span><span class="fu">,</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"name"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"email"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"tags"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="test" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="test">Test</h4>
@@ -2145,6 +2110,12 @@ The response should show the indexed document.</li>
 <section id="task-define-an-index-template-that-creates-a-new-data-stream" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="task-define-an-index-template-that-creates-a-new-data-stream"><span class="header-section-number">1.5</span> Task: Define an index template that creates a new data stream</h2>
 <p><strong>Data streams</strong> in Elasticsearch are used for managing time-series data such as logs, metrics, and events. They can handle large volumes of time-series data in an efficient and scalable manner.</p>
+<p>An interesting aspect is that the creation of the data stream can be done through the Kibana UI using the <strong>Management &gt; Data &gt; Index Lifecycle Policies</strong>. When you finish creating your Index Lifecycle Policy (ILP) you can see the JSON for it by executing the following in the Console:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_ilp/policy/</span><span class="ot">[</span><span class="er">the</span> <span class="er">name</span> <span class="er">of</span> <span class="er">your</span> <span class="er">policy</span><span class="ot">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To see all ILPs:</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_ilp/policy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once created you can simply copy the name of the ILP into your index template where it will be used by the data stream. <a href="#example-4-defining-a-data-stream-with-specific-lifecycle-policies">Example 4</a> uses an the ILP.</p>
+<p>While you can create the index templates directly in the Console, you can also create them from the <strong>Management &gt; Data &gt; Index Management</strong> section and add the data stream as needed. However, I have not found the index templates created there to be as accurate as the ones that you can define in JSON.</p>
 <section id="example-1-creating-an-index-template-for-continuously-flowing-application-logs-version-1" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="example-1-creating-an-index-template-for-continuously-flowing-application-logs-version-1">Example 1: Creating an index template for continuously flowing application logs (version 1)</h3>
 <section id="requirements-12" class="level4 unnumbered">
@@ -2160,79 +2131,79 @@ The response should show the indexed document.</li>
 <li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
 <li><p>Define the index template that will be used by the data stream to create new backing indices.</p></li>
 </ol>
-<div class="sourceCode" id="cb124"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_index_template/app_logs_index_template</span></span>
-<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"index_patterns"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"app_logs*"</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_stream"</span><span class="fu">:</span> <span class="fu">{}</span></span>
-<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_index_template/app_logs_index_template</span></span>
+<span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb126-3"><a href="#cb126-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"index_patterns"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"app_logs*"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb126-4"><a href="#cb126-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_stream"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb126-5"><a href="#cb126-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="test-12" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="test-12">Test</h4>
 <ol type="1">
 <li>Verify the index template creation.</li>
 </ol>
-<div class="sourceCode" id="cb125"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_index_template/app_logs_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_index_template/app_logs_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>Confirm there are no indices named app_logs*.</li>
 </ol>
-<div class="sourceCode" id="cb126"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
 <li>Mock sending streaming data by just pushing a few documents to the stream. When sending documents using _bulk, they must use <strong>create</strong> instead of <strong>index</strong>. In addition, the documents must have a <code>@timestamp</code> field.</li>
 </ol>
-<div class="sourceCode" id="cb127"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">app_logs/_bulk</span></span>
-<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"create"</span><span class="fu">:{}</span> <span class="fu">}</span></span>
-<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="st">"2099-05-06T16:21:15.000Z"</span><span class="fu">,</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"192.0.2.42 - - [06/May/2099:16:21:15 +0000] </span><span class="ch">\"</span><span class="st">GET /images/bg.jpg HTTP/1.0</span><span class="ch">\"</span><span class="st"> 200 24736"</span> <span class="fu">}</span></span>
-<span id="cb127-4"><a href="#cb127-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"create"</span><span class="fu">:{}</span> <span class="fu">}</span></span>
-<span id="cb127-5"><a href="#cb127-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="st">"2099-05-06T16:25:42.000Z"</span><span class="fu">,</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"192.0.2.255 - - [06/May/2099:16:25:42 +0000] </span><span class="ch">\"</span><span class="st">GET /favicon.ico HTTP/1.0</span><span class="ch">\"</span><span class="st"> 200 3638"</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">app_logs/_bulk</span></span>
+<span id="cb129-2"><a href="#cb129-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"create"</span><span class="fu">:{}</span> <span class="fu">}</span></span>
+<span id="cb129-3"><a href="#cb129-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="st">"2099-05-06T16:21:15.000Z"</span><span class="fu">,</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"192.0.2.42 - - [06/May/2099:16:21:15 +0000] </span><span class="ch">\"</span><span class="st">GET /images/bg.jpg HTTP/1.0</span><span class="ch">\"</span><span class="st"> 200 24736"</span> <span class="fu">}</span></span>
+<span id="cb129-4"><a href="#cb129-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"create"</span><span class="fu">:{}</span> <span class="fu">}</span></span>
+<span id="cb129-5"><a href="#cb129-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="st">"2099-05-06T16:25:42.000Z"</span><span class="fu">,</span> <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"192.0.2.255 - - [06/May/2099:16:25:42 +0000] </span><span class="ch">\"</span><span class="st">GET /favicon.ico HTTP/1.0</span><span class="ch">\"</span><span class="st"> 200 3638"</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The response will list the name of the automatically created index, which will look something like this:</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb128-2"><a href="#cb128-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"errors"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
-<span id="cb128-3"><a href="#cb128-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"took"</span><span class="fu">:</span> <span class="dv">8</span><span class="fu">,</span></span>
-<span id="cb128-4"><a href="#cb128-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"items"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb128-5"><a href="#cb128-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb128-6"><a href="#cb128-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"create"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb128-7"><a href="#cb128-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">".ds-app_logs-2099.05.06-000001"</span><span class="fu">,</span></span>
-<span id="cb128-8"><a href="#cb128-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"OOazyo8BAvAOn4WaAfdD"</span><span class="fu">,</span></span>
-<span id="cb128-9"><a href="#cb128-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb128-10"><a href="#cb128-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"result"</span><span class="fu">:</span> <span class="st">"created"</span><span class="fu">,</span></span>
-<span id="cb128-11"><a href="#cb128-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_shards"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb128-12"><a href="#cb128-12" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"total"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
-<span id="cb128-13"><a href="#cb128-13" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"successful"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb128-14"><a href="#cb128-14" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"failed"</span><span class="fu">:</span> <span class="dv">0</span></span>
-<span id="cb128-15"><a href="#cb128-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
-<span id="cb128-16"><a href="#cb128-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_seq_no"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
-<span id="cb128-17"><a href="#cb128-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_primary_term"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb128-18"><a href="#cb128-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"status"</span><span class="fu">:</span> <span class="dv">201</span></span>
-<span id="cb128-19"><a href="#cb128-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
-<span id="cb128-20"><a href="#cb128-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb128-21"><a href="#cb128-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb128-22"><a href="#cb128-22" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"create"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb128-23"><a href="#cb128-23" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">".ds-app_logs-2099.05.06-000001"</span><span class="fu">,</span></span>
-<span id="cb128-24"><a href="#cb128-24" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"Oeazyo8BAvAOn4WaAfdD"</span><span class="fu">,</span></span>
-<span id="cb128-25"><a href="#cb128-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb128-26"><a href="#cb128-26" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"result"</span><span class="fu">:</span> <span class="st">"created"</span><span class="fu">,</span></span>
-<span id="cb128-27"><a href="#cb128-27" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_shards"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb128-28"><a href="#cb128-28" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"total"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
-<span id="cb128-29"><a href="#cb128-29" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"successful"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb128-30"><a href="#cb128-30" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"failed"</span><span class="fu">:</span> <span class="dv">0</span></span>
-<span id="cb128-31"><a href="#cb128-31" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
-<span id="cb128-32"><a href="#cb128-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_seq_no"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
-<span id="cb128-33"><a href="#cb128-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_primary_term"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb128-34"><a href="#cb128-34" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"status"</span><span class="fu">:</span> <span class="dv">201</span></span>
-<span id="cb128-35"><a href="#cb128-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
-<span id="cb128-36"><a href="#cb128-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb128-37"><a href="#cb128-37" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb128-38"><a href="#cb128-38" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"errors"</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"took"</span><span class="fu">:</span> <span class="dv">8</span><span class="fu">,</span></span>
+<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"items"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"create"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb130-7"><a href="#cb130-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">".ds-app_logs-2099.05.06-000001"</span><span class="fu">,</span></span>
+<span id="cb130-8"><a href="#cb130-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"OOazyo8BAvAOn4WaAfdD"</span><span class="fu">,</span></span>
+<span id="cb130-9"><a href="#cb130-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb130-10"><a href="#cb130-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"result"</span><span class="fu">:</span> <span class="st">"created"</span><span class="fu">,</span></span>
+<span id="cb130-11"><a href="#cb130-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_shards"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb130-12"><a href="#cb130-12" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"total"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb130-13"><a href="#cb130-13" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"successful"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb130-14"><a href="#cb130-14" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"failed"</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb130-15"><a href="#cb130-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb130-16"><a href="#cb130-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_seq_no"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb130-17"><a href="#cb130-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_primary_term"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb130-18"><a href="#cb130-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"status"</span><span class="fu">:</span> <span class="dv">201</span></span>
+<span id="cb130-19"><a href="#cb130-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb130-20"><a href="#cb130-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb130-21"><a href="#cb130-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb130-22"><a href="#cb130-22" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"create"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb130-23"><a href="#cb130-23" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">".ds-app_logs-2099.05.06-000001"</span><span class="fu">,</span></span>
+<span id="cb130-24"><a href="#cb130-24" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"Oeazyo8BAvAOn4WaAfdD"</span><span class="fu">,</span></span>
+<span id="cb130-25"><a href="#cb130-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb130-26"><a href="#cb130-26" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"result"</span><span class="fu">:</span> <span class="st">"created"</span><span class="fu">,</span></span>
+<span id="cb130-27"><a href="#cb130-27" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_shards"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb130-28"><a href="#cb130-28" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"total"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb130-29"><a href="#cb130-29" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"successful"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb130-30"><a href="#cb130-30" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"failed"</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb130-31"><a href="#cb130-31" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb130-32"><a href="#cb130-32" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_seq_no"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb130-33"><a href="#cb130-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"_primary_term"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb130-34"><a href="#cb130-34" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"status"</span><span class="fu">:</span> <span class="dv">201</span></span>
+<span id="cb130-35"><a href="#cb130-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb130-36"><a href="#cb130-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb130-37"><a href="#cb130-37" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb130-38"><a href="#cb130-38" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="4" type="1">
 <li>Run:</li>
 </ol>
-<div class="sourceCode" id="cb129"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb129-1"><a href="#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You will see the new index listed. This is the backing index created by the data stream.</p>
 <ol start="5" type="1">
 <li><p>Check for the <strong>app_logs</strong> data stream under <strong>Management → Index Management → Data Streams</strong>.</p></li>
 <li><p>Verify that the documents were indexed.</p></li>
 </ol>
-<div class="sourceCode" id="cb130"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-app_logs-2099.05.06-000001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-app_logs-2099.05.06-000001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="considerations-12" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="considerations-12">Considerations</h4>
@@ -2247,11 +2218,11 @@ The response should show the indexed document.</li>
 <ol type="1">
 <li>Delete the data stream (deleting the data stream will also delete the backing index).</li>
 </ol>
-<div class="sourceCode" id="cb131"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb131-1"><a href="#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">/_data_stream/app_logs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">/_data_stream/app_logs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>Delete the index template.</li>
 </ol>
-<div class="sourceCode" id="cb132"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_index_template/app_logs_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_index_template/app_logs_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="documentation-12" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="documentation-12">Documentation</h4>
@@ -2278,75 +2249,75 @@ The response should show the indexed document.</li>
 <li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
 <li><p>Create the index template</p></li>
 </ol>
-<div class="sourceCode" id="cb133"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb133-1"><a href="#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_index_template/log_application_index_template</span></span>
-<span id="cb133-2"><a href="#cb133-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb133-3"><a href="#cb133-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"index_patterns"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"logs*"</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb133-4"><a href="#cb133-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_stream"</span><span class="fu">:</span> <span class="fu">{},</span></span>
-<span id="cb133-5"><a href="#cb133-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"template"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb133-6"><a href="#cb133-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb133-7"><a href="#cb133-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
-<span id="cb133-8"><a href="#cb133-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span></span>
-<span id="cb133-9"><a href="#cb133-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb133-10"><a href="#cb133-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb133-11"><a href="#cb133-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb133-12"><a href="#cb133-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb133-13"><a href="#cb133-13" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"date"</span></span>
-<span id="cb133-14"><a href="#cb133-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
-<span id="cb133-15"><a href="#cb133-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"log_level"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb133-16"><a href="#cb133-16" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
-<span id="cb133-17"><a href="#cb133-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
-<span id="cb133-18"><a href="#cb133-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"message"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb133-19"><a href="#cb133-19" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
-<span id="cb133-20"><a href="#cb133-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
-<span id="cb133-21"><a href="#cb133-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
-<span id="cb133-22"><a href="#cb133-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb133-23"><a href="#cb133-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb133-24"><a href="#cb133-24" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_index_template/log_application_index_template</span></span>
+<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"index_patterns"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"logs*"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb135-4"><a href="#cb135-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_stream"</span><span class="fu">:</span> <span class="fu">{},</span></span>
+<span id="cb135-5"><a href="#cb135-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"template"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb135-6"><a href="#cb135-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb135-7"><a href="#cb135-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb135-8"><a href="#cb135-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb135-9"><a href="#cb135-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb135-10"><a href="#cb135-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb135-11"><a href="#cb135-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb135-12"><a href="#cb135-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb135-13"><a href="#cb135-13" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"date"</span></span>
+<span id="cb135-14"><a href="#cb135-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb135-15"><a href="#cb135-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"log_level"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb135-16"><a href="#cb135-16" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb135-17"><a href="#cb135-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb135-18"><a href="#cb135-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"message"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb135-19"><a href="#cb135-19" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"text"</span></span>
+<span id="cb135-20"><a href="#cb135-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb135-21"><a href="#cb135-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb135-22"><a href="#cb135-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb135-23"><a href="#cb135-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb135-24"><a href="#cb135-24" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="test-13" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="test-13">Test</h4>
 <ul>
 <li>Verify the index template creation</li>
 </ul>
-<div class="sourceCode" id="cb134"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_index_template/log_application_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_index_template/log_application_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Confirm there are no indices named logs*</li>
 </ul>
-<div class="sourceCode" id="cb135"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Index documents into the data stream</li>
 </ul>
-<div class="sourceCode" id="cb136"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/logs/_doc</span></span>
-<span id="cb136-2"><a href="#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb136-3"><a href="#cb136-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="st">"2024-05-16T12:34:56"</span><span class="fu">,</span></span>
-<span id="cb136-4"><a href="#cb136-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"log_level"</span><span class="fu">:</span> <span class="st">"info"</span><span class="fu">,</span></span>
-<span id="cb136-5"><a href="#cb136-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Test log message"</span></span>
-<span id="cb136-6"><a href="#cb136-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/logs/_doc</span></span>
+<span id="cb138-2"><a href="#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb138-3"><a href="#cb138-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="st">"2024-05-16T12:34:56"</span><span class="fu">,</span></span>
+<span id="cb138-4"><a href="#cb138-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"log_level"</span><span class="fu">:</span> <span class="st">"info"</span><span class="fu">,</span></span>
+<span id="cb138-5"><a href="#cb138-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"Test log message"</span></span>
+<span id="cb138-6"><a href="#cb138-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This will return a result with the name of the backing index</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">".ds-logs-2024.05.16-000001"</span><span class="fu">,</span> <span class="er">//</span> <span class="er">yours</span> <span class="er">will</span> <span class="er">be</span> <span class="er">different</span></span>
-<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"PObWyo8BAvAOn4WaC_de"</span><span class="fu">,</span></span>
-<span id="cb137-4"><a href="#cb137-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb137-5"><a href="#cb137-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"result"</span><span class="fu">:</span> <span class="st">"created"</span><span class="fu">,</span></span>
-<span id="cb137-6"><a href="#cb137-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_shards"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb137-7"><a href="#cb137-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"total"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
-<span id="cb137-8"><a href="#cb137-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"successful"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb137-9"><a href="#cb137-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"failed"</span><span class="fu">:</span> <span class="dv">0</span></span>
-<span id="cb137-10"><a href="#cb137-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
-<span id="cb137-11"><a href="#cb137-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_seq_no"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
-<span id="cb137-12"><a href="#cb137-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_primary_term"</span><span class="fu">:</span> <span class="dv">1</span></span>
-<span id="cb137-13"><a href="#cb137-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb139-2"><a href="#cb139-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">".ds-logs-2024.05.16-000001"</span><span class="fu">,</span> <span class="er">//</span> <span class="er">yours</span> <span class="er">will</span> <span class="er">be</span> <span class="er">different</span></span>
+<span id="cb139-3"><a href="#cb139-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"PObWyo8BAvAOn4WaC_de"</span><span class="fu">,</span></span>
+<span id="cb139-4"><a href="#cb139-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb139-5"><a href="#cb139-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"result"</span><span class="fu">:</span> <span class="st">"created"</span><span class="fu">,</span></span>
+<span id="cb139-6"><a href="#cb139-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_shards"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb139-7"><a href="#cb139-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"total"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb139-8"><a href="#cb139-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"successful"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb139-9"><a href="#cb139-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"failed"</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb139-10"><a href="#cb139-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb139-11"><a href="#cb139-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_seq_no"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb139-12"><a href="#cb139-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_primary_term"</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb139-13"><a href="#cb139-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Run</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The index will be listed.</p>
 <ul>
 <li>Confirm the configuration of the backing index matches the index template (your backing index name will be different)</li>
 </ul>
-<div class="sourceCode" id="cb139"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-logs-2024.05.16-000001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-logs-2024.05.16-000001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Run a search for the document that was indexed</li>
 </ul>
-<div class="sourceCode" id="cb140"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-logs-2024.05.16-000001/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-logs-2024.05.16-000001/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="considerations-13" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="considerations-13">Considerations</h4>
@@ -2361,11 +2332,11 @@ The response should show the indexed document.</li>
 <ul>
 <li>Delete the data stream (deleting the data stream will also delete the backing index)</li>
 </ul>
-<div class="sourceCode" id="cb141"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_data_stream/logs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_data_stream/logs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Delete the index template</li>
 </ul>
-<div class="sourceCode" id="cb142"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_index_template/log_application_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_index_template/log_application_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="documentation-13" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="documentation-13">Documentation</h4>
@@ -2393,77 +2364,77 @@ The response should show the indexed document.</li>
 <li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
 <li><p>Create the index template.</p></li>
 </ol>
-<div class="sourceCode" id="cb143"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_index_template/metrics_template</span></span>
-<span id="cb143-2"><a href="#cb143-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb143-3"><a href="#cb143-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"index_patterns"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"metrics-*"</span><span class="ot">]</span><span class="fu">,</span></span>
-<span id="cb143-4"><a href="#cb143-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_stream"</span><span class="fu">:</span> <span class="fu">{},</span></span>
-<span id="cb143-5"><a href="#cb143-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"template"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb143-6"><a href="#cb143-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb143-7"><a href="#cb143-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb143-8"><a href="#cb143-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span></span>
-<span id="cb143-9"><a href="#cb143-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb143-10"><a href="#cb143-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb143-11"><a href="#cb143-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb143-12"><a href="#cb143-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"metric"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb143-13"><a href="#cb143-13" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
-<span id="cb143-14"><a href="#cb143-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
-<span id="cb143-15"><a href="#cb143-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"value"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb143-16"><a href="#cb143-16" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"float"</span></span>
-<span id="cb143-17"><a href="#cb143-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
-<span id="cb143-18"><a href="#cb143-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
-<span id="cb143-19"><a href="#cb143-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb143-20"><a href="#cb143-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb143-21"><a href="#cb143-21" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_index_template/metrics_template</span></span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb145-3"><a href="#cb145-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"index_patterns"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"metrics-*"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb145-4"><a href="#cb145-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_stream"</span><span class="fu">:</span> <span class="fu">{},</span></span>
+<span id="cb145-5"><a href="#cb145-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"template"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb145-6"><a href="#cb145-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb145-7"><a href="#cb145-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"number_of_shards"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb145-8"><a href="#cb145-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"number_of_replicas"</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb145-9"><a href="#cb145-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb145-10"><a href="#cb145-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb145-11"><a href="#cb145-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"properties"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb145-12"><a href="#cb145-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"metric"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb145-13"><a href="#cb145-13" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"keyword"</span></span>
+<span id="cb145-14"><a href="#cb145-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb145-15"><a href="#cb145-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"value"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb145-16"><a href="#cb145-16" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"float"</span></span>
+<span id="cb145-17"><a href="#cb145-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb145-18"><a href="#cb145-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb145-19"><a href="#cb145-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb145-20"><a href="#cb145-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb145-21"><a href="#cb145-21" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="test-14" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="test-14">Test</h4>
 <ol type="1">
 <li>Verify the index template creation.</li>
 </ol>
-<div class="sourceCode" id="cb144"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_index_template/metrics_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">_index_template/metrics_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
 <li>Confirm there are no indices named <strong>metrics-</strong>*.</li>
 </ol>
-<div class="sourceCode" id="cb145"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
 <li>Index documents into the data stream.</li>
 </ol>
-<div class="sourceCode" id="cb146"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/metrics-ds/_doc</span></span>
-<span id="cb146-2"><a href="#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb146-3"><a href="#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="st">"2024-05-16T12:34:56"</span><span class="fu">,</span></span>
-<span id="cb146-4"><a href="#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metric"</span><span class="fu">:</span> <span class="st">"cpu"</span><span class="fu">,</span></span>
-<span id="cb146-5"><a href="#cb146-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"value"</span><span class="fu">:</span> <span class="dv">0</span><span class="er">.</span><span class="dv">5</span></span>
-<span id="cb146-6"><a href="#cb146-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/metrics-ds/_doc</span></span>
+<span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb148-3"><a href="#cb148-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"@timestamp"</span><span class="fu">:</span> <span class="st">"2024-05-16T12:34:56"</span><span class="fu">,</span></span>
+<span id="cb148-4"><a href="#cb148-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metric"</span><span class="fu">:</span> <span class="st">"cpu"</span><span class="fu">,</span></span>
+<span id="cb148-5"><a href="#cb148-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"value"</span><span class="fu">:</span> <span class="dv">0</span><span class="er">.</span><span class="dv">5</span></span>
+<span id="cb148-6"><a href="#cb148-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Notice the use of the <code>@timestamp</code> field. That is required for any documents going into a data stream.</p>
 <ol start="4" type="1">
 <li>This will return a result with the name of the backing index.</li>
 </ol>
-<div class="sourceCode" id="cb147"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">".ds-metrics-ds-2024.05.16-000001"</span><span class="fu">,</span> <span class="er">//</span> <span class="er">yours</span> <span class="er">will</span> <span class="er">be</span> <span class="er">different</span></span>
-<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"P-YFy48BAvAOn4WaUvef"</span><span class="fu">,</span></span>
-<span id="cb147-4"><a href="#cb147-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb147-5"><a href="#cb147-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"result"</span><span class="fu">:</span> <span class="st">"created"</span><span class="fu">,</span></span>
-<span id="cb147-6"><a href="#cb147-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_shards"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb147-7"><a href="#cb147-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"total"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
-<span id="cb147-8"><a href="#cb147-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"successful"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb147-9"><a href="#cb147-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"failed"</span><span class="fu">:</span> <span class="dv">0</span></span>
-<span id="cb147-10"><a href="#cb147-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
-<span id="cb147-11"><a href="#cb147-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_seq_no"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb147-12"><a href="#cb147-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_primary_term"</span><span class="fu">:</span> <span class="dv">1</span></span>
-<span id="cb147-13"><a href="#cb147-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb149-2"><a href="#cb149-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_index"</span><span class="fu">:</span> <span class="st">".ds-metrics-ds-2024.05.16-000001"</span><span class="fu">,</span> <span class="er">//</span> <span class="er">yours</span> <span class="er">will</span> <span class="er">be</span> <span class="er">different</span></span>
+<span id="cb149-3"><a href="#cb149-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"P-YFy48BAvAOn4WaUvef"</span><span class="fu">,</span></span>
+<span id="cb149-4"><a href="#cb149-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb149-5"><a href="#cb149-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"result"</span><span class="fu">:</span> <span class="st">"created"</span><span class="fu">,</span></span>
+<span id="cb149-6"><a href="#cb149-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_shards"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb149-7"><a href="#cb149-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"total"</span><span class="fu">:</span> <span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb149-8"><a href="#cb149-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"successful"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb149-9"><a href="#cb149-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"failed"</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb149-10"><a href="#cb149-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb149-11"><a href="#cb149-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_seq_no"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb149-12"><a href="#cb149-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"_primary_term"</span><span class="fu">:</span> <span class="dv">1</span></span>
+<span id="cb149-13"><a href="#cb149-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="5" type="1">
 <li>Run:</li>
 </ol>
-<div class="sourceCode" id="cb148"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_cat/indices</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="6" type="1">
 <li><p>The index will be listed.</p></li>
 <li><p>Confirm the configuration of the backing index matches the index template (your backing index name will be different).</p></li>
 </ol>
-<div class="sourceCode" id="cb149"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-metrics-ds-2024.05.16-000001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-metrics-ds-2024.05.16-000001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="8" type="1">
 <li>Run a search for the document that was indexed.</li>
 </ol>
-<div class="sourceCode" id="cb150"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-metrics-ds-2024.05.16-000001/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">.ds-metrics-ds-2024.05.16-000001/_search</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="considerations-14" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="considerations-14">Considerations</h4>
@@ -2478,11 +2449,11 @@ The response should show the indexed document.</li>
 <ul>
 <li>Delete the data stream (deleting the data stream will also delete the backing index).</li>
 </ul>
-<div class="sourceCode" id="cb151"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_data_stream/metrics-ds</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_data_stream/metrics-ds</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li>Delete the index template.</li>
 </ul>
-<div class="sourceCode" id="cb152"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_index_template/metrics_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb154"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">_index_template/metrics_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="documentation-14" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="documentation-14">Documentation</h4>
@@ -2490,6 +2461,137 @@ The response should show the indexed document.</li>
 <li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-templates.html">Index templates</a></li>
 <li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/data-streams.html">Data streams</a></li>
 <li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html">Mapping types</a></li>
+</ul>
+</section>
+</section>
+<section id="example-4-defining-a-data-stream-with-specific-lifecycle-policies" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="example-4-defining-a-data-stream-with-specific-lifecycle-policies"><span class="header-section-number">1.5.1</span> Example 4: Defining a Data Stream with Specific Lifecycle Policies</h3>
+<section id="requirements-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="requirements-15">Requirements</h4>
+<ul>
+<li>Create a data stream named <code>logs_my_app_production</code>.</li>
+<li>Create an index template named <code>task3</code>.</li>
+<li>Configure the data lifecycle:
+<ul>
+<li>Data is hot for 3 minutes.</li>
+<li>Data rolls to warm immediately after 3 minutes.</li>
+<li>Data is warm for 5 minutes.</li>
+<li>Data rolls to cold after 5 minutes.</li>
+<li>Data is deleted 10 minutes after rolling to cold.</li>
+</ul></li>
+</ul>
+</section>
+<section id="steps-12" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="steps-12">Steps</h4>
+<ol type="1">
+<li><strong>Create the Index Template</strong>:
+<ul>
+<li>Define an index template named <code>task3</code> that matches the data stream <code>logs_my_app_production</code>.</li>
+</ul>
+<div class="sourceCode" id="cb155"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_index_template/task3</span></span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb155-3"><a href="#cb155-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"index_patterns"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"logs_my_app_production*"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb155-4"><a href="#cb155-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_stream"</span><span class="fu">:</span> <span class="fu">{},</span></span>
+<span id="cb155-5"><a href="#cb155-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"template"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb155-6"><a href="#cb155-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb155-7"><a href="#cb155-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"index.lifecycle.name"</span><span class="fu">:</span> <span class="st">"task3_policy"</span></span>
+<span id="cb155-8"><a href="#cb155-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb155-9"><a href="#cb155-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb155-10"><a href="#cb155-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><strong>Create the ILM Policy</strong>:
+<ul>
+<li>Define an Index Lifecycle Management (ILM) policy named <code>task3_policy</code> to manage the data lifecycle.</li>
+</ul>
+<div class="sourceCode" id="cb156"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">_ilm/policy/task3_policy</span></span>
+<span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb156-3"><a href="#cb156-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"policy"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-4"><a href="#cb156-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"phases"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-5"><a href="#cb156-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"hot"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-6"><a href="#cb156-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"min_age"</span><span class="fu">:</span> <span class="st">"0ms"</span><span class="fu">,</span></span>
+<span id="cb156-7"><a href="#cb156-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"actions"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-8"><a href="#cb156-8" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"rollover"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-9"><a href="#cb156-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"max_age"</span><span class="fu">:</span> <span class="st">"3m"</span></span>
+<span id="cb156-10"><a href="#cb156-10" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb156-11"><a href="#cb156-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb156-12"><a href="#cb156-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb156-13"><a href="#cb156-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"warm"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-14"><a href="#cb156-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"min_age"</span><span class="fu">:</span> <span class="st">"3m"</span><span class="fu">,</span></span>
+<span id="cb156-15"><a href="#cb156-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"actions"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-16"><a href="#cb156-16" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"set_priority"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-17"><a href="#cb156-17" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"priority"</span><span class="fu">:</span> <span class="dv">50</span></span>
+<span id="cb156-18"><a href="#cb156-18" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb156-19"><a href="#cb156-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb156-20"><a href="#cb156-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb156-21"><a href="#cb156-21" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"cold"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-22"><a href="#cb156-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"min_age"</span><span class="fu">:</span> <span class="st">"8m"</span><span class="fu">,</span></span>
+<span id="cb156-23"><a href="#cb156-23" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"actions"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-24"><a href="#cb156-24" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"set_priority"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-25"><a href="#cb156-25" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"priority"</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb156-26"><a href="#cb156-26" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb156-27"><a href="#cb156-27" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb156-28"><a href="#cb156-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">},</span></span>
+<span id="cb156-29"><a href="#cb156-29" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"delete"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-30"><a href="#cb156-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"min_age"</span><span class="fu">:</span> <span class="st">"18m"</span><span class="fu">,</span></span>
+<span id="cb156-31"><a href="#cb156-31" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"actions"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb156-32"><a href="#cb156-32" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"delete"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb156-33"><a href="#cb156-33" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb156-34"><a href="#cb156-34" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb156-35"><a href="#cb156-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb156-36"><a href="#cb156-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb156-37"><a href="#cb156-37" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><strong>Create the Data Stream</strong>:
+<ul>
+<li>Create the data stream <code>logs_my_app_production</code>.</li>
+</ul>
+<div class="sourceCode" id="cb157"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/_data_stream/logs_my_app_production</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
+</section>
+<section id="test-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="test-15">Test</h4>
+<ol type="1">
+<li><strong>Index Sample Data</strong>:
+<ul>
+<li>Index some sample documents into the data stream to ensure it is working correctly.</li>
+</ul>
+<div class="sourceCode" id="cb158"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/logs_my_app_production/_doc</span></span>
+<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb158-3"><a href="#cb158-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"message"</span><span class="fu">:</span> <span class="st">"This is a test log entry"</span><span class="fu">,</span></span>
+<span id="cb158-4"><a href="#cb158-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timestamp"</span><span class="fu">:</span> <span class="st">"2024-07-10T23:00:00Z"</span></span>
+<span id="cb158-5"><a href="#cb158-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><strong>Verify ILM Policy</strong>:
+<ul>
+<li>Check the status of the ILM policy to ensure it is being applied correctly.</li>
+</ul>
+<div class="sourceCode" id="cb159"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_ilm/explain/logs_my_app_production</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><strong>Monitor Data Lifecycle</strong>:
+<ul>
+<li>Monitor the data stream to ensure that documents transition through the hot, warm, cold, and delete phases as expected.</li>
+</ul></li>
+</ol>
+</section>
+<section id="considerations-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="considerations-15">Considerations</h4>
+<ul>
+<li>The <code>rollover</code> action in the hot phase ensures that the index rolls over after 3 minutes.</li>
+<li>The <code>set_priority</code> action in the warm and cold phases helps manage resource allocation.</li>
+<li>The <code>delete</code> action in the delete phase ensures that data is deleted 10 minutes after rolling to cold.</li>
+</ul>
+</section>
+<section id="clean-up-optional-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="clean-up-optional-15">Clean-up (Optional)</h4>
+<ul>
+<li><p>Delete the data stream and index template to clean up the resources.</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">/_data_stream/logs_my_app_production</span></span>
+<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">/_index_template/task3</span></span>
+<span id="cb160-3"><a href="#cb160-3" aria-hidden="true" tabindex="-1"></a><span class="er">DELETE</span> <span class="er">/_ilm/policy/task3_policy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ul>
+</section>
+<section id="documentation-15" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="documentation-15">Documentation</h4>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/data-streams.html">Elasticsearch Data Streams</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-templates.html">Elasticsearch Index Templates</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management.html">Elasticsearch ILM Policies</a></li>
 </ul>
 
 

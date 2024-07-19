@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Developing Search Applications – The Definitive Guide to the Elastic Certified Engineer Exam v8.1</title>
+<title>3&nbsp; Developing Search Applications – The Elastic Certified Engineer Exam v8.1 Study Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">The Definitive Guide to the Elastic Certified Engineer Exam v8.1</a> 
+      <a href="./">The Elastic Certified Engineer Exam v8.1 Study Guide</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -267,42 +267,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="unnumbered anchored" data-anchor-id="requirements">Requirements</h4>
 <ul>
 <li>Create an index and populate it with example documents.</li>
-<li>Perform a search query on the index.</li>
-<li>Highlight the search terms in the response.</li>
-<li>Use the Kibana Console or a REST client for all steps.</li>
+<li>Perform a search query and highlight the search terms in the response.</li>
 </ul>
 </section>
 <section id="steps" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="steps">Steps</h4>
 <ol type="1">
 <li><p><strong>Open the Kibana Console</strong> or Use a REST Client</p></li>
-<li><p>Create and Populate the Index</p></li>
+<li><p>Create and populate the Index</p></li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="er">POST</span> <span class="er">/blog_posts/_bulk</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Introduction to Elasticsearch"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"Elasticsearch is a powerful search engine."</span> <span class="fu">}</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Advanced Elasticsearch Techniques"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"This guide covers advanced features of Elasticsearch."</span> <span class="fu">}</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"3"</span> <span class="fu">}</span> <span class="fu">}</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Elasticsearch Performance Tuning"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"Learn how to optimize Elasticsearch for better performance."</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"1"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Introduction to Elasticsearch"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"Elasticsearch is a powerful search engine."</span> <span class="fu">}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"2"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Advanced Elasticsearch Techniques"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"This guide covers advanced features of Elasticsearch."</span> <span class="fu">}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"3"</span> <span class="fu">}</span> <span class="fu">}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Elasticsearch Performance Tuning"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"Learn how to optimize Elasticsearch for better performance."</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
 <li>Perform a Search Query with Highlighting</li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/blog_posts/_search</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"elasticsearch"</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"highlight"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"fields"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"content"</span><span class="fu">:</span> <span class="fu">{}</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"query"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"match"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"elasticsearch"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"highlight"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"fields"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"content"</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="test" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="test">Test</h4>
