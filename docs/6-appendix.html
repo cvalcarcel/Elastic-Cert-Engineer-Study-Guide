@@ -290,15 +290,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="local-instance" class="level3">
 <h3 class="anchored" data-anchor-id="local-instance">Local Instance</h3>
 <p>Docker. We are going to use Docker. It is the easiest to clean up when you are done vs.&nbsp;copying github repos, etc.</p>
-<p>The <a href="https://www.elastic.co/guide/en/elasticsearch/reference/8.13/getting-started.html"><u>instructions on the Elastic site</u></a> explain how to install the Elastic Stack locally using Docker. This book assumes you are using Ubuntu Linux and understand the Linux command line and shell. If you are using another version of Linux then it may be worth looking at the Elastic documentation for the variations (there aren’t many).</p>
+<p>The <a href="https://www.elastic.co/guide/en/elasticsearch/reference/8.13/getting-started.html" target="_blank"><u>instructions on the Elastic site</u></a> explain how to install the Elastic Stack locally using Docker. This book assumes you are using Ubuntu Linux and understand the Linux command line and shell. If you are using another version of Linux then it may be worth looking at the Elastic documentation for the variations (there aren’t many).</p>
 <p><strong><em>On The Off-chance You Have already Done This and Need to Reset Everything</em></strong></p>
 <p>We know. It happens. You follow all the steps exactly and still need to redo all the steps.</p>
 <p>To reset you Elasticsearch install do the following (assuming you have docker installed):</p>
 <p>sudo docker stop es01 es02 kibana sudo docker rm es01 es02 kibana sudo docker network rm elastic</p>
-<p>You can safelyl start again.</p>
-<p><strong><em>Install Docker (if you don’t already have it installed)</em></strong> Open a terminal window and execute: sudo snap install docker</p>
-<p><strong><em>Create a Docker Network Named Elastic</em></strong> sudo docker network create elastic <strong><em>Install the Elastic image</em></strong></p>
-<p>The version available at the time this was written was 8.14.1. It will probably have changed by the time you get this study guide. The exam only cares about <a href="https://www.elastic.co/training/certification/faq"><u>Elastic version 8.1</u></a>. sudo docker pull docker.elastic.co/elasticsearch/elasticsearch:8.14.1 <strong><em>Run the Elastic image</em></strong></p>
+<p>You can safely start again.</p>
+<p><strong><em>Install Docker (if you don’t already have it installed)</em></strong></p>
+<p>Open a terminal window and execute: sudo snap install docker</p>
+<p><strong><em>Create a Docker Network Named Elastic</em></strong></p>
+<p>sudo docker network create elastic</p>
+<p><strong><em>Install the Elastic image</em></strong></p>
+<p>The version available at the time this was written was 8.14.1. It will probably have changed by the time you get this study guide. The exam only cares about <a href="https://www.elastic.co/training/certification/faq" target="_blank"><u>Elastic version 8.1</u></a>. sudo docker pull docker.elastic.co/elasticsearch/elasticsearch:8.14.1 <strong><em>Run the Elastic image</em></strong></p>
 <p>Create a single-node cluster named es01. It will use the Docker network we created above as well as the default HTTP port, transport port, and the Elastic image we just downloaded.</p>
 <p>At the very end of the installation there will be output that you need to retain.</p>
 <p>sudo docker run --name <strong>es01</strong> --net elastic -p 9200:9200 -p 9300:9300 -e</p>
@@ -570,7 +573,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>By default, Elasticsearch maps <code>@timestamp</code> as a date field with default options.</p></li>
 <li><p>You can customize the mapping if needed, but having the field is essential for proper data stream functioning.</p></li>
 </ul>
-<p>In summary, the <code>@timestamp</code> field ensures that Elasticsearch can effectively manage time-series data, apply rollover policies, and organize indices based on time intervals. <a href="https://stackoverflow.com/questions/68317063/what-is-the-use-of-the-mandatory-timestamp-field-in-elasticsearch-datastream"><u>It’s a fundamental part of</u> <u>handling time-based data in Elasticsearch3</u></a> <a href="https://stackoverflow.com/questions/21292284/is-the-timestamp-field-needed-when-using-logstash-to-store-in-elasticsearch"><u>4</u></a> . If you’re working with logs, events, or any time-stamped data, the <code>@timestamp</code> field becomes critical for accurate indexing and querying.</p>
+<p>In summary, the <code>@timestamp</code> field ensures that Elasticsearch can effectively manage time-series data, apply rollover policies, and organize indices based on time intervals. <a href="https://stackoverflow.com/questions/68317063/what-is-the-use-of-the-mandatory-timestamp-field-in-elasticsearch-datastream" target="_blank"><u>It’s a fundamental part of</u> <u>handling time-based data in Elasticsearch3</u></a> <a href="https://stackoverflow.com/questions/21292284/is-the-timestamp-field-needed-when-using-logstash-to-store-in-elasticsearch" target="_blank"><u>4</u></a> . If you’re working with logs, events, or any time-stamped data, the <code>@timestamp</code> field becomes critical for accurate indexing and querying.</p>
 <p><strong>Q: This stuff looks hard. Why?</strong></p>
 <p><strong>A:</strong> Okay, so the use of JSON for everything in Elasticsearch gives the impression that you must be a JSON rockstar to make things happen. Not the truth, but it helps. The fact is that you can accomplish a lot with a little in Elasticsearch, but once you leave the comfort of the easy stuff it can be quite complicated to make things work. For example, let’s say that you want to create an index. That’s easy as all you have to do it a <code>PUT</code> and the name of the index:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">my_index</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -877,7 +880,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Source: Conversation with Copilot, 7/9/2024</p>
 <section id="references" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="references">References</h4>
-<p>[Diagnose unassigned shards | Elasticsearch Guide <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/diagnose-unassigned-shards.html">8.14</a> <a href="https://sematext.com/blog/elasticsearch-unassigned-shards/">How to Find and Fix Elasticsearch Unassigned Shards</a> <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-tool.html.">Elasticsearch-shard</a></p>
+<p>[Diagnose unassigned shards | Elasticsearch Guide <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/diagnose-unassigned-shards.html" target="_blank">8.14</a> <a href="https://sematext.com/blog/elasticsearch-unassigned-shards/" target="_blank">How to Find and Fix Elasticsearch Unassigned Shards</a> <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/shard-tool.html." target="_blank">Elasticsearch-shard</a></p>
 
 
 </section>

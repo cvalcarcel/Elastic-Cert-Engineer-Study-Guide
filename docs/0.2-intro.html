@@ -239,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This study guide will go over the <a href="https://www.elastic.co/training/elastic-certified-engineer-exam"><u>specific study areas</u></a> as listed by <a href="https://www.elastic.co/"><u>Elastic</u></a> on their website for the Elastic Certified Engineer Exam v8.1 (true as of XXX NN, 2024):</p>
+<p>This study guide will go over the <a href="https://www.elastic.co/training/elastic-certified-engineer-exam" target="_blank"><u>specific study areas</u></a> as listed by <a href="https://www.elastic.co/" target="_blank"><u>Elastic</u></a> on their website for the Elastic Certified Engineer Exam v8.1 (true as of XXX NN, 2024):</p>
 <p><strong>Data Management</strong></p>
 <ul>
 <li>Define an index that satisfies a given set of requirements</li>
@@ -285,11 +285,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="assumptions" class="level2">
 <h2 class="anchored" data-anchor-id="assumptions">Assumptions</h2>
-<p>This study guide assumes you have a foundational understanding of search and search technologies. It is:</p>
+<p>This is a very barebones guide. It will list the various topics and tasks that need to be done with a brief explanation of the example, a potential solution, an explanation for certain concepts, optional clean-up since you will be creating a number of resources in your Elastic cluster, and a list of documentation specific to the solution that should help you to understand why the solution was recommended.</p>
+<p>The study guide examples assume you have a foundational understanding of search, search technologies, and Elasticsearch. It is:</p>
 <ul>
 <li>Not an introductory text on search and search technologies.</li>
-<li>Not an <a href="https://www.elastic.co/learn">Elastic</a> or <a href="https://www.elastic.co/guide/en/kibana/current/index.html">Kibana</a> tutorial.</li>
-<li>Not a <a href="https://www.w3schools.com/js/js_json_intro.asp">JSON</a> tutorial.</li>
+<li>Not an <a href="https://www.elastic.co/learn" target="_blank">Elastic</a> or <a href="https://www.elastic.co/guide/en/kibana/current/index.html" target="_blank">Kibana</a> tutorial.</li>
+<li>Not a <a href="https://www.w3schools.com/js/js_json_intro.asp" target="_blank">JSON</a> tutorial.</li>
 </ul>
 <p>The examples are presented as REST API calls in JSON for the <strong>Elastic Kibana Console</strong>. In the <strong>Things You Must Do</strong> section, we will show you how to translate these REST API calls into <code>curl</code> commands. This is to ensure you understand how to execute the calls both ways, but <code>curl</code> commands will not be used in the examples.</p>
 </section>
@@ -301,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Password</li>
 </ul>
 <p>How and where you obtain these will depend on whether you have a local instance of Elasticsearch/Kibana or are using an Elastic Cloud deployment.</p>
-<p>Instructions for installing a local instance of Elasticsearch/Kibana can be found in the <strong>Appendix</strong>, along with basic instructions on obtaining the username/password when you create an Elastic Cloud deployment. These instructions are also available in the <a href="https://www.elastic.co/guide/index.html">Elastic documentation</a>.</p>
+<p>Instructions for installing a local instance of Elasticsearch/Kibana can be found in the <strong>Appendix</strong>, along with basic instructions on obtaining the username/password when you create an Elastic Cloud deployment. These instructions are also available in the <a href="https://www.elastic.co/guide/index.html" target="_blank">Elastic documentation</a>.</p>
 <p>If you decide to run these examples from the command line using <code>curl</code>, you must:</p>
 <ul>
 <li>Have <code>curl</code> installed.</li>
@@ -379,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-to-pass-the-test" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-pass-the-test">How to Pass the Test</h2>
 <p>Do the examples and more. Be over-prepared.</p>
-<p>Go through the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html">documentation</a> so you know where to look when a task shows up in the certification exam and you are not sure what the syntax or format of a given JSON might be. This is an open book test, but the only book you can use is the Elastic documentation.</p>
+<p>Go through the <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html" target="_blank">documentation</a> so you know where to look when a task shows up in the certification exam and you are not sure what the syntax or format of a given JSON might be. This is an open book test, but the only book you can use is the Elastic documentation.</p>
 <p>Learn the basics. The Elastic console has code completion, so you don’t have to remember everything—just what might be the appropriate JSON elements for the solution you are implementing.</p>
 <p>Learn the query syntax of Query DSL. This is a search engine, after all, and knowledge of querying is fundamental to the certification exam.</p>
 <p>While there is no magic bullet, the exam should not be that hard if you already have knowledge of:</p>
@@ -396,13 +397,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <p>This book will not teach you Elasticsearch or Kibana or any of the other Elastic products available in the first half of 2024. It assumes you have an understanding of various search topics, JSON, REST APIs, and areas like regular expressions and web technologies. The examples are valid with the current documentation and were all confirmed as working in the same time period.</p>
-<p>If you run into any problems with the examples, please send an email to <a href="mailto:support@brushedsteelconsulting.com">support@brushedsteelconsulting.com</a>. When in doubt, asking in the <a href="https://www.elastic.co/community/">Elastic community</a> or one of the many public LLMs available should help as well:</p>
+<p>If you run into any problems with the examples, please send an email to <a href="mailto:support@brushedsteelconsulting.com">support@brushedsteelconsulting.com</a>. When in doubt, asking in the <a href="https://www.elastic.co/community/" target="_blank">Elastic community</a> or one of the many public LLMs available should help as well:</p>
 <ul>
-<li><a href="https://chatgpt.com/">ChatGPT</a></li>
-<li><a href="https://claude.ai/">Claude.ai</a></li>
-<li><a href="https://gemini.google.com/">Gemini</a></li>
-<li><a href="https://meta.ai/">Meta.ai</a></li>
-<li><a href="https://www.perplexity.ai/">Perplexity.ai</a></li>
+<li><a href="https://chatgpt.com/" target="_blank">ChatGPT</a></li>
+<li><a href="https://claude.ai/" target="_blank">Claude.ai</a></li>
+<li><a href="https://gemini.google.com/" target="_blank">Gemini</a></li>
+<li><a href="https://meta.ai/" target="_blank">Meta.ai</a></li>
+<li><a href="https://www.perplexity.ai/" target="_blank">Perplexity.ai</a></li>
 </ul>
 <p>All of the examples were originally generated by the various LLMs listed above with many changes made by an actual human as the examples and the generated content left much to be desired.</p>
 <p><em>Disclaimer: this book was written with the assistance of various tools, including a host of LLMs, but always under the guidance of the author. Make of that what you will.</em></p>
