@@ -1865,45 +1865,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol></li>
 <li><p><strong>Open the Kibana Console</strong> or use a REST client.</p></li>
 <li><p>List sensor_data_index_template. Notice the ILM policy is now part of the index template.</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_index_template/sensor_data_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ol>
+<div class="sourceCode" id="cb111"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_index_template/sensor_data_index_template</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Output from the <code>GET</code>:</p>
-<pre><code>```json
-{
-  "index_templates": [
-    {
-      "name": "sensor_data_index_template",
-      "index_template": {
-        "index_patterns": ["sensor_data-*"],
-        "template": {
-          "settings": {
-            "index": {
-              "lifecycle": {
-                "name": "sensor-data-policy"
-              }
-            }
-          }
-        },
-        "composed_of": []
-      }
-    }
-  ]
-}
-```</code></pre>
-<ol start="12" type="1">
+<div class="sourceCode" id="cb112"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"index_templates"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"sensor_data_index_template"</span><span class="fu">,</span></span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"index_template"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb112-6"><a href="#cb112-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"index_patterns"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"sensor_data-*"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb112-7"><a href="#cb112-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"template"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb112-8"><a href="#cb112-8" aria-hidden="true" tabindex="-1"></a>          <span class="dt">"settings"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb112-9"><a href="#cb112-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb112-10"><a href="#cb112-10" aria-hidden="true" tabindex="-1"></a>              <span class="dt">"lifecycle"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb112-11"><a href="#cb112-11" aria-hidden="true" tabindex="-1"></a>                <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"sensor-data-policy"</span></span>
+<span id="cb112-12"><a href="#cb112-12" aria-hidden="true" tabindex="-1"></a>              <span class="fu">}</span></span>
+<span id="cb112-13"><a href="#cb112-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb112-14"><a href="#cb112-14" aria-hidden="true" tabindex="-1"></a>          <span class="fu">}</span></span>
+<span id="cb112-15"><a href="#cb112-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">},</span></span>
+<span id="cb112-16"><a href="#cb112-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"composed_of"</span><span class="fu">:</span> <span class="ot">[]</span></span>
+<span id="cb112-17"><a href="#cb112-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb112-18"><a href="#cb112-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb112-19"><a href="#cb112-19" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb112-20"><a href="#cb112-20" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p>List sensor-data-policy.</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_ilm/policy/sensor-data-policy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-</ol>
+<div class="sourceCode" id="cb113"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/_ilm/policy/sensor-data-policy</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In the <code>in_use_by</code> node you will see:</p>
-<pre><code>```json
-"in_use_by": {
-  "indices": [],
-  "data_streams": [],
-  "composable_templates": [
-    "sensor_data_index_template"
-  ]
-}
-```</code></pre>
+<div class="sourceCode" id="cb114"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="er">"in_use_by":</span> <span class="fu">{</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"indices"</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_streams"</span><span class="fu">:</span> <span class="ot">[]</span><span class="fu">,</span></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"composable_templates"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sensor_data_index_template"</span></span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb114-7"><a href="#cb114-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+</ol>
 <p><strong>OR</strong></p>
 </section>
 <section id="steps-using-the-rest-api-which-i-would-not-recommend-2" class="level4 unnumbered">

@@ -2492,38 +2492,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="requirements-16" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="requirements-16">Requirements</h4>
 <p>The <code>movie</code> index has content that looks like this:</p>
-<pre><code>```json
-{
-  "movie_id": 1,
-  "title": "The Adventure Begins",
-  "release_year": 2021,
-  "genre_code": "ACT"
-}
-```</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"movie_id"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"The Adventure Begins"</span><span class="fu">,</span></span>
+<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"release_year"</span><span class="fu">:</span> <span class="dv">2021</span><span class="fu">,</span></span>
+<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"genre_code"</span><span class="fu">:</span> <span class="st">"ACT"</span></span>
+<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>genre</code> index has content that looks like this:</p>
-<pre><code>```json
-{
-  "genre_code": "ACT",
-  "description": "Action - Movies with high energy and lots of physical activity"
-}
-```</code></pre>
+<div class="sourceCode" id="cb114"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"genre_code"</span><span class="fu">:</span> <span class="st">"ACT"</span><span class="fu">,</span></span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Action - Movies with high energy and lots of physical activity"</span></span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Merge <code>movie</code> and <code>genre</code> into a third index called <code>movie_with_genre</code> that includes the <code>genre.description</code> in each <code>movie</code> record:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
-<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"movie_id"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
-<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"The Adventure Begins"</span><span class="fu">,</span></span>
-<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"release_year"</span><span class="fu">:</span> <span class="dv">2021</span><span class="fu">,</span></span>
-<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"genre_code"</span><span class="fu">:</span> <span class="st">"ACT"</span><span class="fu">,</span></span>
-<span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"genre_description"</span><span class="fu">:</span> <span class="st">"Action - Movies with high energy and lots of physical activity"</span></span>
-<span id="cb115-7"><a href="#cb115-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb115-2"><a href="#cb115-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"movie_id"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb115-3"><a href="#cb115-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"The Adventure Begins"</span><span class="fu">,</span></span>
+<span id="cb115-4"><a href="#cb115-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"release_year"</span><span class="fu">:</span> <span class="dv">2021</span><span class="fu">,</span></span>
+<span id="cb115-5"><a href="#cb115-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"genre_code"</span><span class="fu">:</span> <span class="st">"ACT"</span><span class="fu">,</span></span>
+<span id="cb115-6"><a href="#cb115-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"genre_description"</span><span class="fu">:</span> <span class="st">"Action - Movies with high energy and lots of physical activity"</span></span>
+<span id="cb115-7"><a href="#cb115-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="steps-16" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="steps-16">Steps</h4>
-<p>In order to merge two or more indices into a third index you will need to create an ingest pipeline that uses an index management enrich policy. 1. Create an enrich policy that contains the index with the additional content to be used 2. Execute the policy to create an enrich index as a temporary location for the enrich content 2. Create an ingest pipeline that points to the enrich policy and the input index that will be merged with the enrich index</p>
+<p>In order to merge two or more indices into a third index you will need to create an ingest pipeline that uses an index management enrich policy.</p>
+<ol type="1">
+<li>Create an enrich policy that contains the index with the additional content to be used</li>
+<li>Execute the policy to create an enrich index as a temporary location for the enrich content</li>
+<li>Create an ingest pipeline that points to the enrich policy and the input index that will be merged with the enrich index</li>
+</ol>
 <p><strong>FROM THE KIBANA UI</strong></p>
 <ol type="1">
 <li><p><strong>Open the Kibana Console</strong> or use a REST client</p>
 <ul>
-<li><p>Create the movie index with sample documents</p>
+<li><p>Create the <code>movie</code> index with sample documents</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/movie</span></span>
 <span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -2547,7 +2548,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb116-21"><a href="#cb116-21" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"movie_id"</span><span class="fu">:</span> <span class="dv">4</span><span class="fu">,</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Epic Adventure"</span><span class="fu">,</span> <span class="dt">"release_year"</span><span class="fu">:</span> <span class="dv">2022</span><span class="fu">,</span> <span class="dt">"genre_code"</span><span class="fu">:</span> <span class="st">"ACT"</span> <span class="fu">}</span></span>
 <span id="cb116-22"><a href="#cb116-22" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="dv">5</span> <span class="fu">}</span> <span class="fu">}</span></span>
 <span id="cb116-23"><a href="#cb116-23" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"movie_id"</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span> <span class="dt">"title"</span><span class="fu">:</span> <span class="st">"Tragic Tale"</span><span class="fu">,</span> <span class="dt">"release_year"</span><span class="fu">:</span> <span class="dv">2018</span><span class="fu">,</span> <span class="dt">"genre_code"</span><span class="fu">:</span> <span class="st">"DRM"</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p>Create the genre index with sample documents</p>
+<li><p>Create the <code>genre</code> index with sample documents</p>
 <div class="sourceCode" id="cb117"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/genre</span></span>
 <span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -2565,7 +2566,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb117-15"><a href="#cb117-15" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"genre_code"</span><span class="fu">:</span> <span class="st">"DRM"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Drama - Movies with serious, emotional, and often realistic stories"</span> <span class="fu">}</span></span>
 <span id="cb117-16"><a href="#cb117-16" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"index"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"_id"</span><span class="fu">:</span> <span class="st">"COM"</span> <span class="fu">}</span> <span class="fu">}</span></span>
 <span id="cb117-17"><a href="#cb117-17" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span> <span class="dt">"genre_code"</span><span class="fu">:</span> <span class="st">"COM"</span><span class="fu">,</span> <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Comedy - Movies designed to make the audience laugh"</span> <span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p>Optionally, create the movie_with_genre` index</p>
+<li><p>Optionally, create the <code>movie_with_genre</code> index</p>
 <div class="sourceCode" id="cb118"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="er">PUT</span> <span class="er">/movie_with_genre</span></span>
 <span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"mappings"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -2583,14 +2584,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Press <strong>Add an Enrich Policy</strong></p>
 <p><strong>Configuration</strong></p>
 <ul>
-<li>Policy Name: movie-genre-policy</li>
-<li>Policy Type: Match</li>
-<li>Source Indices: genre</li>
+<li><strong>Policy Name:</strong> movie-genre-policy</li>
+<li><strong>Policy Type:</strong> Match</li>
+<li><strong>Source Indices:</strong> genre</li>
 </ul>
 <p>Next: <strong>Field Selection</strong></p>
 <ul>
-<li>Match field: genre_code</li>
-<li>Enrich field: description</li>
+<li><strong>Match field:</strong> genre_code</li>
+<li><strong>Enrich field:</strong> description</li>
 </ul>
 <p>Next: <strong>Create</strong></p>
 <p>Press <strong>Create and Execute</strong> (if everything looks correct)</p></li>
@@ -2600,15 +2601,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Press: Create Pipeline &gt; New Pipeline</p>
 <p>Create Pipeline</p>
 <ul>
-<li>Name: genre_ingest_pipeline</li>
-<li>Press: Add Your First Processor &gt; Add a Processor
+<li><strong>Name:</strong> genre_ingest_pipeline</li>
+<li><strong>Press:</strong> Add Your First Processor &gt; Add a Processor
 <ul>
 <li>Add Processor
 <ul>
-<li>Processor: Enrich</li>
-<li>Field: genre_code (from the <code>movie</code> index)</li>
-<li>Policy name: movie-genre-policy</li>
-<li>Target field: genre_description (from <code>movie_with_genre</code> index)</li>
+<li><strong>Processor:</strong> Enrich</li>
+<li><strong>Field:</strong> genre_code (from the <code>movie</code> index)</li>
+<li><strong>Policy name:</strong> movie-genre-policy</li>
+<li><strong>Target field:</strong> genre_description (from <code>movie_with_genre</code> index)</li>
 </ul></li>
 <li>Press <strong>Add Processor</strong></li>
 </ul></li>
@@ -2656,7 +2657,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Press the X in the top right hand corner of the panel to close the panel (not the browser).</p>
 <p>Press: <strong>Create Pipeline</strong> (when thhe side panel opens press <strong>Close</strong>)</p></li>
 </ul>
-<p><strong>WTF?</strong></p>
+<p><strong>WTF?</strong> Not sure why the enrich pipeline does that, but it needs to be corrected.</p>
 <p><strong>FROM THE KIBANA CONSOLE</strong></p>
 <ol type="1">
 <li><p><strong>Open the Kibana Console</strong> or use a REST client</p>
